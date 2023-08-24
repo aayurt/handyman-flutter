@@ -19,6 +19,9 @@ class SearchJobPage extends StatefulWidget {
 
 class _SearchJobPageState extends State<SearchJobPage> {
   String selectedTag = "List";
+  List<JobModel> jobs = [];
+  List<JobModel> filteredJobs = [];
+
   final List<String> options = [
     'List',
     'Map',
@@ -29,6 +32,16 @@ class _SearchJobPageState extends State<SearchJobPage> {
       context.read<AllJobBloc>().add(const AllJobEvent.get());
     });
     super.initState();
+  }
+
+  TextEditingController searchController = TextEditingController();
+  void applyFilters() {
+    setState(() {
+      filteredJobs = jobs.where((job) {
+        return (job.title!.contains(searchController.text) ||
+            job.category!.title!.contains(searchController.text));
+      }).toList();
+    });
   }
 
   @override
@@ -70,8 +83,47 @@ class _SearchJobPageState extends State<SearchJobPage> {
             child: Expanded(
                 child: Column(
               children: [
-                const SearchJob(),
-                const Text("LIST|MAP"),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.circular(15), // Rounded border radius
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 3), // changes the shadow position
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: searchController,
+                              decoration: const InputDecoration(
+                                hintText: 'Search job...',
+                                border: InputBorder.none,
+
+                                // icon: Icon(Icons.search),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              // Handle search button press
+                              applyFilters();
+                            },
+                            icon: const Icon(Icons.search),
+                          ),
+                        ],
+                      )),
+                ),
                 Wrap(
                   spacing: 8.0,
                   children: options.map((option) {
@@ -95,20 +147,22 @@ class _SearchJobPageState extends State<SearchJobPage> {
                     );
                   }).toList(),
                 ),
-                SizedBox(child: BlocBuilder<AllJobBloc, AllJobState>(
-                  builder: (context, state) {
+                SizedBox(
+                    child: BlocConsumer<AllJobBloc, AllJobState>(
+                  listener: (context, state) {
                     if (state is AllJobStateLoaded) {
-                      final List<JobModel> jobs = state.jobs;
-                      return SizedBox(
-                          height: height - 248,
-                          child: selectedTag == "List"
-                              ? FilterSearch(jobs: jobs)
-                              : FilterSearchMap(jobs: jobs));
-                    } else if (state is AllJobStateLoading) {
-                      return const CircularProgressIndicator();
-                    } else {
-                      return const Text("Error");
+                      setState(() {
+                        jobs = state.jobs;
+                        applyFilters();
+                      });
                     }
+                  },
+                  builder: (context, state) {
+                    return SizedBox(
+                        height: height - 248,
+                        child: selectedTag == "List"
+                            ? FilterSearch(jobs: filteredJobs)
+                            : FilterSearchMap(jobs: filteredJobs));
                   },
                 ))
               ],

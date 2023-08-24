@@ -7,7 +7,11 @@ import 'package:location/location.dart' as LL;
 
 class GoogleMapWidget extends StatefulWidget {
   final TextEditingController addressController;
-  const GoogleMapWidget({super.key, required this.addressController});
+  final LatLng currentLocation;
+  const GoogleMapWidget(
+      {super.key,
+      required this.addressController,
+      required this.currentLocation});
 
   @override
   State<GoogleMapWidget> createState() => _GoogleMapWidgetState();
@@ -16,15 +20,17 @@ class GoogleMapWidget extends StatefulWidget {
 class _GoogleMapWidgetState extends State<GoogleMapWidget> {
   final Completer<GoogleMapController> _controller = Completer();
   // on below line we have specified camera position
+  late LatLng currentLocation;
+
   static const CameraPosition _kGoogle = CameraPosition(
     target: LatLng(51.50, 0.127),
     zoom: 14.4746,
   );
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    currentLocation = widget.currentLocation;
     if (widget.addressController.text.isNotEmpty) {
       _searchAddress(widget.addressController.text);
     }
@@ -177,6 +183,8 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
                 final formattedAddress = firstResult.formattedAddress;
                 setState(() {
                   widget.addressController.text = formattedAddress;
+                  currentLocation =
+                      LatLng(latLng.latitude ?? 0, latLng.longitude ?? 0);
                 });
               }
             },
@@ -214,6 +222,8 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
                   final formattedAddress = firstResult.formattedAddress;
                   setState(() {
                     widget.addressController.text = formattedAddress;
+                    currentLocation =
+                        LatLng(value.latitude ?? 0, value.longitude ?? 0);
                   });
                 }
               });

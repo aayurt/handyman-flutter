@@ -40,6 +40,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
   final bioController = TextEditingController();
   final linkedInController = TextEditingController();
   final websiteController = TextEditingController();
+  LatLng currentLocation = const LatLng(51.50, 0.127);
 
   List<String> skills = [];
   List<String> interests = [];
@@ -75,25 +76,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
         initializeUserTypeDependentData();
       }
     });
-    // nameController.text = widget.userModelData!.name ?? "";
-    // addressController.text = widget.userModelData!.address ?? "";
 
-    // emailController.text = widget.userModelData!.email ?? "";
-    // genderController.text = widget.userModelData!.gender ?? "male";
-    // phoneNoController.text = widget.userModelData!.phone ?? "";
-    // bioController.text = widget.userModelData!.bio ?? "";
-
-    // if (userType != "Contractor") {
-    //   linkedInController.text = widget.userModelData!.linkedIn ?? "";
-    //   websiteController.text = widget.userModelData!.website ?? "";
-    // }
-    // setState(() {
-    //   imageUrl = widget.userModelData!.avatar ?? "";
-    //   if (userType != "Customer") {
-    //     skills = widget.userModelData!.skills!.toList() ?? [];
-    //     interests = widget.userModelData!.interests!.toList() ?? [];
-    //   }
-    // });
     super.initState();
   }
 
@@ -229,6 +212,10 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
           "phone": phoneNoController.text,
           "address": addressController.text,
           "avatar": imageUrl,
+          "location": {
+            "type": "Point",
+            "coordinates": [currentLocation.latitude, currentLocation.longitude]
+          },
         };
         if (userType == "Contractor") {
           data["skills"] = skills;
@@ -418,8 +405,10 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     : const SizedBox(),
                 SizedBox(
                     height: 400,
-                    child:
-                        GoogleMapWidget(addressController: addressController)),
+                    child: GoogleMapWidget(
+                      addressController: addressController,
+                      currentLocation: currentLocation,
+                    )),
 
                 // const Text("Shipping Address"),
                 // CustomTextfield(

@@ -28,6 +28,7 @@ class SharedPrefService {
 class SharedPrefKey {
   static String token = "token";
   static String userType = "userType";
+  static String profileLocation = "profileLocation";
   static String userData = "userData";
   static String allUser = "allUser";
 }

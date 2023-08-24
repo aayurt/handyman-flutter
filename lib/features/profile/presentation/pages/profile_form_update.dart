@@ -43,6 +43,8 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
   List<String> skills = [];
   List<String> interests = [];
   String userType = "";
+  LatLng currentLocation = const LatLng(51.50, 0.127);
+
   // final passwordController = TextEditingController();
   // final cpasswordController = TextEditingController();
   // File? imageFile;
@@ -200,6 +202,10 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
           "phone": phoneNoController.text,
           "address": addressController.text,
           "avatar": imageUrl,
+          "location": {
+            "type": "Point",
+            "coordinates": [currentLocation.latitude, currentLocation.longitude]
+          },
         };
         if (userType == "Contractor") {
           data["skills"] = skills;
@@ -242,7 +248,6 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     : const SizedBox(
                         height: 0,
                       ),
-
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -272,7 +277,6 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     ),
                   ],
                 ),
-
                 CustomTextfield(
                     controller: nameController,
                     keyboardType: TextInputType.text,
@@ -389,52 +393,9 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     : const SizedBox(),
                 SizedBox(
                     height: 400,
-                    child:
-                        GoogleMapWidget(addressController: addressController)),
-
-                // const Text("Shipping Address"),
-                // CustomTextfield(
-                //     controller: addressController,
-                //     keyboardType: TextInputType.text,
-                //     hintText: 'Enter address here',
-                //     labelText: "Address",
-                //     validator: (text) {
-                //       return _validateAddress(text ?? "");
-                //     }),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               _onCancelButtonPressed(context);
-                //             },
-                //             child: const Text("Cancel")),
-                //       ),
-                //     ),
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               onUpdateButtonPressed(context);
-                //             },
-                //             child: const Text("Update")),
-                //       ),
-                //     ),
-                //   ],
-                // )
+                    child: GoogleMapWidget(
+                        addressController: addressController,
+                        currentLocation: currentLocation)),
               ],
             ),
           ),

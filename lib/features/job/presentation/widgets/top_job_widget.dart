@@ -91,7 +91,7 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                           //                   )),
                           //               Text(jobs[index].title ?? ""),
                           //               Text(jobs[index].category!.title ?? ""),
-                          //               Text(jobs[index].contractor!.name ?? ""),
+                          //               Text(jobs[index].c  ?? ""),
                           //               // Text(jobs[index]  ""),
                           //               Row(
                           //                 children: [
@@ -130,9 +130,9 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                                       : "https://picsum.photos/250?image=9"),
                                 ),
                               ),
-                              title: Text(jobs[index].contractor!.name ?? ""),
+                              title: Text(jobs[index].title ?? ""),
                               subtitle: Text(
-                                  "${jobs[index].category!.title}\n${jobs[index].title}" ??
+                                  "${jobs[index].category!.title}\n${jobs[index].contractor!.name}" ??
                                       ""),
                               trailing: Column(
                                 children: [

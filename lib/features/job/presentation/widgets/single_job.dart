@@ -61,6 +61,16 @@ class _SingleJobState extends State<SingleJob> {
                   Row(
                     children: [
                       Text(
+                        widget.job.contractor!.name ?? "",
+                        textAlign: TextAlign.left,
+                        style:
+                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
                         widget.job.title ?? "",
                         textAlign: TextAlign.left,
                         style:

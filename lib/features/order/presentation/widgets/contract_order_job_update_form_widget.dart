@@ -264,8 +264,8 @@ class _ContractOrderJobUpdateFormWidgetState
                   },
                   items: <String>[
                     'pending',
-                    'processing',
-                    'ordered',
+                    'accepted',
+                    'completed',
                     'cancelled'
                   ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(

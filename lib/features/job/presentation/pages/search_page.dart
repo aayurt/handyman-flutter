@@ -1,4 +1,9 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:handyman/features/job/data/models/job_model.dart';
+import 'package:handyman/features/job/presentation/bloc/all_job/all_job_bloc.dart';
 import 'package:handyman/features/job/presentation/widgets/filter_all_job.dart';
+import 'package:handyman/features/job/presentation/widgets/filter_search.dart';
+import 'package:handyman/features/job/presentation/widgets/filter_search_map.dart';
 import 'package:handyman/features/job/presentation/widgets/list_all_job.dart';
 import 'package:handyman/features/job/presentation/widgets/search_job.dart';
 import 'package:handyman/routes/routes_constant.dart';
@@ -13,6 +18,19 @@ class SearchJobPage extends StatefulWidget {
 }
 
 class _SearchJobPageState extends State<SearchJobPage> {
+  String selectedTag = "List";
+  final List<String> options = [
+    'List',
+    'Map',
+  ];
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<AllJobBloc>().add(const AllJobEvent.get());
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -51,12 +69,50 @@ class _SearchJobPageState extends State<SearchJobPage> {
           child: ConstrainedBox(
               constraints:
                   BoxConstraints(maxHeight: height - 140, maxWidth: width - 32),
-              child: const Expanded(
+              child: Expanded(
                   child: Column(
                 children: [
-                  SearchJob(),
-                  Text("LIST|MAP"),
-                  SizedBox(height: 400, child: ListAllJob())
+                  const SearchJob(),
+                  const Text("LIST|MAP"),
+                  Wrap(
+                    spacing: 8.0,
+                    children: options.map((option) {
+                      return InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedTag = option;
+                          });
+                        },
+                        child: Chip(
+                          label: Text(option),
+                          backgroundColor: selectedTag.contains(option)
+                              ? Colors.blue
+                              : Colors.grey,
+                          labelStyle: TextStyle(
+                            color: selectedTag.contains(option)
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(child: BlocBuilder<AllJobBloc, AllJobState>(
+                    builder: (context, state) {
+                      if (state is AllJobStateLoaded) {
+                        final List<JobModel> jobs = state.jobs;
+                        return SizedBox(
+                            height: 400,
+                            child: selectedTag == "List"
+                                ? FilterSearch(jobs: jobs)
+                                : FilterSearchMap(jobs: jobs));
+                      } else if (state is AllJobStateLoading) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        return const Text("Error");
+                      }
+                    },
+                  ))
                 ],
               ))),
         ),

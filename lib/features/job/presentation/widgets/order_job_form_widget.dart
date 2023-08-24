@@ -46,7 +46,7 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
   }
 
   DateTime _selectedDay = DateTime.now();
-  final DateTime _focusedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
   final Map<DateTime, List> _selectedEvents = {};
   List<DateTime> selectedDates = [];
 
@@ -60,7 +60,6 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.job != null) {
       titleController.text = widget.job!.title ?? "";
@@ -180,23 +179,23 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                   rangeStartDay: _rangeStartDate,
                   rangeEndDay: _rangeEndDate,
                   onDaySelected: (selectedDate, focusedDay) {
-                    setState(() {
-                      // Collect all the dates within the range
-                      if (selectedDate.isAfter(_rangeStartDate) &&
-                          selectedDate.isBefore(_rangeEndDate)) {
-                        if (selectedDates.contains(selectedDate)) {
-                          _selectedEvents[selectedDate] = [];
-                          selectedDates.remove(selectedDate);
-                        } else {
-                          selectedDates.add(selectedDate);
-                          for (var date in selectedDates) {
-                            _selectedEvents[date] = [
-                              'Event 1',
-                            ];
-                          }
+                    // Collect all the dates within the range
+                    if (selectedDate.isAfter(_rangeStartDate) &&
+                        selectedDate.isBefore(_rangeEndDate)) {
+                      if (selectedDates.contains(selectedDate)) {
+                        _selectedEvents[selectedDate] = [];
+                        selectedDates.remove(selectedDate);
+                      } else {
+                        selectedDates.add(selectedDate);
+                        for (var date in selectedDates) {
+                          _selectedEvents[date] = [
+                            'Event 1',
+                          ];
                         }
                       }
-                    });
+                      _focusedDay = selectedDate;
+                      setState(() {});
+                    }
                   },
                   eventLoader: (date) => _selectedEvents[date] ?? [],
                   onPageChanged: (focusedDay) {},

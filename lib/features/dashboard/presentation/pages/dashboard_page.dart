@@ -16,21 +16,54 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            // HomeHeader(),
-            // SearchJob(),
-            Text("Carousel"),
-            CategoryJobWidget(),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: TopJobWidget()),
-          ],
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 30),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hello! Manish",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "What service do you\nneed Today?",
+                          maxLines: 2,
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const CategoryJobWidget(),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: TopJobWidget()),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

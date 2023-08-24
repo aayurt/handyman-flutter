@@ -28,96 +28,96 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-      child: Column(
-        children: [
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Popular Categories",
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(),
+    return Column(
+      children: [
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Categories",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "See All",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  TextButton(
-                      onPressed: () {}, child: const Text("All Categories >>"))
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              BlocBuilder<CategoryJobBloc, CategoryJobState>(
-                builder: (context, state) {
-                  if (state is CategoryJobStateLoading) {
-                    return const CircularProgressIndicator();
-                  } else if (state is CategoryJobStateLoaded) {
-                    var categories = state.categories;
-                    return Row(
-                      children: [
-                        SizedBox(
-                          width: width - 32,
-                          height: 100,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: false,
-                            itemCount:
-                                categories.length > 10 ? 8 : categories.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              CategoryModel? category = categories.isNotEmpty
-                                  ? categories[index]
-                                  : null;
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            BlocBuilder<CategoryJobBloc, CategoryJobState>(
+              builder: (context, state) {
+                if (state is CategoryJobStateLoading) {
+                  return const CircularProgressIndicator();
+                } else if (state is CategoryJobStateLoaded) {
+                  var categories = state.categories;
+                  return Row(
+                    children: [
+                      SizedBox(
+                        width: width - 32,
+                        height: 100,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: false,
+                          itemCount:
+                              categories.length > 10 ? 8 : categories.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            CategoryModel? category = categories.isNotEmpty
+                                ? categories[index]
+                                : null;
 
-                              return GestureDetector(
-                                onTap: () {
-                                  GoRouter.of(context).go(
-                                      RoutesConstant.transfer,
-                                      extra: category);
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: index != 0 ? 12.0 : 0),
-                                  child: SizedBox(
-                                    width: 60,
-                                    child: Column(
-                                      children: <Widget>[
-                                        ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                            child: Container(
-                                              height: 50,
-                                              width: 50,
-                                              color:
-                                                  Colors.grey.withOpacity(0.1),
-                                              child: SizedBox(
-                                                  child: Image.network(
-                                                      "${AppConstants.fileUrl}${category?.image}")),
-                                            )),
-                                        Text(
-                                          category!.title ?? "",
-                                          overflow: TextOverflow.ellipsis,
-                                        )
-                                      ],
-                                    ),
+                            return GestureDetector(
+                              onTap: () {
+                                GoRouter.of(context).go(RoutesConstant.transfer,
+                                    extra: category);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: index != 0 ? 12.0 : 0),
+                                child: SizedBox(
+                                  width: 60,
+                                  child: Column(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          child: Container(
+                                            height: 50,
+                                            width: 50,
+                                            color: Colors.grey.withOpacity(0.1),
+                                            child: SizedBox(
+                                                child: Image.network(
+                                                    "${AppConstants.fileUrl}${category?.image}")),
+                                          )),
+                                      Text(
+                                        category!.title ?? "",
+                                        overflow: TextOverflow.ellipsis,
+                                      )
+                                    ],
                                   ),
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
-                      ],
-                    );
-                  } else {
-                    return const Text("Error");
-                  }
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Text("Error");
+                }
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

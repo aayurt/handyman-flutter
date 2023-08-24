@@ -31,11 +31,15 @@ class _TopJobWidgetState extends State<TopJobWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text("Top Jobs"),
+            const Text(
+              "Services Near You",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             TextButton(
               onPressed: () => {context.go(RoutesConstant.jobs)},
               child: const Text(
-                'All jobs >>',
+                "See All",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
           ],

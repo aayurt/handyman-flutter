@@ -16,14 +16,14 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 30),
-                child: Row(
+        child: Padding(
+          padding: EdgeInsets.only(top: 30, left: 8, right: 8),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Row(
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,21 +46,19 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const CategoryJobWidget(),
-              const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: TopJobWidget()),
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                CategoryJobWidget(),
+                TopJobWidget(),
+              ],
+            ),
           ),
         ),
       ),

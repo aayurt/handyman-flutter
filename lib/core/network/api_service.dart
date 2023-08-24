@@ -57,8 +57,8 @@ class ApiService {
           },
           onResponse: (response, handler) async {
             if (response.statusCode == 400 || response.statusCode == 500) {
-              await SharedPrefService.storeToken(SharedPrefKey.token, "");
-              await SharedPrefService.storeToken(SharedPrefKey.userType, "");
+              // await SharedPrefService.storeToken(SharedPrefKey.token, "");
+              // await SharedPrefService.storeToken(SharedPrefKey.userType, "");
             }
 
             return (handler.next(response));

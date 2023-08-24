@@ -3,6 +3,7 @@ import 'package:handyman/features/bottomNav/presentation/widgets/bottom_navigati
 import 'package:handyman/features/cart/presentation/pages/cart_page.dart';
 import 'package:handyman/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:handyman/features/job/presentation/pages/job_page.dart';
+import 'package:handyman/features/job/presentation/pages/search_page.dart';
 import 'package:handyman/features/login/presentation/pages/login_page.dart';
 import 'package:handyman/features/order/presentation/pages/order_job_update_page.dart';
 import 'package:handyman/features/order/presentation/pages/order_page.dart';
@@ -84,6 +85,12 @@ class Routes {
           path: "${RoutesConstant.jobs}/:search",
           builder: (context, state) =>
               FilterJobPage(search: state.pathParameters['search'] ?? ""),
+        ),
+        GoRoute(
+          path: RoutesConstant.search,
+          builder: (context, state) => const SearchJobPage(
+            search: '',
+          ),
         ),
         GoRoute(
           path: RoutesConstant.register,

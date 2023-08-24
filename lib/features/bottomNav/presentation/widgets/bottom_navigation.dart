@@ -50,19 +50,20 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             label: 'Home',
           ),
           location: RoutesConstant.dashboard),
-      userType == "Contractor"
+
+      userType == "Customer"
           ? CustomBottomNavigationBarItem(
+              item: const BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+              location: RoutesConstant.search)
+          : CustomBottomNavigationBarItem(
               item: const BottomNavigationBarItem(
                 icon: Icon(Icons.list_alt),
                 label: 'Listings',
               ),
-              location: RoutesConstant.jobs)
-          : CustomBottomNavigationBarItem(
-              item: const BottomNavigationBarItem(
-                icon: Icon(Icons.list_alt),
-                label: 'Orders',
-              ),
-              location: RoutesConstant.orders),
+              location: RoutesConstant.jobs),
       userType == "Contractor"
           ? CustomBottomNavigationBarItem(
               item: const BottomNavigationBarItem(

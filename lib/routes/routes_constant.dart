@@ -19,4 +19,5 @@ class RoutesConstant {
   static String contractorOrders = "/contractorOrders";
   static String orders = "/orders";
   static String cart = "/cart";
+  static String search = "/search";
 }

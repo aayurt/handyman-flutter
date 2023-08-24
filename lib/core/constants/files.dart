@@ -24,14 +24,5 @@ class MyAssets {
   static const assetFaceId = "assets/images/face-id.png";
   static const assetfingerPrintId = "assets/images/fingerprint-recognition.png";
 
-  static const userRandom = "assets/images/user_random.png";
-  static const userMale1 = "assets/images/user_male_1.png";
-  static const userMale2 = "assets/images/user_male_2.png";
-  static const userFemale1 = "assets/images/user_female_1.png";
-  static const userFemale2 = "assets/images/user_female_2.png";
-
-  static const bankLogo = "assets/images/abcBank2.png";
-  static const banktransfer = "assets/images/bank-transfer.png";
-  static const banktransaction = "assets/images/transaction.png";
   static const group = "assets/images/group.png";
 }

@@ -22,7 +22,8 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           children: [
             // HomeHeader(),
-            SearchJob(),
+            // SearchJob(),
+            Text("Carousel"),
             CategoryJobWidget(),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),

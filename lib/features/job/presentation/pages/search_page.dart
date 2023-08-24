@@ -51,6 +51,9 @@ class _SearchJobPageState extends State<SearchJobPage> {
     final width = size.width;
     return SafeArea(
         child: Column(children: [
+      const SizedBox(
+        height: 10,
+      ),
       Row(
         children: [
           const SizedBox(
@@ -64,22 +67,13 @@ class _SearchJobPageState extends State<SearchJobPage> {
                     GoRouter.of(context).go(RoutesConstant.dashboard);
                   },
                   child: const Icon(Icons.arrow_back))),
-          Expanded(
-            child: Text(
-              "Job Search: ${widget.search}",
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(
-            width: 25,
-          ),
         ],
       ),
       Padding(
-        padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
+        padding: const EdgeInsets.only(top: 0, left: 16, right: 16),
         child: ConstrainedBox(
             constraints:
-                BoxConstraints(maxHeight: height - 140, maxWidth: width - 32),
+                BoxConstraints(maxHeight: height - 107, maxWidth: width - 32),
             child: Expanded(
                 child: Column(
               children: [
@@ -124,6 +118,9 @@ class _SearchJobPageState extends State<SearchJobPage> {
                         ],
                       )),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Wrap(
                   spacing: 8.0,
                   children: options.map((option) {
@@ -147,6 +144,9 @@ class _SearchJobPageState extends State<SearchJobPage> {
                     );
                   }).toList(),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
                     child: BlocConsumer<AllJobBloc, AllJobState>(
                   listener: (context, state) {
@@ -159,7 +159,7 @@ class _SearchJobPageState extends State<SearchJobPage> {
                   },
                   builder: (context, state) {
                     return SizedBox(
-                        height: height - 248,
+                        height: height - 219,
                         child: selectedTag == "List"
                             ? FilterSearch(jobs: filteredJobs)
                             : FilterSearchMap(jobs: filteredJobs));

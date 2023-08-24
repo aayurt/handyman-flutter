@@ -80,17 +80,17 @@ class Routes {
                 path: RoutesConstant.jobs,
                 builder: (context, state) => const JobListPage(),
               ),
+              GoRoute(
+                path: RoutesConstant.search,
+                builder: (context, state) => const SearchJobPage(
+                  search: '',
+                ),
+              ),
             ]),
         GoRoute(
           path: "${RoutesConstant.jobs}/:search",
           builder: (context, state) =>
               FilterJobPage(search: state.pathParameters['search'] ?? ""),
-        ),
-        GoRoute(
-          path: RoutesConstant.search,
-          builder: (context, state) => const SearchJobPage(
-            search: '',
-          ),
         ),
         GoRoute(
           path: RoutesConstant.register,

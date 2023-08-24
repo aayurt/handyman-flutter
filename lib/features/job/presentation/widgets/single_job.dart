@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:handyman/core/shared_pref/shared_pref.dart';
 import 'package:handyman/core/widgets/card/custom_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -19,17 +20,29 @@ class SingleJob extends StatefulHookWidget {
 }
 
 class _SingleJobState extends State<SingleJob> {
+  String userType = "";
   @override
   void initState() {
     // TODO: implement initState
-
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var usertype = await SharedPrefService.getToken(SharedPrefKey.userType);
+      if (usertype.isNotEmpty) {
+        setState(() {
+          userType = usertype;
+        });
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => {context.go("${RoutesConstant.job}/${widget.job.id}")},
+      onTap: () {
+        userType == "Customer"
+            ? context.go("${RoutesConstant.orders}/${widget.job.id}")
+            : context.go("${RoutesConstant.job}/${widget.job.id}");
+      },
       child: CustomCardWidget(
           boxShadow: const BoxShadow(),
           children: Row(

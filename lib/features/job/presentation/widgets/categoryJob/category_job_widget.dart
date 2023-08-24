@@ -79,27 +79,41 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
                                     extra: category);
                               },
                               child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: index != 0 ? 12.0 : 0),
-                                child: SizedBox(
-                                  width: 60,
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  height: 50,
+                                  width: 70,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                   child: Column(
-                                    children: <Widget>[
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
                                       ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          child: Container(
-                                            height: 50,
-                                            width: 50,
-                                            color: Colors.grey.withOpacity(0.1),
-                                            child: SizedBox(
-                                                child: Image.network(
-                                                    "${AppConstants.fileUrl}${category?.image}")),
-                                          )),
-                                      Text(
-                                        category!.title ?? "",
-                                        overflow: TextOverflow.ellipsis,
-                                      )
+                                        borderRadius: BorderRadius.circular(25),
+                                        child: Container(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                                .withOpacity(0.3),
+                                            child: Image.network(
+                                                "${AppConstants.fileUrl}${category?.image}")),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          category!.title ?? "",
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),

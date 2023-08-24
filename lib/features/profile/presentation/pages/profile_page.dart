@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
 import 'package:handyman/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:handyman/features/profile/presentation/pages/profile_form_update.dart';
 import 'package:handyman/routes/routes_constant.dart';
+import 'package:handyman/features/profile/presentation/pages/profile_form_update.dart'
+    if (dart.library.js) 'package:handyman/features/profile/presentation/pages/profile_form_update_web.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handyman/features/profile/presentation/widgets/google_map_widget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:handyman/core/constants/constants.dart';
 import 'package:handyman/core/network/api_list.dart';
 import 'package:handyman/core/network/api_service.dart';
@@ -119,25 +120,53 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
   }
 
   void _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final File tempImageFile = File(pickedFile.path);
-      FormData formData = FormData.fromMap({
-        'file': MultipartFile.fromFile(
-          tempImageFile.path,
-          filename: 'image.jpeg',
-        ),
-      });
-      final String baseUrl = AppConstants.baseUrl;
-      final ApiService request = ApiService();
-      final response = await request.post(
-        ApiEndpoint(baseUrl, ApiList.profileUpload, {}),
-        data: formData,
-      );
-      setState(() {
-        imageUrl = response.data["data"]["url"];
-      });
+    if (kIsWeb) {
+      try {
+        Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+
+        if (bytesFromPicker != null) {
+          Uint8List? bytes = bytesFromPicker;
+          FormData formData = FormData.fromMap({
+            'file': MultipartFile.fromBytes(
+              bytes,
+              filename: 'image.jpeg',
+            ),
+          });
+
+          final String baseUrl = AppConstants.baseUrl;
+          final ApiService request = ApiService();
+          final response = await request.post(
+            ApiEndpoint(baseUrl, ApiList.profileUpload, {}),
+            data: formData,
+          );
+          setState(() {
+            imageUrl = response.data["data"]["url"];
+          });
+        } else {}
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        final File tempImageFile = File(pickedFile.path);
+        FormData formData = FormData.fromMap({
+          'file': MultipartFile.fromFile(
+            tempImageFile.path,
+            filename: 'image.jpeg',
+          ),
+        });
+        final String baseUrl = AppConstants.baseUrl;
+        final ApiService request = ApiService();
+        final response = await request.post(
+          ApiEndpoint(baseUrl, ApiList.profileUpload, {}),
+          data: formData,
+        );
+        setState(() {
+          imageUrl = response.data["data"]["url"];
+        });
+      }
     }
   }
 

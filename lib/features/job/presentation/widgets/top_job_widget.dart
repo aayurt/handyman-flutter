@@ -131,7 +131,9 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                                 ),
                               ),
                               title: Text(jobs[index].contractor!.name ?? ""),
-                              subtitle: Text(jobs[index].category!.title ?? ""),
+                              subtitle: Text(
+                                  "${jobs[index].category!.title}\n${jobs[index].title}" ??
+                                      ""),
                               trailing: Column(
                                 children: [
                                   const Icon(

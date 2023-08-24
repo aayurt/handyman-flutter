@@ -47,79 +47,114 @@ class _TopJobWidgetState extends State<TopJobWidget> {
         const SizedBox(
           height: 20,
         ),
-        SizedBox(
-          child: BlocBuilder<TopJobBloc, TopJobState>(
-            builder: (context, state) {
-              if (state is TopJobStateLoading) {
-                return const CircularProgressIndicator();
-              } else if (state is TopJobStateLoaded) {
-                final jobs = state.jobs.reversed.toList();
+        BlocBuilder<TopJobBloc, TopJobState>(
+          builder: (context, state) {
+            if (state is TopJobStateLoading) {
+              return const CircularProgressIndicator();
+            } else if (state is TopJobStateLoaded) {
+              final jobs = state.jobs.reversed.toList();
 
-                return SizedBox(
-                  height: 290,
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: jobs.length,
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: false,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              context.go(
-                                  "${RoutesConstant.orders}/${jobs[index].id}");
-                            },
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: index != 0 ? 16.0 : 0),
-                              child: Hero(
-                                  tag: '$index',
-                                  child: CustomCardWidget(
-                                    children: Column(
-                                      children: [
-                                        Container(
-                                            height: 200,
-                                            width: 200,
-                                            color: Colors.grey.withOpacity(0.1),
-                                            child: SizedBox(
-                                              child: Image.network(jobs[index]
-                                                      .thumbnailImage!
-                                                      .isNotEmpty
-                                                  ? "${AppConstants.fileUrl}${jobs[index].thumbnailImage}"
-                                                  : "https://picsum.photos/250?image=9"),
-                                            )),
-                                        Text(jobs[index].title ?? ""),
-                                        Text(jobs[index].category!.title ?? ""),
-                                        Text(
-                                            jobs[index].contractor!.name ?? ""),
-                                        // Text(jobs[index]  ""),
-                                        Row(
-                                          children: [
-                                            const Text("Pay rate: "),
-                                            Text(jobs[index]
-                                                    .payRate
-                                                    .toString() ??
-                                                ""),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+              return Row(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      // itemCount: jobs.length,
+                      itemCount: 15,
+                      scrollDirection: Axis.vertical,
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            context.go(
+                                "${RoutesConstant.orders}/${jobs[index].id}");
+                          },
+                          //   child: Padding(
+                          //     padding:
+                          //         EdgeInsets.only(left: index != 0 ? 16.0 : 0),
+                          //     child: Hero(
+                          //         tag: '$index',
+                          //         child: CustomCardWidget(
+                          //           children: Column(
+                          //             children: [
+                          //               Container(
+                          //                   height: 200,
+                          //                   width: 200,
+                          //                   color: Colors.grey.withOpacity(0.1),
+                          //                   child: SizedBox(
+                          //                     child: Image.network(jobs[index]
+                          //                             .thumbnailImage!
+                          //                             .isNotEmpty
+                          //                         ? "${AppConstants.fileUrl}${jobs[index].thumbnailImage}"
+                          //                         : "https://picsum.photos/250?image=9"),
+                          //                   )),
+                          //               Text(jobs[index].title ?? ""),
+                          //               Text(jobs[index].category!.title ?? ""),
+                          //               Text(jobs[index].contractor!.name ?? ""),
+                          //               // Text(jobs[index]  ""),
+                          //               Row(
+                          //                 children: [
+                          //                   const Text("Pay rate: "),
+                          //                   Text(jobs[index].payRate.toString() ??
+                          //                       ""),
+                          //                 ],
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         )),
+                          //   ),
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          );
-                        },
-                      )),
-                    ],
+                            width: double.infinity,
+                            child: ListTile(
+                              isThreeLine: true,
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: Container(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.3),
+                                  child: Image.network(jobs[index]
+                                          .thumbnailImage!
+                                          .isNotEmpty
+                                      ? "${AppConstants.fileUrl}${jobs[index].thumbnailImage}"
+                                      : "https://picsum.photos/250?image=9"),
+                                ),
+                              ),
+                              title: Text(jobs[index].contractor!.name ?? ""),
+                              subtitle: Text(jobs[index].category!.title ?? ""),
+                              trailing: Column(
+                                children: [
+                                  const Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                  ),
+                                  // Text(serviceProvider['rating'].toString()),
+                                  // Text(serviceProvider['distance'] +
+                                  //     " km far away"),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                );
-              } else {
-                return const Text("Error");
-              }
-            },
-          ),
+                ],
+              );
+            } else {
+              return const Text("Error");
+            }
+          },
         )
       ],
     );

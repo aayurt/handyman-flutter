@@ -92,9 +92,9 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
           markerId: const MarkerId("2"),
           position: LatLng(job.contractor!.location!.coordinates![0] ?? 0,
               job.contractor!.location!.coordinates![1] ?? 0),
-          infoWindow: const InfoWindow(
-            title: 'My Current Location',
-          ),
+          // infoWindow: const InfoWindow(
+          //   title: 'My Current Location',
+          // ),
           onTap: () {
             setState(() {
               selectedjob = job;

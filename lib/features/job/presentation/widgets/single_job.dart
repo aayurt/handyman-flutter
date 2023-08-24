@@ -47,85 +47,85 @@ class _SingleJobState extends State<SingleJob> {
           boxShadow: const BoxShadow(),
           children: Row(
             children: [
-              SizedBox(
-                  width: 150,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
                   child: Image.network(
                       "${AppConstants.fileUrl}${widget.job.thumbnailImage}",
-                      fit: BoxFit.cover)),
+                      fit: BoxFit.cover),
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          widget.job.contractor!.name ?? "",
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                        Text(
+                          widget.job.title ?? "",
+                          style: const TextStyle(fontSize: 14),
+                        ),
+
+                        // Text(
+                        //   "Deadline Date: ${widget.job.deadlineDate}",
+                        //   style:
+                        //       Theme.of(context).textTheme.bodyLarge?.copyWith(),
+                        // ),
+
+                        // Text(
+                        //   "Status: ",
+                        //   style:
+                        //       Theme.of(context).textTheme.bodyLarge?.copyWith(),
+                        // ),
+                        Text(
+                          "${widget.job.category!.title}",
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  Row(
+                    children: [
+                      Text(
+                        "£${widget.job.payRate}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                      const Text(
+                        "/hr",
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
-                    height: 10,
+                    height: 5,
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        widget.job.contractor!.name ?? "",
-                        textAlign: TextAlign.left,
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        widget.job.title ?? "",
-                        textAlign: TextAlign.left,
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Posting Date: ${widget.job.postingDate}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Deadline Date: ${widget.job.deadlineDate}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Pay Rate: ${widget.job.payRate}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Status: ",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Category: ${widget.job.category!.title}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
+                  Text(
+                    "Posted On: ${giveDate(widget.job.postingDate.toString())}",
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ],
-              ),
-              const Spacer(),
+              )
+
               // const Row(
               //   mainAxisAlignment: MainAxisAlignment.center,
               //   children: [
@@ -139,20 +139,19 @@ class _SingleJobState extends State<SingleJob> {
               //     )
               //   ],
               // ),
-              const SizedBox(
-                width: 10,
-              )
             ],
           )),
     );
   }
 }
 
-String giveDateTime(String? datetimeString) {
-  final getDate = datetimeString!.isNotEmpty
+String giveDate(String? datetimeString) {
+  final getDate = datetimeString != null && datetimeString.isNotEmpty
       ? DateTime.parse(datetimeString)
       : DateTime.now();
-  String convertedDateTime =
-      "${getDate.year.toString()}-${getDate.month.toString().padLeft(2, '0')}-${getDate.day.toString().padLeft(2, '0')} ${getDate.hour.toString().padLeft(2, '0')}-${getDate.minute.toString().padLeft(2, '0')}";
-  return convertedDateTime;
+
+  String convertedDate =
+      "${getDate.year.toString()}-${getDate.month.toString().padLeft(2, '0')}-${getDate.day.toString().padLeft(2, '0')}";
+
+  return convertedDate;
 }

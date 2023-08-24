@@ -56,6 +56,9 @@ class _DashboardPageState extends State<DashboardPage> {
                   height: 20,
                 ),
                 CategoryJobWidget(),
+                SizedBox(
+                  height: 20,
+                ),
                 TopJobWidget(),
               ],
             ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class CustomCardWidget extends StatelessWidget {
@@ -18,21 +17,23 @@ class CustomCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(circular),
-          boxShadow: [
-            boxShadow ??
-                BoxShadow(
-                  color: Colors.grey.withOpacity(opacity),
-                  blurRadius: 12,
-                  spreadRadius: 2.5,
-                ),
-          ],
-          border: Border.all(
-            width: .5,
-            color: const Color(0xFFd2d2d7),
-          )),
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(circular),
+        // boxShadow: [
+        //   boxShadow ??
+        //       BoxShadow(
+        //         color: Colors.grey.withOpacity(opacity),
+        //         blurRadius: 12,
+        //         spreadRadius: 2.5,
+        //       ),
+        // ],
+        // border: Border.all(
+        //   width: .5,
+        //   color: const Color(0xFFd2d2d7),
+        // ),
+      ),
       child: ClipRRect(
           borderRadius: BorderRadius.circular(circular), child: children),
     );

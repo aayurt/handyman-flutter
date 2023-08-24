@@ -5,7 +5,7 @@ ColorScheme lightThemeColors(context) {
     brightness: Brightness.light,
     primary: Color(0xFF0F9686),
     onPrimary: Color(0xFFFFFFFF),
-    secondary: Color(0xFF64FFDF),
+    secondary: Color(0xFF00A59E),
     onSecondary: Color(0xFFEAEAEA),
     error: Color(0xFFF32424),
     onError: Color(0xFFEAEAEA),

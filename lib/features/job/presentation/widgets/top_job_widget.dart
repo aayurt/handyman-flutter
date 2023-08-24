@@ -70,40 +70,6 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                             context.go(
                                 "${RoutesConstant.orders}/${jobs[index].id}");
                           },
-                          //   child: Padding(
-                          //     padding:
-                          //         EdgeInsets.only(left: index != 0 ? 16.0 : 0),
-                          //     child: Hero(
-                          //         tag: '$index',
-                          //         child: CustomCardWidget(
-                          //           children: Column(
-                          //             children: [
-                          //               Container(
-                          //                   height: 200,
-                          //                   width: 200,
-                          //                   color: Colors.grey.withOpacity(0.1),
-                          //                   child: SizedBox(
-                          //                     child: Image.network(jobs[index]
-                          //                             .thumbnailImage!
-                          //                             .isNotEmpty
-                          //                         ? "${AppConstants.fileUrl}${jobs[index].thumbnailImage}"
-                          //                         : "https://picsum.photos/250?image=9"),
-                          //                   )),
-                          //               Text(jobs[index].title ?? ""),
-                          //               Text(jobs[index].category!.title ?? ""),
-                          //               Text(jobs[index].c  ?? ""),
-                          //               // Text(jobs[index]  ""),
-                          //               Row(
-                          //                 children: [
-                          //                   const Text("Pay rate: "),
-                          //                   Text(jobs[index].payRate.toString() ??
-                          //                       ""),
-                          //                 ],
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         )),
-                          //   ),
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 10),
                             decoration: BoxDecoration(

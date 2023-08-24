@@ -30,7 +30,7 @@ class SearchJob extends StatelessWidget {
                 child: TextField(
                   controller: searchController,
                   decoration: const InputDecoration(
-                    hintText: 'Search job...',
+                    hintText: 'Search new job...',
                     border: InputBorder.none,
 
                     // icon: Icon(Icons.search),

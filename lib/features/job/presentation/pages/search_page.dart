@@ -81,18 +81,11 @@ class _SearchJobPageState extends State<SearchJobPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onBackground,
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.primary),
                         borderRadius:
                             BorderRadius.circular(15), // Rounded border radius
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes the shadow position
-                          ),
-                        ],
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
@@ -102,9 +95,8 @@ class _SearchJobPageState extends State<SearchJobPage> {
                               controller: searchController,
                               decoration: const InputDecoration(
                                 hintText: 'Search job...',
+                                hintStyle: TextStyle(fontSize: 14),
                                 border: InputBorder.none,
-
-                                // icon: Icon(Icons.search),
                               ),
                             ),
                           ),
@@ -113,13 +105,16 @@ class _SearchJobPageState extends State<SearchJobPage> {
                               // Handle search button press
                               applyFilters();
                             },
-                            icon: const Icon(Icons.search),
+                            icon: Icon(
+                              Icons.search,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ],
                       )),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Wrap(
                   spacing: 8.0,
@@ -131,13 +126,14 @@ class _SearchJobPageState extends State<SearchJobPage> {
                         });
                       },
                       child: Chip(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         label: Text(option),
                         backgroundColor: selectedTag.contains(option)
-                            ? Colors.blue
+                            ? Theme.of(context).colorScheme.primary
                             : Colors.grey,
                         labelStyle: TextStyle(
                           color: selectedTag.contains(option)
-                              ? Colors.white
+                              ? Theme.of(context).colorScheme.onPrimary
                               : Colors.black,
                         ),
                       ),

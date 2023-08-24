@@ -1,0 +1,24 @@
+class ApiList {
+  static String signOn = "/auth/login";
+  static String customerLogin = "/auth/customer";
+  static String contractorLogin = "/auth/contractor";
+  static String topProducts = "/home/top-products";
+  static String categories = "/category";
+  static String job = "/listing";
+  static String brands = "/home/brands";
+
+  static String profile = "/auth/profile";
+  static String profileUpload = "/file/upload";
+
+  static String getMe = "/users/getMe";
+  static String getAllUsers = "/users";
+  static String getMyTransactions = "/transactions/my";
+  static String getAllTransactions = "/transactions";
+  static String listing = "/listing";
+
+  static String application = "/application";
+  static String applicationApp = "/application/app";
+  static String bycustomer = "/application/bycustomer";
+  static String bycontractor = "/application/bycontractor";
+  static String bylisting = "/application/bylisting";
+}

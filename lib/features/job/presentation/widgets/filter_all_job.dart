@@ -44,7 +44,9 @@ class _FilterAllJobState extends State<FilterAllJob> {
                 child: Row(
                   children: <Widget>[
                     SizedBox(
-                        height: 150, width: width - 32, child: SingleJob(job))
+                        height: 150,
+                        width: width - 32,
+                        child: SingleJob(job: job))
                   ],
                 ),
               );

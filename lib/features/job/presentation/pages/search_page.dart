@@ -100,7 +100,7 @@ class _SearchJobPageState extends State<SearchJobPage> {
                     if (state is AllJobStateLoaded) {
                       final List<JobModel> jobs = state.jobs;
                       return SizedBox(
-                          height: 400,
+                          height: height - 248,
                           child: selectedTag == "List"
                               ? FilterSearch(jobs: jobs)
                               : FilterSearchMap(jobs: jobs));

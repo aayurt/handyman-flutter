@@ -9,9 +9,9 @@ import '../../../../core/constants/constants.dart';
 
 class SingleJob extends StatefulHookWidget {
   final JobModel job;
-  const SingleJob(
-    this.job, {
+  const SingleJob({
     Key? key,
+    required this.job,
   }) : super(key: key);
 
   @override

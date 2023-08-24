@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_geocoding_api/google_geocoding_api.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:handyman/core/widgets/card/custom_card.dart';
 import 'package:handyman/features/job/data/models/job_model.dart';
 import 'package:handyman/features/job/presentation/widgets/single_job.dart';
 import 'package:location/location.dart' as LL;
@@ -24,7 +25,7 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
   final Completer<GoogleMapController> newController = Completer();
   List<JobModel> jobs = [];
   late LL.LocationData myLocation;
-
+  JobModel? selectedjob;
   Future<LL.LocationData> getUserCurrentLocation() async {
     try {
       LL.Location location = LL.Location();
@@ -74,9 +75,6 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
       _markers.add(Marker(
         markerId: const MarkerId("2"),
         position: LatLng(value.latitude ?? 0, value.longitude ?? 0),
-        infoWindow: const InfoWindow(
-          title: 'My Current Location',
-        ),
       ));
       CameraPosition cameraPosition = CameraPosition(
         target: LatLng(value.latitude ?? 0, value.longitude ?? 0),
@@ -91,13 +89,17 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
       var job = widget.jobs[i];
 
       _markers.add(Marker(
-        markerId: const MarkerId("2"),
-        position: LatLng(job.contractor!.location!.coordinates![0] ?? 0,
-            job.contractor!.location!.coordinates![1] ?? 0),
-        infoWindow: const InfoWindow(
-          title: 'My Current Location',
-        ),
-      ));
+          markerId: const MarkerId("2"),
+          position: LatLng(job.contractor!.location!.coordinates![0] ?? 0,
+              job.contractor!.location!.coordinates![1] ?? 0),
+          infoWindow: const InfoWindow(
+            title: 'My Current Location',
+          ),
+          onTap: () {
+            setState(() {
+              selectedjob = job;
+            });
+          }));
     }
     setState(() {
       jobs = widget.jobs;
@@ -109,11 +111,9 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
 
-    return SizedBox(
-      height: 200,
-      child: SizedBox(
-        height: 200,
-        child: GoogleMap(
+    return Stack(
+      children: [
+        GoogleMap(
           initialCameraPosition: _kGoogle,
           markers: Set<Marker>.of(_markers),
           mapType: MapType.normal,
@@ -122,32 +122,41 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
           onMapCreated: (GoogleMapController controller) {
             newController.complete(controller);
           },
-          onTap: (LatLng latLng) async {
-            // _markers.add(Marker(
-            //   markerId: const MarkerId("2"),
-            //   position: LatLng(latLng.latitude, latLng.longitude),
-            //   infoWindow: const InfoWindow(
-            //     title: 'My Location',
-            //   ),
-            // ));
-
-            // final api = GoogleGeocodingApi(
-            //     "AIzaSyDvwIEcRlC_KgvbiWh8eZvXlUB0YcP2bVA",
-            //     isLogged: true);
-            // final reversedSearchResults = await api.reverse(
-            //   '${latLng.latitude},${latLng.longitude}',
-            //   language: 'en',
-            // );
-            // if (reversedSearchResults.results.isNotEmpty) {
-            //   final firstResult = reversedSearchResults.results.first;
-            //   final formattedAddress = firstResult.formattedAddress;
-            //   setState(() {
-            //     widget.addressController.text = formattedAddress;
-            //   });
-            // }
-          },
+          onTap: (LatLng latLng) async {},
         ),
-      ),
+        selectedjob == null
+            ? const SizedBox()
+            : Positioned(
+                top: 100,
+                left: 0,
+                right: 0,
+                child: CustomCardWidget(
+                  children: Container(
+                    color: Colors.white,
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: () {
+                                selectedjob = null;
+                                setState(() {});
+                              },
+                              child: const Icon(Icons.close),
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SingleJob(job: selectedjob!),
+                      )
+                    ]),
+                  ),
+                ))
+      ],
     );
   }
 }

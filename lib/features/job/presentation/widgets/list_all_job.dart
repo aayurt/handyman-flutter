@@ -40,7 +40,9 @@ class _ListAllJobState extends State<ListAllJob> {
                 child: Row(
                   children: <Widget>[
                     SizedBox(
-                        height: 150, width: width - 32, child: SingleJob(job))
+                        height: 150,
+                        width: width - 32,
+                        child: SingleJob(job: job))
                   ],
                 ),
               );

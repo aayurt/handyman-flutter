@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:handyman/core/constants/constants.dart';
 import 'package:handyman/core/ee.dart';
 import 'package:handyman/core/network/api_list.dart';
@@ -69,173 +70,342 @@ class _RegisterFormState extends State<RegisterForm> {
 
     return Form(
       key: _formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            alertMsgStatus.value
-                ? Container(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                    child: CustomAlert(
-                        type: alertType.value,
-                        msg: alertMsg.value,
-                        dimissable: false,
-                        onAlertCloseTap: () {
-                          alertMsgStatus.value = false;
-                        }))
-                : const SizedBox(
-                    height: 0,
-                  ),
-            CustomTextfield(
-                controller: nameController,
-                keyboardType: TextInputType.text,
-                hintText: 'Enter your name here',
-                labelText: "Name",
-                validator: (text) {
-                  return _validateFirstName(text ?? "");
-                }),
-            CustomTextfield(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                hintText: 'Enter email here',
-                labelText: "Email",
-                validator: (text) {
-                  return _validateEmail(text ?? "");
-                }),
-            Column(
-              children: [
-                const Row(
-                  children: [
-                    Text("Gender"),
-                  ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          alertMsgStatus.value
+              ? Container(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  child: CustomAlert(
+                      type: alertType.value,
+                      msg: alertMsg.value,
+                      dimissable: false,
+                      onAlertCloseTap: () {
+                        alertMsgStatus.value = false;
+                      }))
+              : const SizedBox(
+                  height: 0,
                 ),
-                DropdownButtonFormField(
-                  validator: ((value) {
-                    return _validateGender(value ?? "");
-                  }),
-                  items: const [
-                    DropdownMenuItem(
-                      value: "male",
-                      child: Text("Male"),
-                    ),
-                    DropdownMenuItem(
-                      value: "female",
-                      child: Text("Female"),
-                    ),
-                    DropdownMenuItem(
-                      value: "other",
-                      child: Text("Other"),
-                    )
-                  ],
-                  onChanged: (String? value) {
-                    genderController.text = value ?? "";
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                )
-              ],
+          const SizedBox(
+            height: 40,
+          ),
+          const Text(
+            "Create new\naccount",
+            maxLines: 2,
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          TextFormField(
+            controller: nameController,
+            style: const TextStyle(fontSize: 14),
+            decoration: InputDecoration(
+              filled: true,
+              prefixIcon: const Icon(
+                Icons.account_circle,
+                size: 16,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              hintText: "Full Name",
             ),
-            Column(
-              children: [
-                const Row(
-                  children: [
-                    Text("Account type"),
-                  ],
-                ),
-                DropdownButtonFormField(
-                  validator: ((value) {
-                    return _validateAccountType(value ?? "");
-                  }),
-                  items: const [
-                    DropdownMenuItem(
-                      value: "customer",
-                      child: Text("Customer"),
-                    ),
-                    DropdownMenuItem(
-                      value: "contractor",
-                      child: Text("Contractor"),
-                    ),
-                  ],
-                  onChanged: (String? value) {
-                    accountTypeController.text = value ?? "";
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                )
-              ],
+            validator: (text) {
+              return _validateFirstName(text ?? "");
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+            controller: emailController,
+            style: const TextStyle(fontSize: 14),
+            decoration: InputDecoration(
+              filled: true,
+              prefixIcon: const Icon(
+                Icons.email,
+                size: 16,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              hintText: "Email",
             ),
-            CustomTextfield(
-                controller: phoneNoController,
-                keyboardType: TextInputType.text,
-                hintText: 'Enter phone no. here',
-                labelText: "Phone",
-                validator: (text) {
-                  return _validatePhone(text ?? "");
+            validator: (text) {
+              return _validateEmail(text ?? "");
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Column(
+            children: [
+              const Row(
+                children: [
+                  Text("Gender"),
+                ],
+              ),
+              DropdownButtonFormField(
+                validator: ((value) {
+                  return _validateGender(value ?? "");
                 }),
-            CustomTextfield(
-                controller: addressController,
-                keyboardType: TextInputType.text,
-                hintText: 'Enter address here',
-                labelText: "Address",
-                validator: (text) {
-                  return _validateAddress(text ?? "");
-                }),
-            CustomTextfield(
-                controller: passwordController,
-                obscureText: true,
-                keyboardType: TextInputType.text,
-                hintText: 'Enter password here',
-                labelText: "Password",
-                validator: (text) {
-                  return _validatePassword(text ?? "");
-                }),
-            CustomTextfield(
-                controller: cpasswordController,
-                obscureText: true,
-                keyboardType: TextInputType.text,
-                hintText: 'Enter confirm password here',
-                labelText: "Confirm password",
-                validator: (text) {
-                  return _validateConfirmPassword(text ?? "",
-                      passwordController.text, cpasswordController.text);
-                }),
-            Row(
-              children: [
-                Expanded(
-                  flex: 6,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                      right: BorderSide(
-                          color: Colors.grey.withOpacity(0.9), width: 1),
-                    )),
-                    child: TextButton(
-                        onPressed: () {
-                          _onCancelButtonPressed(context);
-                        },
-                        child: const Text("Cancel")),
+                items: const [
+                  DropdownMenuItem(
+                    value: "male",
+                    child: Text("Male"),
                   ),
-                ),
-                Expanded(
-                  flex: 6,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border(
-                      right: BorderSide(
-                          color: Colors.grey.withOpacity(0.9), width: 1),
-                    )),
-                    child: TextButton(
-                        onPressed: () {
-                          onLoginButtonPressed(context);
-                        },
-                        child: const Text("Continue")),
+                  DropdownMenuItem(
+                    value: "female",
+                    child: Text("Female"),
                   ),
+                  DropdownMenuItem(
+                    value: "other",
+                    child: Text("Other"),
+                  )
+                ],
+                onChanged: (String? value) {
+                  genderController.text = value ?? "";
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              )
+            ],
+          ),
+          Column(
+            children: [
+              const Row(
+                children: [
+                  Text("Account type"),
+                ],
+              ),
+              DropdownButtonFormField(
+                validator: ((value) {
+                  return _validateAccountType(value ?? "");
+                }),
+                items: const [
+                  DropdownMenuItem(
+                    value: "customer",
+                    child: Text("Customer"),
+                  ),
+                  DropdownMenuItem(
+                    value: "contractor",
+                    child: Text("Contractor"),
+                  ),
+                ],
+                onChanged: (String? value) {
+                  accountTypeController.text = value ?? "";
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+            controller: phoneNoController,
+            style: const TextStyle(fontSize: 14),
+            decoration: InputDecoration(
+              filled: true,
+              prefixIcon: const Icon(
+                Icons.call,
+                size: 16,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              hintText: "Phone Number",
+            ),
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            validator: (text) {
+              return _validatePhone(text ?? "");
+            },
+            keyboardType: TextInputType.phone,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+              obscureText: true,
+              controller: addressController,
+              style: const TextStyle(fontSize: 14),
+              decoration: InputDecoration(
+                filled: true,
+                prefixIcon: const Icon(
+                  Icons.location_on,
+                  size: 16,
                 ),
-              ],
-            )
-          ],
-        ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: "Address",
+              ),
+              validator: (text) {
+                return _validateAddress(text ?? "");
+              }),
+          const SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+            obscureText: true,
+            controller: passwordController,
+            style: const TextStyle(fontSize: 14),
+            decoration: InputDecoration(
+              filled: true,
+              prefixIcon: const Icon(
+                Icons.lock,
+                size: 16,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              hintText: "Password",
+            ),
+            validator: (text) {
+              return _validatePassword(text ?? "");
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextFormField(
+              obscureText: true,
+              controller: cpasswordController,
+              style: const TextStyle(fontSize: 14),
+              decoration: InputDecoration(
+                filled: true,
+                prefixIcon: const Icon(
+                  Icons.lock,
+                  size: 16,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: "Confirm Password",
+              ),
+              validator: (text) {
+                return _validateConfirmPassword(text ?? "",
+                    passwordController.text, cpasswordController.text);
+              }),
+          const SizedBox(
+            height: 20,
+          ),
+          // CustomTextfield(
+          //     controller: cpasswordController,
+          //     obscureText: true,
+          //     keyboardType: TextInputType.text,
+          //     hintText: 'Enter confirm password here',
+          //     labelText: "Confirm password",
+          //     validator: (text) {
+          //       return _validateConfirmPassword(text ?? "",
+          //           passwordController.text, cpasswordController.text);
+          //     }),
+
+          const SizedBox(
+            height: 60,
+          ),
+          Container(
+            height: 50,
+            width: double.infinity,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: ElevatedButton(
+                  onPressed: () => {onLoginButtonPressed(context)},
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(fontSize: 18),
+                  )),
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: Colors.grey),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              const Text("Or"),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Container(
+                  height: 1,
+                  decoration: BoxDecoration(color: Colors.grey),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Already have an account?",
+                style: TextStyle(color: Colors.grey),
+              ),
+              TextButton(
+                  onPressed: () {
+                    _onCancelButtonPressed(context);
+                  },
+                  child: const Text("Login"))
+            ],
+          ),
+
+          // Row(
+          //   children: [
+          //     Expanded(
+          //       flex: 6,
+          //       child: Container(
+          //         decoration: BoxDecoration(
+          //             border: Border(
+          //           right: BorderSide(
+          //               color: Colors.grey.withOpacity(0.9), width: 1),
+          //         )),
+          //         child: TextButton(
+          //             onPressed: () {
+          //               _onCancelButtonPressed(context);
+          //             },
+          //             child: const Text("Cancel")),
+          //       ),
+          //     ),
+          //     Expanded(
+          //       flex: 6,
+          //       child: Container(
+          //         decoration: BoxDecoration(
+          //             border: Border(
+          //           right: BorderSide(
+          //               color: Colors.grey.withOpacity(0.9), width: 1),
+          //         )),
+          //         child: TextButton(
+          //             onPressed: () {
+          //               onLoginButtonPressed(context);
+          //             },
+          //             child: const Text("Continue")),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+
+          const SizedBox(
+            height: 50,
+          )
+        ],
       ),
     );
   }

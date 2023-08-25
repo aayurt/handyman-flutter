@@ -139,70 +139,147 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(
             height: 20,
           ),
-          Column(
-            children: [
-              const Row(
-                children: [
-                  Text("Gender"),
-                ],
+          DropdownButtonFormField(
+            hint: const Text(
+              "Gender",
+              style: TextStyle(fontSize: 14),
+            ),
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(0),
+              prefixIcon: const Icon(
+                Icons.person,
+                size: 16,
               ),
-              DropdownButtonFormField(
-                validator: ((value) {
-                  return _validateGender(value ?? "");
-                }),
-                items: const [
-                  DropdownMenuItem(
-                    value: "male",
-                    child: Text("Male"),
-                  ),
-                  DropdownMenuItem(
-                    value: "female",
-                    child: Text("Female"),
-                  ),
-                  DropdownMenuItem(
-                    value: "other",
-                    child: Text("Other"),
-                  )
-                ],
-                onChanged: (String? value) {
-                  genderController.text = value ?? "";
-                },
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onSurface, width: 1),
               ),
-              const SizedBox(
-                height: 10,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary, width: 1),
+              ),
+            ),
+            validator: ((value) {
+              return _validateGender(value ?? "");
+            }),
+            items: const [
+              DropdownMenuItem(
+                value: "male",
+                child: Text(
+                  "Male",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              DropdownMenuItem(
+                value: "female",
+                child: Text(
+                  "Female",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              DropdownMenuItem(
+                value: "other",
+                child: Text(
+                  "Other",
+                  style: TextStyle(fontSize: 14),
+                ),
               )
             ],
+            onChanged: (String? value) {
+              genderController.text = value ?? "";
+            },
           ),
-          Column(
-            children: [
-              const Row(
-                children: [
-                  Text("Account type"),
-                ],
+          const SizedBox(
+            height: 20,
+          ),
+          DropdownButtonFormField(
+            hint: const Text(
+              "Account Type",
+              style: TextStyle(fontSize: 14),
+            ),
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(0),
+              prefixIcon: const Icon(
+                Icons.person,
+                size: 16,
               ),
-              DropdownButtonFormField(
-                validator: ((value) {
-                  return _validateAccountType(value ?? "");
-                }),
-                items: const [
-                  DropdownMenuItem(
-                    value: "customer",
-                    child: Text("Customer"),
-                  ),
-                  DropdownMenuItem(
-                    value: "contractor",
-                    child: Text("Contractor"),
-                  ),
-                ],
-                onChanged: (String? value) {
-                  accountTypeController.text = value ?? "";
-                },
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onSurface, width: 1),
               ),
-              const SizedBox(
-                height: 10,
-              )
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10.0),
+                ),
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.primary, width: 1),
+              ),
+            ),
+            validator: ((value) {
+              return _validateAccountType(value ?? "");
+            }),
+            items: const [
+              DropdownMenuItem(
+                value: "customer",
+                child: Text(
+                  "Customer",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              DropdownMenuItem(
+                value: "contractor",
+                child: Text(
+                  "Contractor",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
             ],
+            onChanged: (String? value) {
+              accountTypeController.text = value ?? "";
+            },
           ),
+
+          // Column(
+          //   children: [
+          //     const Row(
+          //       children: [
+          //         Text("Account type"),
+          //       ],
+          //     ),
+          //     DropdownButtonFormField(
+          //       validator: ((value) {
+          //         return _validateAccountType(value ?? "");
+          //       }),
+          //       items: const [
+          //         DropdownMenuItem(
+          //           value: "customer",
+          //           child: Text("Customer"),
+          //         ),
+          //         DropdownMenuItem(
+          //           value: "contractor",
+          //           child: Text("Contractor"),
+          //         ),
+          //       ],
+          //       onChanged: (String? value) {
+          //         accountTypeController.text = value ?? "";
+          //       },
+          //     ),
+          //     const SizedBox(
+          //       height: 10,
+          //     )
+          //   ],
+          // ),
           const SizedBox(
             height: 20,
           ),

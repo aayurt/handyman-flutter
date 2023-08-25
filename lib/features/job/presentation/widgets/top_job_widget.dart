@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:handyman/core/widgets/card/custom_card.dart';
 import 'package:handyman/features/job/presentation/bloc/top_job/top_job_bloc.dart';
 
 import '../../../../core/constants/constants.dart';
@@ -100,9 +99,9 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                               subtitle: Text(
                                   "${jobs[index].category!.title}\n${jobs[index].contractor!.name}" ??
                                       ""),
-                              trailing: Column(
+                              trailing: const Column(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.star,
                                     color: Colors.yellow,
                                   ),

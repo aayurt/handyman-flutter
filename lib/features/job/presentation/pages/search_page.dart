@@ -1,14 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:handyman/features/job/data/models/job_model.dart';
 import 'package:handyman/features/job/presentation/bloc/all_job/all_job_bloc.dart';
-import 'package:handyman/features/job/presentation/widgets/filter_all_job.dart';
 import 'package:handyman/features/job/presentation/widgets/filter_search.dart';
 import 'package:handyman/features/job/presentation/widgets/filter_search_map.dart';
-import 'package:handyman/features/job/presentation/widgets/list_all_job.dart';
-import 'package:handyman/features/job/presentation/widgets/search_job.dart';
-import 'package:handyman/routes/routes_constant.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class SearchJobPage extends StatefulWidget {
   const SearchJobPage({Key? key, required this.search}) : super(key: key);

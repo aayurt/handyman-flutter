@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_geocoding_api/google_geocoding_api.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handyman/core/widgets/card/custom_card.dart';
 import 'package:handyman/features/job/data/models/job_model.dart';

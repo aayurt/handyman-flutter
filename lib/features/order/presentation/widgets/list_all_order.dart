@@ -31,16 +31,18 @@ class _ListAllOrderState extends State<ListAllOrder> {
             itemCount: dataList.length,
             itemBuilder: (BuildContext context, int index) {
               var application = dataList[index];
-              return Padding(
-                padding: EdgeInsets.only(top: index != 0 ? 12.0 : 0),
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                        height: 150,
-                        width: width - 32,
-                        child: SingleOrder(application))
-                  ],
-                ),
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                          height: 150,
+                          width: width - 20,
+                          child: SingleOrder(application))
+                    ],
+                  ),
+                ],
               );
             },
           );

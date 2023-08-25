@@ -26,33 +26,18 @@ class _OrderListPageState extends State<OrderListPage> {
     final height = size.height;
     final width = size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
-          child: Column(children: [
-        const Row(
-          children: [
-            SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              child: Text(
-                "Order List",
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(
-              width: 25,
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                  height: height,
+                  padding: const EdgeInsets.all(5),
+                  child: const ListAllOrder()),
+            ],
+          ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
-          child: ConstrainedBox(
-              constraints:
-                  BoxConstraints(maxHeight: height - 140, maxWidth: width - 32),
-              child: const Expanded(child: ListAllOrder())),
-        ),
-      ])),
+      ),
     );
   }
 }

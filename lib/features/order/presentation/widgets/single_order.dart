@@ -31,109 +31,164 @@ class _SingleOrderState extends State<SingleOrder> {
     return InkWell(
       onTap: () =>
           {context.go("${RoutesConstant.jobOrder}/${widget.application.id}")},
-      child: CustomCardWidget(
-          boxShadow: const BoxShadow(),
-          children: Row(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            width: 1,
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+          child: Column(
             children: [
-              SizedBox(
-                  width: 150,
-                  child: Image.network(
-                      "${AppConstants.fileUrl}${widget.application.listing!.thumbnailImage}",
-                      fit: BoxFit.cover)),
-              const SizedBox(
-                width: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(
-                    height: 10,
+                  Text(
+                    widget.application.listing!.title ?? "",
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Row(
                     children: [
                       Text(
-                        widget.application.listing!.title ?? "",
-                        textAlign: TextAlign.left,
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
+                        "£${widget.application.listing!.payRate}",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary),
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Posting Date: ${widget.application.listing!.postingDate}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Deadline Date: ${widget.application.listing!.deadlineDate}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Pay Rate: ${widget.application.listing!.payRate}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Status: ${widget.application.status}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Category: ${widget.application.listing!.category!.title}",
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(),
+                      const Text(
+                        "/hr",
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                     ],
                   ),
                 ],
               ),
-              const Spacer(),
-              // const Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text(
-              //       "£ 1111",
-              //       style: TextStyle(fontSize: 22),
-              //     ),
-              //     Icon(
-              //       Icons.arrow_upward,
-              //       color: Colors.greenAccent,
-              //     )
-              //   ],
-              // ),
               const SizedBox(
-                width: 10,
-              )
+                height: 10,
+              ),
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Container(
+                      height: 80,
+                      width: 80,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.3),
+                      child: Image.network(
+                          "${AppConstants.fileUrl}${widget.application.listing!.thumbnailImage}",
+                          fit: BoxFit.cover),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.application.listing!.contractor!.name ?? "",
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        // Text(
+                        //   "Posted Date: ${giveDate(widget.application.listing!.postingDate.toString())}",
+                        //   style: const TextStyle(fontSize: 12),
+                        // ),
+                        // Text(
+                        //   "Deadline Date: ${giveDate(widget.application.listing!.deadlineDate.toString())}",
+                        //   style: const TextStyle(fontSize: 12),
+                        // ),
+                        Text(
+                          "Order Date: ${giveDate(widget.application.appDate.toString())}",
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          "Order Time: ${giveTime(widget.application.appDate.toString())}",
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        Text(
+                          "${widget.application.listing!.category!.title}",
+                          style: const TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
+                    decoration: BoxDecoration(
+                        color: _getStatusColor(
+                          widget.application.status.toString(),
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text(
+                      "${widget.application.status}",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(),
+                    ),
+                  )
+                ],
+              ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
 
-String giveDateTime(String? datetimeString) {
-  final getDate = datetimeString!.isNotEmpty
+Color _getStatusColor(String status) {
+  switch (status) {
+    case "pending":
+      return const Color(0xFFEF8D32);
+    case "accepted":
+      return Colors.blue;
+    case "completed":
+      return const Color(0xFF0F9686);
+    case "cancelled":
+      return const Color(0xFFEB3F3F);
+    default:
+      return Colors
+          .grey; // Default color if status doesn't match any of the above
+  }
+}
+
+String giveDate(String? datetimeString) {
+  final getDate = datetimeString != null && datetimeString.isNotEmpty
       ? DateTime.parse(datetimeString)
       : DateTime.now();
-  String convertedDateTime =
-      "${getDate.year.toString()}-${getDate.month.toString().padLeft(2, '0')}-${getDate.day.toString().padLeft(2, '0')} ${getDate.hour.toString().padLeft(2, '0')}-${getDate.minute.toString().padLeft(2, '0')}";
-  return convertedDateTime;
+
+  String convertedDate =
+      "${getDate.year.toString()}-${getDate.month.toString().padLeft(2, '0')}-${getDate.day.toString().padLeft(2, '0')}";
+
+  return convertedDate;
+}
+
+String giveTime(String? datetimeString) {
+  final getDate = datetimeString != null && datetimeString.isNotEmpty
+      ? DateTime.parse(datetimeString)
+      : DateTime.now();
+
+  String convertedTime =
+      "${getDate.hour.toString().padLeft(2, '0')}:${getDate.minute.toString().padLeft(2, '0')}";
+
+  return convertedTime;
 }

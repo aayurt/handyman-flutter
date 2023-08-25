@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:handyman/core/widgets/card/custom_card.dart';
 import 'package:handyman/features/job/presentation/bloc/top_job/top_job_bloc.dart';
+import 'package:handyman/theme/colors.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../routes/routes_constant.dart';
@@ -60,7 +61,7 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
                       // itemCount: jobs.length,
-                      itemCount: 15,
+                      itemCount: 2,
                       scrollDirection: Axis.vertical,
                       physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
@@ -73,10 +74,16 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 10),
                             decoration: BoxDecoration(
+                              border: Border.all(
+                                  width: 1,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.5)),
                               color: Theme.of(context)
                                   .colorScheme
                                   .primary
-                                  .withOpacity(0.1),
+                                  .withOpacity(0.2),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             width: double.infinity,
@@ -85,10 +92,10 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(25),
                                 child: Container(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.3),
+                                  // color: Theme.of(context)
+                                  //     .colorScheme
+                                  //     .primary
+                                  //     .withOpacity(0.3),
                                   child: Image.network(jobs[index]
                                           .thumbnailImage!
                                           .isNotEmpty

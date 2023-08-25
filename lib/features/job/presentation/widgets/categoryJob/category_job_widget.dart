@@ -85,6 +85,12 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
                                   height: 50,
                                   width: 70,
                                   decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface
+                                            .withOpacity(0.5)),
                                     color: Theme.of(context)
                                         .colorScheme
                                         .primary

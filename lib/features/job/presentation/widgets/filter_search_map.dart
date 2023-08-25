@@ -127,12 +127,12 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
         selectedjob == null
             ? const SizedBox()
             : Positioned(
-                top: 100,
+                top: 300,
                 left: 0,
                 right: 0,
                 child: CustomCardWidget(
                   children: Container(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.background,
                     child: Column(children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,

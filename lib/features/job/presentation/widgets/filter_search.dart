@@ -24,8 +24,9 @@ class _FilterSearchState extends State<FilterSearch> {
         return Padding(
           padding: EdgeInsets.only(top: index != 0 ? 12.0 : 0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SizedBox(width: width - 32, child: SingleJob(job: job))
+              SizedBox(width: width - 20, child: SingleJob(job: job))
             ],
           ),
         );

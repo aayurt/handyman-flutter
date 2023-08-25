@@ -51,26 +51,8 @@ class _SearchJobPageState extends State<SearchJobPage> {
     final width = size.width;
     return SafeArea(
         child: Column(children: [
-      const SizedBox(
-        height: 10,
-      ),
-      Row(
-        children: [
-          const SizedBox(
-            width: 20,
-          ),
-          SizedBox(
-              height: 25,
-              width: 25,
-              child: GestureDetector(
-                  onTap: () {
-                    GoRouter.of(context).go(RoutesConstant.dashboard);
-                  },
-                  child: const Icon(Icons.arrow_back))),
-        ],
-      ),
       Padding(
-        padding: const EdgeInsets.only(top: 0, left: 16, right: 16),
+        padding: const EdgeInsets.all(8),
         child: ConstrainedBox(
             constraints:
                 BoxConstraints(maxHeight: height - 107, maxWidth: width - 32),

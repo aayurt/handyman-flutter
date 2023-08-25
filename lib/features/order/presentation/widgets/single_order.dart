@@ -116,11 +116,11 @@ class _SingleOrderState extends State<SingleOrder> {
                         //   style: const TextStyle(fontSize: 12),
                         // ),
                         Text(
-                          "Order Date: ${giveDate(widget.application.appDate.toString())}",
+                          "Scheduled Date: ${giveDate(widget.application.appDate.toString())}",
                           style: const TextStyle(fontSize: 12),
                         ),
                         Text(
-                          "Order Time: ${giveTime(widget.application.appDate.toString())}",
+                          "Scheduled Time: ${giveTime(widget.application.appDate.toString())}",
                           style: const TextStyle(fontSize: 12),
                         ),
                         Text(

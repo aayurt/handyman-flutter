@@ -22,7 +22,13 @@ class _ListAllOrderState extends State<ListAllOrder> {
     return BlocBuilder<OrderBloc, OrderState>(
       builder: (context, state) {
         if (state is OrderStateLoading) {
-          return const CircularProgressIndicator();
+          return const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                  height: 50, width: 50, child: CircularProgressIndicator()),
+            ],
+          );
         } else if (state is OrderStateLoaded) {
           final List<ApplicationModel> dataList = state.applications;
           if (dataList.isEmpty) return const Text("No data found.");

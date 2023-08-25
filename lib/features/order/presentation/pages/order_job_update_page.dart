@@ -57,7 +57,7 @@ class _OrderJobUpdatePageState extends State<OrderJobUpdatePage> {
                 width: 25,
                 child: GestureDetector(
                     onTap: () {
-                      context.go(RoutesConstant.splash);
+                      context.go(RoutesConstant.orders);
                     },
                     child: const Icon(Icons.arrow_back))),
             const Expanded(

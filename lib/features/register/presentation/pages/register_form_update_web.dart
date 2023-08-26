@@ -50,8 +50,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
   bool disableMap = false;
   // File? imageFile;
   String imageUrl = "";
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -431,7 +429,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                         child: GoogleMapWidget(
                           addressController: addressController,
                           currentLocation: currentLocation,
-                          googleController: _controller,
                         ))
                     : const SizedBox(),
 

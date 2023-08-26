@@ -21,8 +21,10 @@ class ApiList {
   static String listing = "/listing";
 
   static String application = "/application";
+  static String ratingListing = "/rating/listing";
   static String applicationApp = "/application/app";
   static String bycustomer = "/application/bycustomer";
   static String bycontractor = "/application/bycontractor";
   static String bylisting = "/application/bylisting";
+  static String listingRating = "/rating/listingRating";
 }

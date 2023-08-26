@@ -41,8 +41,6 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
   final linkedInController = TextEditingController();
   final websiteController = TextEditingController();
   LatLng currentLocation = const LatLng(51.50, 0.127);
-  bool disableMap = false;
-  final Completer<GoogleMapController> _controller = Completer();
 
   List<String> skills = [];
   List<String> interests = [];
@@ -78,21 +76,6 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
     });
 
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // Dispose of the map controller when the widget is disposed
-    try {
-      _controller.future.then((controller) {
-        print("DISPOSED");
-        controller.dispose();
-      });
-    } catch (e) {
-      print(e);
-    }
-
-    super.dispose();
   }
 
   void initializeUserTypeDependentData() {
@@ -248,9 +231,6 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
           alertType.value = AlertType.danger;
           alertMsgStatus.value = true;
         } else {
-          _controller.future.then((controller) {
-            controller.dispose();
-          });
           showSuccess();
         }
 
@@ -426,9 +406,9 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                 SizedBox(
                     height: 400,
                     child: GoogleMapWidget(
-                        addressController: addressController,
-                        currentLocation: currentLocation,
-                        googleController: _controller)),
+                      addressController: addressController,
+                      currentLocation: currentLocation,
+                    )),
 
                 // const Text("Shipping Address"),
                 // CustomTextfield(

@@ -29,6 +29,7 @@ class _ContractOrderJobUpdateFormWidgetState
   final titleController = TextEditingController();
   Map<DateTime, List<String>> selectedTimeSlots = {};
   String statusValue = 'pending'; // Default selected value
+  String paymentStatusValue = 'unpaid'; // Default selected value
 
   double payRate = 10.0; // Default pay rate
   final double increment = 1.0;
@@ -72,6 +73,7 @@ class _ContractOrderJobUpdateFormWidgetState
 
       setState(() {
         statusValue = widget.application!.status ?? "pending";
+        paymentStatusValue = widget.application!.paymentStatus ?? "unpaid";
         payRate = widget.application!.listing!.payRate ?? 10;
         selectedTimeSlots = widget.application!.selectedTimeSlots!.entries
             .fold<Map<DateTime, List<String>>>(
@@ -129,7 +131,8 @@ class _ContractOrderJobUpdateFormWidgetState
                 data: {
                   // "listingId": widget.application!.listing!.id ?? "",
                   // "selectedTimeSlots": jsonTimeSlots,
-                  "status": statusValue
+                  "status": statusValue,
+                  "upaymentStatus": paymentStatusValue
                 });
 
             if (response.statusCode == 400) {
@@ -274,41 +277,23 @@ class _ContractOrderJobUpdateFormWidgetState
                     );
                   }).toList(),
                 ),
-
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               _onCancelButtonPressed(context);
-                //             },
-                //             child: const Text("Cancel")),
-                //       ),
-                //     ),
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               onSaveButton(context);
-                //             },
-                //             child: const Text("Update")),
-                //       ),
-                //     ),
-                //   ],
-                // )
+                DropdownButton<String>(
+                  value: paymentStatusValue,
+                  onChanged: (newValue) {
+                    setState(() {
+                      paymentStatusValue = newValue ?? "";
+                    });
+                  },
+                  items: <String>[
+                    'unpaid',
+                    'paid',
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
               ],
             ),
           ),

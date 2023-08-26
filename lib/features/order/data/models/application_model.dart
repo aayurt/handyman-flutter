@@ -11,6 +11,8 @@ class ApplicationModel with _$ApplicationModel {
     @JsonKey(name: 'listing') JobModel? listing,
     @JsonKey(name: 'customer') User? customer,
     @JsonKey(name: 'status') String? status,
+    @JsonKey(name: 'paymentMethod') String? paymentMethod,
+    @JsonKey(name: 'paymentStatus') String? paymentStatus,
     @JsonKey(name: 'appDate') DateTime? appDate,
     @JsonKey(name: 'closeDate') DateTime? closeDate,
     @JsonKey(name: 'selectedTimeSlots')

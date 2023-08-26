@@ -28,6 +28,10 @@ mixin _$ApplicationModel {
   User? get customer => throw _privateConstructorUsedError;
   @JsonKey(name: 'status')
   String? get status => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paymentMethod')
+  String? get paymentMethod => throw _privateConstructorUsedError;
+  @JsonKey(name: 'paymentStatus')
+  String? get paymentStatus => throw _privateConstructorUsedError;
   @JsonKey(name: 'appDate')
   DateTime? get appDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'closeDate')
@@ -53,6 +57,8 @@ abstract class $ApplicationModelCopyWith<$Res> {
       @JsonKey(name: 'listing') JobModel? listing,
       @JsonKey(name: 'customer') User? customer,
       @JsonKey(name: 'status') String? status,
+      @JsonKey(name: 'paymentMethod') String? paymentMethod,
+      @JsonKey(name: 'paymentStatus') String? paymentStatus,
       @JsonKey(name: 'appDate') DateTime? appDate,
       @JsonKey(name: 'closeDate') DateTime? closeDate,
       @JsonKey(name: 'selectedTimeSlots')
@@ -79,6 +85,8 @@ class _$ApplicationModelCopyWithImpl<$Res, $Val extends ApplicationModel>
     Object? listing = freezed,
     Object? customer = freezed,
     Object? status = freezed,
+    Object? paymentMethod = freezed,
+    Object? paymentStatus = freezed,
     Object? appDate = freezed,
     Object? closeDate = freezed,
     Object? selectedTimeSlots = freezed,
@@ -99,6 +107,14 @@ class _$ApplicationModelCopyWithImpl<$Res, $Val extends ApplicationModel>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      paymentMethod: freezed == paymentMethod
+          ? _value.paymentMethod
+          : paymentMethod // ignore: cast_nullable_to_non_nullable
+              as String?,
+      paymentStatus: freezed == paymentStatus
+          ? _value.paymentStatus
+          : paymentStatus // ignore: cast_nullable_to_non_nullable
               as String?,
       appDate: freezed == appDate
           ? _value.appDate
@@ -153,6 +169,8 @@ abstract class _$$_ApplicationModelCopyWith<$Res>
       @JsonKey(name: 'listing') JobModel? listing,
       @JsonKey(name: 'customer') User? customer,
       @JsonKey(name: 'status') String? status,
+      @JsonKey(name: 'paymentMethod') String? paymentMethod,
+      @JsonKey(name: 'paymentStatus') String? paymentStatus,
       @JsonKey(name: 'appDate') DateTime? appDate,
       @JsonKey(name: 'closeDate') DateTime? closeDate,
       @JsonKey(name: 'selectedTimeSlots')
@@ -179,6 +197,8 @@ class __$$_ApplicationModelCopyWithImpl<$Res>
     Object? listing = freezed,
     Object? customer = freezed,
     Object? status = freezed,
+    Object? paymentMethod = freezed,
+    Object? paymentStatus = freezed,
     Object? appDate = freezed,
     Object? closeDate = freezed,
     Object? selectedTimeSlots = freezed,
@@ -199,6 +219,14 @@ class __$$_ApplicationModelCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      paymentMethod: freezed == paymentMethod
+          ? _value.paymentMethod
+          : paymentMethod // ignore: cast_nullable_to_non_nullable
+              as String?,
+      paymentStatus: freezed == paymentStatus
+          ? _value.paymentStatus
+          : paymentStatus // ignore: cast_nullable_to_non_nullable
               as String?,
       appDate: freezed == appDate
           ? _value.appDate
@@ -224,6 +252,8 @@ class _$_ApplicationModel implements _ApplicationModel {
       @JsonKey(name: 'listing') this.listing,
       @JsonKey(name: 'customer') this.customer,
       @JsonKey(name: 'status') this.status,
+      @JsonKey(name: 'paymentMethod') this.paymentMethod,
+      @JsonKey(name: 'paymentStatus') this.paymentStatus,
       @JsonKey(name: 'appDate') this.appDate,
       @JsonKey(name: 'closeDate') this.closeDate,
       @JsonKey(name: 'selectedTimeSlots')
@@ -246,6 +276,12 @@ class _$_ApplicationModel implements _ApplicationModel {
   @JsonKey(name: 'status')
   final String? status;
   @override
+  @JsonKey(name: 'paymentMethod')
+  final String? paymentMethod;
+  @override
+  @JsonKey(name: 'paymentStatus')
+  final String? paymentStatus;
+  @override
   @JsonKey(name: 'appDate')
   final DateTime? appDate;
   @override
@@ -265,7 +301,7 @@ class _$_ApplicationModel implements _ApplicationModel {
 
   @override
   String toString() {
-    return 'ApplicationModel(id: $id, listing: $listing, customer: $customer, status: $status, appDate: $appDate, closeDate: $closeDate, selectedTimeSlots: $selectedTimeSlots)';
+    return 'ApplicationModel(id: $id, listing: $listing, customer: $customer, status: $status, paymentMethod: $paymentMethod, paymentStatus: $paymentStatus, appDate: $appDate, closeDate: $closeDate, selectedTimeSlots: $selectedTimeSlots)';
   }
 
   @override
@@ -278,6 +314,10 @@ class _$_ApplicationModel implements _ApplicationModel {
             (identical(other.customer, customer) ||
                 other.customer == customer) &&
             (identical(other.status, status) || other.status == status) &&
+            (identical(other.paymentMethod, paymentMethod) ||
+                other.paymentMethod == paymentMethod) &&
+            (identical(other.paymentStatus, paymentStatus) ||
+                other.paymentStatus == paymentStatus) &&
             (identical(other.appDate, appDate) || other.appDate == appDate) &&
             (identical(other.closeDate, closeDate) ||
                 other.closeDate == closeDate) &&
@@ -293,6 +333,8 @@ class _$_ApplicationModel implements _ApplicationModel {
       listing,
       customer,
       status,
+      paymentMethod,
+      paymentStatus,
       appDate,
       closeDate,
       const DeepCollectionEquality().hash(_selectedTimeSlots));
@@ -317,6 +359,8 @@ abstract class _ApplicationModel implements ApplicationModel {
           @JsonKey(name: 'listing') final JobModel? listing,
           @JsonKey(name: 'customer') final User? customer,
           @JsonKey(name: 'status') final String? status,
+          @JsonKey(name: 'paymentMethod') final String? paymentMethod,
+          @JsonKey(name: 'paymentStatus') final String? paymentStatus,
           @JsonKey(name: 'appDate') final DateTime? appDate,
           @JsonKey(name: 'closeDate') final DateTime? closeDate,
           @JsonKey(name: 'selectedTimeSlots')
@@ -338,6 +382,12 @@ abstract class _ApplicationModel implements ApplicationModel {
   @override
   @JsonKey(name: 'status')
   String? get status;
+  @override
+  @JsonKey(name: 'paymentMethod')
+  String? get paymentMethod;
+  @override
+  @JsonKey(name: 'paymentStatus')
+  String? get paymentStatus;
   @override
   @JsonKey(name: 'appDate')
   DateTime? get appDate;

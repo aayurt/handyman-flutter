@@ -25,4 +25,5 @@ class MyAssets {
   static const assetfingerPrintId = "assets/images/fingerprint-recognition.png";
 
   static const group = "assets/images/group.png";
+  static const successGif = "assets/images/success-1.gif";
 }

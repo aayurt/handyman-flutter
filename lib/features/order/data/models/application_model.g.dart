@@ -16,6 +16,8 @@ _$_ApplicationModel _$$_ApplicationModelFromJson(Map<String, dynamic> json) =>
           ? null
           : User.fromJson(json['customer'] as Map<String, dynamic>),
       status: json['status'] as String?,
+      paymentMethod: json['paymentMethod'] as String?,
+      paymentStatus: json['paymentStatus'] as String?,
       appDate: json['appDate'] == null
           ? null
           : DateTime.parse(json['appDate'] as String),
@@ -35,6 +37,8 @@ Map<String, dynamic> _$$_ApplicationModelToJson(_$_ApplicationModel instance) =>
       'listing': instance.listing,
       'customer': instance.customer,
       'status': instance.status,
+      'paymentMethod': instance.paymentMethod,
+      'paymentStatus': instance.paymentStatus,
       'appDate': instance.appDate?.toIso8601String(),
       'closeDate': instance.closeDate?.toIso8601String(),
       'selectedTimeSlots': instance.selectedTimeSlots,

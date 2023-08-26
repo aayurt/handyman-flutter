@@ -5,7 +5,8 @@ import 'package:handyman/features/job/presentation/bloc/single_job/single_job_bl
 
 import '../../../../routes/routes_constant.dart';
 import '../../data/models/job_model.dart';
-import '../widgets/job_form_widget.dart';
+import '../widgets/job_form_widget.dart'
+    if (dart.library.js) '../widgets/job_form_widget_web.dart';
 
 class JobAddPage extends StatefulWidget {
   final String? id;

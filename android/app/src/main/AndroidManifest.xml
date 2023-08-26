@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+               <uses-permission android:name="android.permission.INTERNET"/>
+    
     <application
         android:label="handyman"
         android:name="${applicationName}"
@@ -21,7 +23,6 @@
               />
               <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDvwIEcRlC_KgvbiWh8eZvXlUB0YcP2bVA"/>
-               <uses-permission android:name="android.permission.INTERNET"/>
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

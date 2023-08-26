@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
 import 'package:handyman/features/bottomNav/presentation/widgets/bottom_navigation.dart';
 import 'package:handyman/features/cart/presentation/pages/cart_page.dart';
@@ -30,7 +31,9 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 class Routes {
   static final GoRouter router = GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: Uri.base.toString().replaceFirst(Uri.base.origin, ''),
+      initialLocation: (kIsWeb)
+          ? (Uri.base.toString().replaceFirst(Uri.base.origin, ''))
+          : RoutesConstant.splash,
       redirect: (BuildContext context, GoRouterState state) async {
         final getToken = await SharedPrefService.getToken(SharedPrefKey.token);
         if (((state.fullPath == RoutesConstant.login) ||

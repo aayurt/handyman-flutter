@@ -1,7 +1,8 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:handyman/core/constants/constants.dart';
 import 'package:handyman/core/ee.dart';
 import 'package:handyman/core/network/api_list.dart';
@@ -9,10 +10,7 @@ import 'package:handyman/core/network/api_service.dart';
 import 'package:handyman/core/widgets/alerts/custom_alert.dart';
 import 'package:handyman/features/job/data/models/job_model.dart';
 import 'package:handyman/routes/routes_constant.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../core/widgets/textfield/custom_textfield.dart';
@@ -80,25 +78,32 @@ class _JobFormWidgetState extends State<JobFormWidget> {
   }
 
   void _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final File tempImageFile = File(pickedFile.path);
-      FormData formData = FormData.fromMap({
-        'file': MultipartFile.fromFile(
-          tempImageFile.path,
-          filename: 'image.jpeg',
-        ),
-      });
-      final String baseUrl = AppConstants.baseUrl;
-      final ApiService request = ApiService();
-      final response = await request.post(
-        ApiEndpoint(baseUrl, ApiList.profileUpload, {}),
-        data: formData,
-      );
-      setState(() {
-        imageUrl = response.data["data"]["url"];
-      });
+    if (kIsWeb) {
+      try {
+        Uint8List? bytesFromPicker = await ImagePickerWeb.getImageAsBytes();
+
+        if (bytesFromPicker != null) {
+          Uint8List? bytes = bytesFromPicker;
+          FormData formData = FormData.fromMap({
+            'file': MultipartFile.fromBytes(
+              bytes,
+              filename: 'image.jpeg',
+            ),
+          });
+
+          final String baseUrl = AppConstants.baseUrl;
+          final ApiService request = ApiService();
+          final response = await request.post(
+            ApiEndpoint(baseUrl, ApiList.profileUpload, {}),
+            data: formData,
+          );
+          setState(() {
+            imageUrl = response.data["data"]["url"];
+          });
+        } else {}
+      } catch (e) {
+        print(e);
+      }
     }
   }
 

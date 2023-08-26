@@ -11,27 +11,27 @@ import 'package:handyman/core/constants/constants.dart';
 import 'package:handyman/core/network/api_list.dart';
 import 'package:handyman/core/network/api_service.dart';
 import 'package:handyman/core/widgets/alerts/custom_alert.dart';
-import 'package:handyman/features/login/data/models/login_api_response_model.dart';
 import 'package:handyman/features/profile/presentation/widgets/google_map_widget.dart';
 import 'package:handyman/routes/routes_constant.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 
-import '../../../../core/shared_pref/shared_pref.dart';
 import '../../../../core/widgets/textfield/custom_textfield.dart';
 
 final _formKey = GlobalKey<FormState>();
 
-class ProfileFormUpdate extends StatefulHookWidget {
-  final User? userModelData;
-  const ProfileFormUpdate({Key? key, this.userModelData}) : super(key: key);
+class RegisterFormUpdate extends StatefulHookWidget {
+  const RegisterFormUpdate({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  _ProfileFormUpdateState createState() => _ProfileFormUpdateState();
+  _RegisterFormUpdateState createState() => _RegisterFormUpdateState();
 }
 
-class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
+class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
   final nameController = TextEditingController();
+  // final passwordController = TextEditingController();
   final addressController = TextEditingController();
   final countryController = TextEditingController();
   final emailController = TextEditingController();
@@ -41,16 +41,17 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
   final linkedInController = TextEditingController();
   final websiteController = TextEditingController();
   LatLng currentLocation = const LatLng(51.50, 0.127);
-  bool disableMap = false;
-  final Completer<GoogleMapController> _controller = Completer();
+  final accountTypeController = TextEditingController();
 
   List<String> skills = [];
   List<String> interests = [];
-  String userType = "";
-  // final passwordController = TextEditingController();
-  // final cpasswordController = TextEditingController();
+  final passwordController = TextEditingController();
+  final cpasswordController = TextEditingController();
+  bool disableMap = false;
   // File? imageFile;
   String imageUrl = "";
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -67,54 +68,8 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
     // TODO: implement initState
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       genderController.text = "male";
-
-      var usertype = await SharedPrefService.getToken(SharedPrefKey.userType);
-      if (usertype.isNotEmpty) {
-        setState(() {
-          userType = usertype;
-        });
-        initializeUserTypeDependentData();
-      }
     });
-
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // Dispose of the map controller when the widget is disposed
-    try {
-      _controller.future.then((controller) {
-        print("DISPOSED");
-        controller.dispose();
-      });
-    } catch (e) {
-      print(e);
-    }
-
-    super.dispose();
-  }
-
-  void initializeUserTypeDependentData() {
-    nameController.text = widget.userModelData!.name ?? "";
-    addressController.text = widget.userModelData!.address ?? "";
-    emailController.text = widget.userModelData!.email ?? "";
-    genderController.text = widget.userModelData!.gender ?? "male";
-    phoneNoController.text = widget.userModelData!.phone ?? "";
-    bioController.text = widget.userModelData!.bio ?? "";
-
-    if (userType == "Contractor") {
-      linkedInController.text = widget.userModelData!.linkedIn ?? "";
-      websiteController.text = widget.userModelData!.website ?? "";
-    }
-
-    setState(() {
-      imageUrl = widget.userModelData!.avatar ?? "";
-      if (userType == "Contractor") {
-        skills = widget.userModelData!.skills!.toList() ?? [];
-        interests = widget.userModelData!.interests!.toList() ?? [];
-      }
-    });
   }
 
   void _pickImage() async {
@@ -202,8 +157,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                 child: const Text('Continue'),
                 onPressed: () {
                   Navigator.of(context).pop();
-
-                  GoRouter.of(caontext).go(RoutesConstant.splash);
+                  GoRouter.of(context).go(RoutesConstant.splash);
                 },
               ),
             ],
@@ -220,36 +174,40 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
         final ApiService request = ApiService();
 
         Map<String, Object?> data = {
-          "_id": widget.userModelData!.id,
           "email": emailController.text,
-          // "password": passwordController.text,
+          "password": passwordController.text,
           "name": nameController.text,
           "gender": genderController.text,
           "phone": phoneNoController.text,
           "address": addressController.text,
           "avatar": imageUrl,
-          "bio": bioController.text,
           "location": {
             "type": "Point",
             "coordinates": [currentLocation.latitude, currentLocation.longitude]
           },
         };
-        if (userType == "Contractor") {
+        if (accountTypeController.text == "Contractor") {
           data["skills"] = skills;
           data["interests"] = interests;
           data["linkedIn"] = linkedInController.text;
           data["website"] = websiteController.text;
         }
-        final response = await request
-            .patch(ApiEndpoint(baseUrl, ApiList.profile, {}), data: data);
+        final response = await request.post(
+            ApiEndpoint(
+                baseUrl,
+                accountTypeController.text == "Contractor"
+                    ? ApiList.contractor
+                    : ApiList.customer,
+                {}),
+            data: data);
 
         if (response.statusCode == 400) {
           alertMsg.value = "Error is update";
           alertType.value = AlertType.danger;
           alertMsgStatus.value = true;
         } else {
-          _controller.future.then((controller) {
-            controller.dispose();
+          setState(() {
+            disableMap = true;
           });
           showSuccess();
         }
@@ -321,11 +279,55 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     hintText: 'Enter email here',
-                    enabled: false,
+                    enabled: true,
                     labelText: "Email",
                     validator: (text) {
                       return _validateEmail(text ?? "");
                     }),
+                TextFormField(
+                  obscureText: true,
+                  controller: passwordController,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    filled: true,
+                    prefixIcon: const Icon(
+                      Icons.lock,
+                      size: 16,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: "Password",
+                  ),
+                  validator: (text) {
+                    return _validatePassword(text ?? "");
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                    obscureText: true,
+                    controller: cpasswordController,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.lock,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Confirm Password",
+                    ),
+                    validator: (text) {
+                      return _validateConfirmPassword(text ?? "",
+                          passwordController.text, cpasswordController.text);
+                    }),
+                const SizedBox(
+                  height: 20,
+                ),
                 Column(
                   children: [
                     const Row(
@@ -387,7 +389,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     validator: (text) {
                       return _validateAddress(text ?? "");
                     }),
-                userType == "Contractor"
+                accountTypeController.text == "Contractor"
                     ? CustomTextfield(
                         controller: linkedInController,
                         keyboardType: TextInputType.text,
@@ -397,7 +399,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                           return _validateAddress(text ?? "");
                         })
                     : const SizedBox(),
-                userType == "Contractor"
+                accountTypeController.text == "Contractor"
                     ? CustomTextfield(
                         controller: websiteController,
                         keyboardType: TextInputType.text,
@@ -407,7 +409,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                           return _validateAddress(text ?? "");
                         })
                     : const SizedBox(),
-                userType == "Contractor"
+                accountTypeController.text == "Contractor"
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -423,12 +425,15 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                         ],
                       )
                     : const SizedBox(),
-                SizedBox(
-                    height: 400,
-                    child: GoogleMapWidget(
-                        addressController: addressController,
-                        currentLocation: currentLocation,
-                        googleController: _controller)),
+                !disableMap
+                    ? SizedBox(
+                        height: 400,
+                        child: GoogleMapWidget(
+                          addressController: addressController,
+                          currentLocation: currentLocation,
+                          googleController: _controller,
+                        ))
+                    : const SizedBox(),
 
                 // const Text("Shipping Address"),
                 // CustomTextfield(

@@ -8,17 +8,18 @@ import 'package:location/location.dart' as LL;
 class GoogleMapWidget extends StatefulWidget {
   final TextEditingController addressController;
   final LatLng currentLocation;
+  final Completer<GoogleMapController> googleController;
   const GoogleMapWidget(
       {super.key,
       required this.addressController,
-      required this.currentLocation});
+      required this.currentLocation,
+      required this.googleController});
 
   @override
   State<GoogleMapWidget> createState() => _GoogleMapWidgetState();
 }
 
 class _GoogleMapWidgetState extends State<GoogleMapWidget> {
-  final Completer<GoogleMapController> _controller = Completer();
   // on below line we have specified camera position
   late LatLng currentLocation;
 
@@ -39,49 +40,57 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
   @override
   void dispose() {
     // Dispose of the map controller when the widget is disposed
-    _controller.future.then((controller) {
-      controller.dispose();
-    });
+    try {
+      widget.googleController.future.then((controller) {
+        controller.dispose();
+      });
+    } catch (e) {
+      print(e);
+    }
+
     super.dispose();
   }
 
   void _searchAddress(String address) async {
-    try {
-      final api = GoogleGeocodingApi("AIzaSyDvwIEcRlC_KgvbiWh8eZvXlUB0YcP2bVA",
-          isLogged: true);
-      final searchResults = await api.search(
-        address,
-        language: 'en',
-      );
-      if (searchResults.results.isNotEmpty) {
-        final firstResult = searchResults.results.first;
-        final location = firstResult.geometry?.location;
-        if (location != null) {
-          final latitude = location.lat ?? 0;
-          final longitude = location.lng ?? 0;
+    if (mounted) {
+      try {
+        final api = GoogleGeocodingApi(
+            "AIzaSyDvwIEcRlC_KgvbiWh8eZvXlUB0YcP2bVA",
+            isLogged: true);
+        final searchResults = await api.search(
+          address,
+          language: 'en',
+        );
+        if (searchResults.results.isNotEmpty) {
+          final firstResult = searchResults.results.first;
+          final location = firstResult.geometry?.location;
+          if (location != null) {
+            final latitude = location.lat ?? 0;
+            final longitude = location.lng ?? 0;
 
-          _markers.add(Marker(
-            markerId: const MarkerId("2"),
-            position: LatLng(latitude, longitude),
-            infoWindow: const InfoWindow(
-              title: 'Searched Location',
-            ),
-          ));
+            _markers.add(Marker(
+              markerId: const MarkerId("2"),
+              position: LatLng(latitude, longitude),
+              infoWindow: const InfoWindow(
+                title: 'Searched Location',
+              ),
+            ));
 
-          CameraPosition cameraPosition = CameraPosition(
-            target: LatLng(latitude, longitude),
-            zoom: 14,
-          );
+            CameraPosition cameraPosition = CameraPosition(
+              target: LatLng(latitude, longitude),
+              zoom: 14,
+            );
 
-          final GoogleMapController controller = await _controller.future;
-          controller
-              .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-
-          setState(() {});
+            final GoogleMapController controller =
+                await widget.googleController.future;
+            controller
+                .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+            setState(() {});
+          }
         }
+      } on Exception catch (e) {
+        print("Error searching address: $e");
       }
-    } on Exception catch (e) {
-      print("Error searching address: $e");
     }
   }
 
@@ -160,7 +169,9 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
             myLocationEnabled: true,
             compassEnabled: true,
             onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
+              if (mounted) {
+                widget.googleController.complete(controller);
+              }
             },
             onTap: (LatLng latLng) async {
               _markers.add(Marker(
@@ -181,54 +192,61 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
               if (reversedSearchResults.results.isNotEmpty) {
                 final firstResult = reversedSearchResults.results.first;
                 final formattedAddress = firstResult.formattedAddress;
-                setState(() {
-                  widget.addressController.text = formattedAddress;
-                  currentLocation =
-                      LatLng(latLng.latitude ?? 0, latLng.longitude ?? 0);
-                });
+                if (mounted) {
+                  setState(() {
+                    widget.addressController.text = formattedAddress;
+                    currentLocation =
+                        LatLng(latLng.latitude ?? 0, latLng.longitude ?? 0);
+                  });
+                }
               }
             },
           ),
         ),
         TextButton(
           onPressed: () async {
-            try {
-              getUserCurrentLocation().then((value) async {
-                _markers.add(Marker(
-                  markerId: const MarkerId("2"),
-                  position: LatLng(value.latitude ?? 0, value.longitude ?? 0),
-                  infoWindow: const InfoWindow(
-                    title: 'My Current Location',
-                  ),
-                ));
-                CameraPosition cameraPosition = CameraPosition(
-                  target: LatLng(value.latitude ?? 0, value.longitude ?? 0),
-                  zoom: 14,
-                );
+            if (mounted) {
+              try {
+                getUserCurrentLocation().then((value) async {
+                  _markers.add(Marker(
+                    markerId: const MarkerId("2"),
+                    position: LatLng(value.latitude ?? 0, value.longitude ?? 0),
+                    infoWindow: const InfoWindow(
+                      title: 'My Current Location',
+                    ),
+                  ));
+                  CameraPosition cameraPosition = CameraPosition(
+                    target: LatLng(value.latitude ?? 0, value.longitude ?? 0),
+                    zoom: 14,
+                  );
 
-                final GoogleMapController controller = await _controller.future;
-                controller.animateCamera(
-                    CameraUpdate.newCameraPosition(cameraPosition));
+                  final GoogleMapController controller =
+                      await widget.googleController.future;
+                  controller.animateCamera(
+                      CameraUpdate.newCameraPosition(cameraPosition));
 
-                final api = GoogleGeocodingApi(
-                    "AIzaSyDvwIEcRlC_KgvbiWh8eZvXlUB0YcP2bVA",
-                    isLogged: true);
-                final reversedSearchResults = await api.reverse(
-                  '${value.latitude},${value.longitude}',
-                  language: 'en',
-                );
-                if (reversedSearchResults.results.isNotEmpty) {
-                  final firstResult = reversedSearchResults.results.first;
-                  final formattedAddress = firstResult.formattedAddress;
-                  setState(() {
-                    widget.addressController.text = formattedAddress;
-                    currentLocation =
-                        LatLng(value.latitude ?? 0, value.longitude ?? 0);
-                  });
-                }
-              });
-            } on Exception catch (e) {
-              print("e$e");
+                  final api = GoogleGeocodingApi(
+                      "AIzaSyDvwIEcRlC_KgvbiWh8eZvXlUB0YcP2bVA",
+                      isLogged: true);
+                  final reversedSearchResults = await api.reverse(
+                    '${value.latitude},${value.longitude}',
+                    language: 'en',
+                  );
+                  if (reversedSearchResults.results.isNotEmpty) {
+                    final firstResult = reversedSearchResults.results.first;
+                    final formattedAddress = firstResult.formattedAddress;
+                    if (mounted) {
+                      setState(() {
+                        widget.addressController.text = formattedAddress;
+                        currentLocation =
+                            LatLng(value.latitude ?? 0, value.longitude ?? 0);
+                      });
+                    }
+                  }
+                });
+              } on Exception catch (e) {
+                print("e$e");
+              }
             }
           },
           child: const Text("Get my location"),

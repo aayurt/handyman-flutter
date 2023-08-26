@@ -76,25 +76,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
         initializeUserTypeDependentData();
       }
     });
-    // nameController.text = widget.userModelData!.name ?? "";
-    // addressController.text = widget.userModelData!.address ?? "";
 
-    // emailController.text = widget.userModelData!.email ?? "";
-    // genderController.text = widget.userModelData!.gender ?? "male";
-    // phoneNoController.text = widget.userModelData!.phone ?? "";
-    // bioController.text = widget.userModelData!.bio ?? "";
-
-    // if (userType != "Contractor") {
-    //   linkedInController.text = widget.userModelData!.linkedIn ?? "";
-    //   websiteController.text = widget.userModelData!.website ?? "";
-    // }
-    // setState(() {
-    //   imageUrl = widget.userModelData!.avatar ?? "";
-    //   if (userType != "Customer") {
-    //     skills = widget.userModelData!.skills!.toList() ?? [];
-    //     interests = widget.userModelData!.interests!.toList() ?? [];
-    //   }
-    // });
     super.initState();
   }
 
@@ -394,6 +376,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                 SizedBox(
                     height: 400,
                     child: GoogleMapWidget(
+                        googleController: _controller,
                         addressController: addressController,
                         currentLocation: currentLocation)),
               ],

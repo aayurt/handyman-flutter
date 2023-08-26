@@ -2,6 +2,10 @@ class ApiList {
   static String signOn = "/auth/login";
   static String customerLogin = "/auth/customer";
   static String contractorLogin = "/auth/contractor";
+
+  static String contractor = "/contractor";
+  static String customer = "/customer";
+
   static String topProducts = "/home/top-products";
   static String categories = "/category";
   static String job = "/listing";

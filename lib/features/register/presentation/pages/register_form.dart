@@ -47,7 +47,6 @@ class _RegisterFormState extends State<RegisterForm> {
           "email": emailController.text,
           "password": passwordController.text,
           "name": nameController.text,
-          "sortCode": "123456",
           "gender": genderController.text,
           "telephone": phoneNoController.text,
           "type": accountTypeController.text
@@ -387,7 +386,7 @@ class _RegisterFormState extends State<RegisterForm> {
           const SizedBox(
             height: 60,
           ),
-          Container(
+          SizedBox(
             height: 50,
             width: double.infinity,
             child: ClipRRect(
@@ -408,7 +407,7 @@ class _RegisterFormState extends State<RegisterForm> {
               Expanded(
                 child: Container(
                   height: 1,
-                  decoration: BoxDecoration(color: Colors.grey),
+                  decoration: const BoxDecoration(color: Colors.grey),
                 ),
               ),
               const SizedBox(
@@ -421,7 +420,7 @@ class _RegisterFormState extends State<RegisterForm> {
               Expanded(
                 child: Container(
                   height: 1,
-                  decoration: BoxDecoration(color: Colors.grey),
+                  decoration: const BoxDecoration(color: Colors.grey),
                 ),
               ),
             ],

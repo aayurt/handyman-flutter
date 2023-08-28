@@ -374,7 +374,8 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
           });
         }
       } on Exception {
-        rethrow;
+        print("here is error");
+        // rethrow;
       }
     });
     if (widget.application != null) {

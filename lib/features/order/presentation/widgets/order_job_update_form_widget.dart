@@ -730,12 +730,9 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                       });
                     },
                     editable: widget.application!.status == "pending"),
+
                 const SizedBox(
-                  height: 10,
-                ),
-                Text("Total Price: ${totalVal()}"),
-                SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
 
                 widget.application!.status != "pending" &&
@@ -840,6 +837,30 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                         ],
                       )
                     : const SizedBox(),
+                const SizedBox(
+                  height: 30,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Total: ",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "£${totalVal()}",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 widget.application!.paymentStatus == "paid"
                     ? const Text("Paid.")
                     : widget.application!.status != "pending" &&
@@ -901,7 +922,10 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                           ),
                         ],
                       )
-                    : const SizedBox()
+                    : const SizedBox(),
+                const SizedBox(
+                  height: 40,
+                )
               ],
             ),
           ),

@@ -712,11 +712,15 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                     onPageChanged: (focusedDay) {},
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 15),
                 selectedDates.isNotEmpty
-                    ? const Text("Choose available timeslot")
+                    ? const Text(
+                        "Scheduled Timeslot",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      )
                     : const SizedBox(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 TimeSelectionWidget(
                     dateList: selectedDates,
                     selectedTimeSlots: selectedTimeSlots,
@@ -730,31 +734,63 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                   height: 10,
                 ),
                 Text("Total Price: ${totalVal()}"),
+                SizedBox(
+                  height: 50,
+                ),
+
                 widget.application!.status != "pending" &&
                         widget.application!.status != "cancelled"
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text("Ratings:"),
+                          const Text(
+                            "Provide your valuable Feedback & Rating",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          const Text(
+                            "*This is completely optional",
+                            style: TextStyle(
+                                fontSize: 12, fontStyle: FontStyle.italic),
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
-                          Row(
-                            children: [
-                              RatingWidget(
-                                  rating: listingRating,
-                                  setRating: (double val) {
-                                    setState(() {
-                                      listingRating = val;
-                                    });
-                                  }),
-                              SizedBox(
-                                width: 150,
-                                child: TextField(
-                                  controller: noteController,
+                          RatingWidget(
+                              rating: listingRating,
+                              setRating: (double val) {
+                                setState(() {
+                                  listingRating = val;
+                                });
+                              }),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: noteController,
+                            keyboardType: TextInputType.multiline,
+                            minLines: 5,
+                            maxLines: 5,
+                            style: const TextStyle(fontSize: 14),
+                            decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.2),
+                                // prefixIcon: const Icon(
+                                //   Icons.feedback,
+                                //   size: 16,
+                                // ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                              ),
-                              TextButton(
+                                hintText: "Lets hear from you...",
+                                suffixIcon: IconButton(
+                                  icon: const Icon(
+                                    Icons.send,
+                                    size: 14,
+                                  ),
                                   onPressed: () async {
                                     try {
                                       final ApiService request = ApiService();
@@ -774,13 +810,33 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                                     }
                                     // listingRating
                                   },
-                                  child: const Text("Submit"))
-                            ],
+                                )),
                           ),
+                          // TextButton(
+                          //     onPressed: () async {
+                          //       try {
+                          //         final ApiService request = ApiService();
+                          //         final response = await request.post(
+                          //           ApiEndpoint(AppConstants.baseUrl,
+                          //               ApiList.ratingListing, {}),
+                          //           data: ({
+                          //             "listingId":
+                          //                 "${widget.application!.listing!.id}",
+                          //             "value": listingRating,
+                          //             "note": noteController.text
+                          //           }),
+                          //         );
+                          //         return response.data;
+                          //       } on Exception {
+                          //         rethrow;
+                          //       }
+                          //       // listingRating
+                          //     },
+                          //     child: const Text("Submit")),
+
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text("Feedback")
                         ],
                       )
                     : const SizedBox(),

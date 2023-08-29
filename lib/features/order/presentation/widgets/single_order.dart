@@ -158,9 +158,9 @@ class _SingleOrderState extends State<SingleOrder> {
 Color _getStatusColor(String status) {
   switch (status) {
     case "pending":
-      return const Color(0xFFEF8D32);
+      return Colors.yellow;
     case "accepted":
-      return Colors.blue;
+      return const Color(0xFFEF8D32);
     case "completed":
       return const Color(0xFF0F9686);
     case "cancelled":

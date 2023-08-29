@@ -481,35 +481,101 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                     : const SizedBox(
                         height: 0,
                       ),
+                Container(
+                  padding: const EdgeInsets.all(15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            50), // Set your desired radius
+                        child: Container(
+                          color: Colors.grey,
+                          width:
+                              60, // Double the radius to maintain the circular shape
+                          height: 60,
+                          child: imageUrl.isEmpty
+                              ? const Icon(Icons.person,
+                                  size:
+                                      60) // Placeholder icon when no image is selected
+                              : Image.network(
+                                  "${AppConstants.fileUrl}$imageUrl",
+                                  fit: BoxFit.cover),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.application!.listing!.contractor!.name ??
+                                  "",
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              widget.application!.listing!.title ?? "",
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              widget.application!.listing!.category!.title ??
+                                  "",
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15),
+                        decoration: BoxDecoration(
+                            color: _getStatusColor(
+                              widget.application!.status.toString(),
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text("${widget.application!.status}"),
+                      )
+                    ],
+                  ),
+                ),
                 Text(widget.application!.listing!.title ?? ""),
                 Text(widget.application!.status == "pending"
                     ? "Pending. You can make the changes."
-                    : "Your order is being ${widget.application!.status}" ??
-                        ""),
+                    : "Your order is ${widget.application!.status}" ?? ""),
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(10), // Set your desired radius
-                      child: Container(
-                        color: Colors.grey,
-                        width:
-                            160, // Double the radius to maintain the circular shape
-                        height: 160,
-                        child: imageUrl.isEmpty
-                            ? const Icon(Icons.person,
-                                size:
-                                    80) // Placeholder icon when no image is selected
-                            : Image.network("${AppConstants.fileUrl}$imageUrl",
-                                fit: BoxFit.cover),
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     ClipRRect(
+                //       borderRadius:
+                //           BorderRadius.circular(10), // Set your desired radius
+                //       child: Container(
+                //         color: Colors.grey,
+                //         width:
+                //             10, // Double the radius to maintain the circular shape
+                //         height: 10,
+                //         child: imageUrl.isEmpty
+                //             ? const Icon(Icons.person,
+                //                 size:
+                //                     80) // Placeholder icon when no image is selected
+                //             : Image.network("${AppConstants.fileUrl}$imageUrl",
+                //                 fit: BoxFit.cover),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -517,7 +583,7 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                 const SizedBox(
                   height: 10,
                 ),
-                const Text("Deadline Date"),
+                const Text("Deadline Date new1"),
                 TableCalendar(
                   focusedDay: _focusedDay,
                   firstDay: DateTime(2000),
@@ -783,5 +849,21 @@ class RatingWidget extends StatelessWidget {
         }
       }),
     );
+  }
+}
+
+Color _getStatusColor(String status) {
+  switch (status) {
+    case "pending":
+      return Colors.yellow;
+    case "accepted":
+      return const Color(0xFFEF8D32);
+    case "completed":
+      return const Color(0xFF0F9686);
+    case "cancelled":
+      return const Color(0xFFEB3F3F);
+    default:
+      return Colors
+          .grey; // Default color if status doesn't match any of the above
   }
 }

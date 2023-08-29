@@ -365,13 +365,15 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
         if (response.data != null &&
             response.data["rating"] != null &&
             response.data["rating"]["value"] != null) {
-          setState(() {
-            listingRating = response.data["rating"]["value"];
-            noteController.text = response.data["rating"] != null &&
-                    response.data["rating"]["note"] != null
-                ? response.data["rating"]["note"]
-                : "";
-          });
+          if (mounted) {
+            setState(() {
+              listingRating = response.data["rating"]["value"];
+              noteController.text = response.data["rating"] != null &&
+                      response.data["rating"]["note"] != null
+                  ? response.data["rating"]["note"]
+                  : "";
+            });
+          }
         }
       } on Exception {
         print("here is error");

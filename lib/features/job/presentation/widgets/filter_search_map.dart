@@ -1,13 +1,15 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handyman/core/widgets/card/custom_card.dart';
 import 'package:handyman/features/job/data/models/job_model.dart';
 import 'package:handyman/features/job/presentation/widgets/single_job.dart';
 import 'package:location/location.dart' as LL;
 
-class FilterSearchMap extends StatefulWidget {
+class FilterSearchMap extends StatefulHookWidget {
   final List<JobModel> jobs;
   const FilterSearchMap({Key? key, required this.jobs}) : super(key: key);
 
@@ -20,9 +22,8 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
     target: LatLng(51.50, 0.127),
     zoom: 14.4746,
   );
-  final List<Marker> _markers = <Marker>[];
-  final Completer<GoogleMapController> newController = Completer();
-  List<JobModel> jobs = [];
+  late Completer<GoogleMapController> newController;
+  List<Marker> markers = [];
   late LL.LocationData myLocation;
   JobModel? selectedjob;
   Future<LL.LocationData> getUserCurrentLocation() async {
@@ -71,10 +72,10 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
   initState() {
     super.initState();
     getUserCurrentLocation().then((value) async {
-      _markers.add(Marker(
-        markerId: const MarkerId("2"),
-        position: LatLng(value.latitude ?? 0, value.longitude ?? 0),
-      ));
+      // markers.add(Marker(
+      //   markerId: const MarkerId("2"),
+      //   position: LatLng(value.latitude ?? 0, value.longitude ?? 0),
+      // ));
       CameraPosition cameraPosition = CameraPosition(
         target: LatLng(value.latitude ?? 0, value.longitude ?? 0),
         zoom: 14,
@@ -83,38 +84,44 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
       final GoogleMapController controller = await newController.future;
       controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     });
-
-    for (var i = 0; i < widget.jobs.length; i++) {
-      var job = widget.jobs[i];
-
-      _markers.add(Marker(
-          markerId: const MarkerId("2"),
-          position: LatLng(job.contractor!.location!.coordinates![0] ?? 0,
-              job.contractor!.location!.coordinates![1] ?? 0),
-          // infoWindow: const InfoWindow(
-          //   title: 'My Current Location',
-          // ),
-          onTap: () {
-            setState(() {
-              selectedjob = job;
-            });
-          }));
-    }
-    setState(() {
-      jobs = widget.jobs;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final width = size.width;
+    List<Marker> generateMarkers(List<JobModel> jobs) {
+      List<Marker> markerList = [];
+      for (var i = 0; i < jobs.length; i++) {
+        var job = jobs[i];
+        markerList.add(Marker(
+            markerId: MarkerId(job.id ?? ""),
+            position: LatLng(job.contractor!.location!.coordinates![0] ?? 0,
+                job.contractor!.location!.coordinates![1] ?? 0),
+            // infoWindow: const InfoWindow(
+            //   title: 'My Current Location',
+            // ),
+            onTap: () {
+              setState(() {
+                selectedjob = job;
+              });
+            }));
+      }
+      return markerList;
+    }
 
+    useEffect(() {
+      // mapController = Completer();
+      newController = Completer<GoogleMapController>();
+
+      markers = generateMarkers(widget.jobs);
+      setState(() {});
+
+      return null;
+    }, [widget.jobs]);
     return Stack(
       children: [
         GoogleMap(
           initialCameraPosition: _kGoogle,
-          markers: Set<Marker>.of(_markers),
+          markers: Set<Marker>.of(markers),
           mapType: MapType.normal,
           myLocationEnabled: true,
           compassEnabled: true,
@@ -150,6 +157,7 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
+                        key: Key(selectedjob!.id ?? ""),
                         child: SingleJob(job: selectedjob!),
                       )
                     ]),

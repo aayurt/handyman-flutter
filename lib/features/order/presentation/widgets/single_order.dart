@@ -142,7 +142,6 @@ class _SingleOrderState extends State<SingleOrder> {
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
                       "${widget.application.status}",
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(),
                     ),
                   )
                 ],

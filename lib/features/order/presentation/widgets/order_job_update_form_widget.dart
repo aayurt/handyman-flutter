@@ -487,7 +487,14 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                   decoration: BoxDecoration(
                     color:
                         Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                    ),
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -535,26 +542,44 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                           ],
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 15),
-                        decoration: BoxDecoration(
-                            color: _getStatusColor(
-                              widget.application!.status.toString(),
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text("${widget.application!.status}"),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 15),
+                            decoration: BoxDecoration(
+                                color: _getStatusColor(
+                                  widget.application!.status.toString(),
+                                ),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text("${widget.application!.status}"),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "£${widget.application!.listing!.payRate}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              ),
+                              const Text(
+                                "/hr",
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ],
+                          )
+                        ],
                       )
                     ],
                   ),
                 ),
-                Text(widget.application!.listing!.title ?? ""),
-                Text(widget.application!.status == "pending"
-                    ? "Pending. You can make the changes."
-                    : "Your order is ${widget.application!.status}" ?? ""),
-                const SizedBox(
-                  height: 10,
-                ),
+
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [
@@ -576,53 +601,100 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                 //     ),
                 //   ],
                 // ),
+
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "Scheduled Date",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(
                   height: 10,
                 ),
-                Text("Pay Rate ${widget.application!.listing!.payRate}"),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Deadline Date new1"),
-                TableCalendar(
-                  focusedDay: _focusedDay,
-                  firstDay: DateTime(2000),
-                  lastDay: DateTime(2050),
-                  rangeStartDay: _rangeStartDate,
-                  rangeEndDay: _rangeEndDate,
-                  onDaySelected: (selectedDate, focusedDay) {
-                    if (widget.application!.status == "pending") {
-                      setState(() {
-                        var test1 =
-                            DateTime.parse(selectedDate.toString()).toUtc();
-                        var test2 = DateFormat("MM/dd/yyyy").format(test1);
-                        var newSelectedDay =
-                            DateFormat('MM/dd/yyyy').parse(test2).toLocal();
-                        if (newSelectedDay.isAfter(_rangeStartDate) &&
-                            newSelectedDay.isBefore(_rangeEndDate)) {
-                          if (selectedDates.contains(newSelectedDay)) {
-                            _selectedEvents[newSelectedDay] = [];
-                            selectedDates.remove(newSelectedDay);
-                          } else {
-                            selectedDates.add(newSelectedDay);
-                            for (var date in selectedDates) {
-                              _selectedEvents[date] = [
-                                'Event 1',
-                              ];
+                Container(
+                  decoration: BoxDecoration(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                  child: TableCalendar(
+                    daysOfWeekStyle: const DaysOfWeekStyle(
+                        weekdayStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    )),
+                    calendarStyle: CalendarStyle(
+                        rangeStartDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        rangeEndDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        markerSize: 15,
+                        rangeHighlightColor: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.4),
+                        markerDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.surface)),
+                    headerStyle: HeaderStyle(
+                        formatButtonDecoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.5),
+                            ),
+                            borderRadius: BorderRadius.circular(15)),
+                        formatButtonPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10)),
+                    focusedDay: _focusedDay,
+                    firstDay: DateTime(2000),
+                    lastDay: DateTime(2050),
+                    rangeStartDay: _rangeStartDate,
+                    rangeEndDay: _rangeEndDate,
+                    onDaySelected: (selectedDate, focusedDay) {
+                      if (widget.application!.status == "pending") {
+                        setState(() {
+                          var test1 =
+                              DateTime.parse(selectedDate.toString()).toUtc();
+                          var test2 = DateFormat("MM/dd/yyyy").format(test1);
+                          var newSelectedDay =
+                              DateFormat('MM/dd/yyyy').parse(test2).toLocal();
+                          if (newSelectedDay.isAfter(_rangeStartDate) &&
+                              newSelectedDay.isBefore(_rangeEndDate)) {
+                            if (selectedDates.contains(newSelectedDay)) {
+                              _selectedEvents[newSelectedDay] = [];
+                              selectedDates.remove(newSelectedDay);
+                            } else {
+                              selectedDates.add(newSelectedDay);
+                              for (var date in selectedDates) {
+                                _selectedEvents[date] = [
+                                  'Event 1',
+                                ];
+                              }
                             }
                           }
-                        }
-                      });
-                    }
-                  },
-                  eventLoader: (date) {
-                    var test1 = DateTime.parse(date.toString()).toUtc();
-                    var test2 = DateFormat("MM/dd/yyyy").format(test1);
-                    var newSelectedDay =
-                        DateFormat('MM/dd/yyyy').parse(test2).toLocal();
-                    return _selectedEvents[newSelectedDay] ?? [];
-                  },
-                  onPageChanged: (focusedDay) {},
+                        });
+                      }
+                    },
+                    eventLoader: (date) {
+                      var test1 = DateTime.parse(date.toString()).toUtc();
+                      var test2 = DateFormat("MM/dd/yyyy").format(test1);
+                      var newSelectedDay =
+                          DateFormat('MM/dd/yyyy').parse(test2).toLocal();
+                      return _selectedEvents[newSelectedDay] ?? [];
+                    },
+                    onPageChanged: (focusedDay) {},
+                  ),
                 ),
                 const SizedBox(height: 16),
                 selectedDates.isNotEmpty

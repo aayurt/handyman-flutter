@@ -44,9 +44,11 @@ class _OrderJobUpdatePageState extends State<OrderJobUpdatePage> {
     final width = size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
           child: Column(children: [
+        const SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
             const SizedBox(
@@ -63,6 +65,7 @@ class _OrderJobUpdatePageState extends State<OrderJobUpdatePage> {
             const Expanded(
               child: Text(
                 "My Orders",
+                style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ),

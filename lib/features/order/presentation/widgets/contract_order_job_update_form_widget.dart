@@ -255,6 +255,11 @@ class _ContractOrderJobUpdateFormWidgetState
                 TimeSelectionWidget(
                     dateList: selectedDates,
                     selectedTimeSlots: selectedTimeSlots,
+                    setSelectedTimeSlots: (val) {
+                      setState(() {
+                        selectedTimeSlots = val;
+                      });
+                    },
                     editable: widget.application!.status == "pending"),
                 const Text('Select an option:'),
                 const SizedBox(height: 20),

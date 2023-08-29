@@ -231,6 +231,9 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                   firstDay: DateTime(2000),
                   lastDay: DateTime(2050),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Stack(
                   alignment: Alignment.center,
                   children: [

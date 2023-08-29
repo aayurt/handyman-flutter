@@ -50,6 +50,19 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
   final DateTime _rangeStartDate = DateTime.now();
   DateTime _rangeEndDate = DateTime.now();
 
+  int getTotalTimeSlots(Map<DateTime, List<String>> timeSlotsMap) {
+    int total = 0;
+    for (var timeSlotsList in timeSlotsMap.values) {
+      total += timeSlotsList.length;
+    }
+    return total;
+  }
+
+  double totalVal() {
+    int totalSlots = getTotalTimeSlots(selectedTimeSlots);
+    return payRate * totalSlots;
+  }
+
   Future<void> _showPaymentScreen(context) async {
     showDialog(
       context: context,
@@ -69,6 +82,7 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                       data: {
                         "note": 'Text',
                         "paymentMethod": "cod",
+                        "amount": totalVal()
                       });
                   var jsonData = response.data;
                   if (jsonData["data"] != null &&
@@ -285,7 +299,7 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                                 WebhookPaymentScreen(
                                     note: 'TEST',
                                     applicationId: widget.application!.id ?? "",
-                                    totalPrice: 1000,
+                                    totalPrice: totalVal(),
                                     setCurrentPage: (newPage) {
                                       setState(
                                         () {
@@ -706,7 +720,16 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                 TimeSelectionWidget(
                     dateList: selectedDates,
                     selectedTimeSlots: selectedTimeSlots,
+                    setSelectedTimeSlots: (val) {
+                      setState(() {
+                        selectedTimeSlots = val;
+                      });
+                    },
                     editable: widget.application!.status == "pending"),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text("Total Price: ${totalVal()}"),
                 widget.application!.status != "pending" &&
                         widget.application!.status != "cancelled"
                     ? Column(

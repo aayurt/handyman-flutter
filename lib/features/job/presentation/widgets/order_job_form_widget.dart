@@ -1,3 +1,4 @@
+import 'package:dartz/dartz_unsafe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
@@ -121,6 +122,19 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
       }
     }
 
+    int getTotalTimeSlots(Map<DateTime, List<String>> timeSlotsMap) {
+      int total = 0;
+      for (var timeSlotsList in timeSlotsMap.values) {
+        total += timeSlotsList.length;
+      }
+      return total;
+    }
+
+    double totalVal() {
+      int totalSlots = getTotalTimeSlots(selectedTimeSlots);
+      return payRate * totalSlots;
+    }
+
     return Form(
       key: _formKey,
       child: Stack(
@@ -207,7 +221,16 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                 const SizedBox(height: 16),
                 TimeSelectionWidget(
                     dateList: selectedDates,
-                    selectedTimeSlots: selectedTimeSlots),
+                    selectedTimeSlots: selectedTimeSlots,
+                    setSelectedTimeSlots: (val) {
+                      setState(() {
+                        selectedTimeSlots = val;
+                      });
+                    }),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text("Total Price: ${totalVal()}"),
                 Row(
                   children: [
                     Expanded(

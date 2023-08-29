@@ -51,9 +51,7 @@ class _WebhookPaymentScreenState extends State<WebhookPaymentScreen> {
       final response = await request.put(
         ApiEndpoint(AppConstants.baseUrl,
             "${ApiList.application}/${widget.applicationId}", {}),
-        data: ({
-          "paymentMethod": "stripe",
-        }),
+        data: ({"paymentMethod": "stripe", "amount": widget.totalPrice}),
       );
       return response.data;
     } on Exception {

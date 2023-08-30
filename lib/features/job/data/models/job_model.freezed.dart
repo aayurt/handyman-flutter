@@ -35,6 +35,7 @@ mixin _$JobModel {
   String? get thumbnailImage => throw _privateConstructorUsedError;
   CategoryModel? get category => throw _privateConstructorUsedError;
   User? get contractor => throw _privateConstructorUsedError;
+  double? get rating => throw _privateConstructorUsedError;
   @JsonKey(name: 'postingDate')
   DateTime? get postingDate => throw _privateConstructorUsedError;
 
@@ -63,6 +64,7 @@ abstract class $JobModelCopyWith<$Res> {
       String? thumbnailImage,
       CategoryModel? category,
       User? contractor,
+      double? rating,
       @JsonKey(name: 'postingDate') DateTime? postingDate});
 
   $CategoryModelCopyWith<$Res>? get category;
@@ -95,6 +97,7 @@ class _$JobModelCopyWithImpl<$Res, $Val extends JobModel>
     Object? thumbnailImage = freezed,
     Object? category = freezed,
     Object? contractor = freezed,
+    Object? rating = freezed,
     Object? postingDate = freezed,
   }) {
     return _then(_value.copyWith(
@@ -150,6 +153,10 @@ class _$JobModelCopyWithImpl<$Res, $Val extends JobModel>
           ? _value.contractor
           : contractor // ignore: cast_nullable_to_non_nullable
               as User?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as double?,
       postingDate: freezed == postingDate
           ? _value.postingDate
           : postingDate // ignore: cast_nullable_to_non_nullable
@@ -203,6 +210,7 @@ abstract class _$$_JobModelCopyWith<$Res> implements $JobModelCopyWith<$Res> {
       String? thumbnailImage,
       CategoryModel? category,
       User? contractor,
+      double? rating,
       @JsonKey(name: 'postingDate') DateTime? postingDate});
 
   @override
@@ -235,6 +243,7 @@ class __$$_JobModelCopyWithImpl<$Res>
     Object? thumbnailImage = freezed,
     Object? category = freezed,
     Object? contractor = freezed,
+    Object? rating = freezed,
     Object? postingDate = freezed,
   }) {
     return _then(_$_JobModel(
@@ -290,6 +299,10 @@ class __$$_JobModelCopyWithImpl<$Res>
           ? _value.contractor
           : contractor // ignore: cast_nullable_to_non_nullable
               as User?,
+      rating: freezed == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as double?,
       postingDate: freezed == postingDate
           ? _value.postingDate
           : postingDate // ignore: cast_nullable_to_non_nullable
@@ -315,6 +328,7 @@ class _$_JobModel implements _JobModel {
       this.thumbnailImage,
       this.category,
       this.contractor,
+      this.rating,
       @JsonKey(name: 'postingDate') this.postingDate});
 
   factory _$_JobModel.fromJson(Map<String, dynamic> json) =>
@@ -349,12 +363,14 @@ class _$_JobModel implements _JobModel {
   @override
   final User? contractor;
   @override
+  final double? rating;
+  @override
   @JsonKey(name: 'postingDate')
   final DateTime? postingDate;
 
   @override
   String toString() {
-    return 'JobModel(id: $id, title: $title, numApps: $numApps, numAccepted: $numAccepted, deadlineDate: $deadlineDate, duration: $duration, payRate: $payRate, numRatings: $numRatings, ratingSum: $ratingSum, deleted: $deleted, thumbnailImage: $thumbnailImage, category: $category, contractor: $contractor, postingDate: $postingDate)';
+    return 'JobModel(id: $id, title: $title, numApps: $numApps, numAccepted: $numAccepted, deadlineDate: $deadlineDate, duration: $duration, payRate: $payRate, numRatings: $numRatings, ratingSum: $ratingSum, deleted: $deleted, thumbnailImage: $thumbnailImage, category: $category, contractor: $contractor, rating: $rating, postingDate: $postingDate)';
   }
 
   @override
@@ -383,6 +399,7 @@ class _$_JobModel implements _JobModel {
                 other.category == category) &&
             (identical(other.contractor, contractor) ||
                 other.contractor == contractor) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.postingDate, postingDate) ||
                 other.postingDate == postingDate));
   }
@@ -404,6 +421,7 @@ class _$_JobModel implements _JobModel {
       thumbnailImage,
       category,
       contractor,
+      rating,
       postingDate);
 
   @JsonKey(ignore: true)
@@ -435,6 +453,7 @@ abstract class _JobModel implements JobModel {
       final String? thumbnailImage,
       final CategoryModel? category,
       final User? contractor,
+      final double? rating,
       @JsonKey(name: 'postingDate') final DateTime? postingDate}) = _$_JobModel;
 
   factory _JobModel.fromJson(Map<String, dynamic> json) = _$_JobModel.fromJson;
@@ -467,6 +486,8 @@ abstract class _JobModel implements JobModel {
   CategoryModel? get category;
   @override
   User? get contractor;
+  @override
+  double? get rating;
   @override
   @JsonKey(name: 'postingDate')
   DateTime? get postingDate;

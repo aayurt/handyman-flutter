@@ -26,7 +26,6 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
   final Completer<GoogleMapController> googleController =
       Completer<GoogleMapController>();
   late LatLng currentLocation;
-
   static const CameraPosition _kGoogle = CameraPosition(
     target: LatLng(51.50, 0.127),
     zoom: 14.4746,
@@ -43,6 +42,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
     );
     Future.delayed(Duration.zero, () async {
       final GoogleMapController controller = await googleController.future;
+
       controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     });
     if (widget.addressController.text.isNotEmpty) {
@@ -157,6 +157,7 @@ class _GoogleMapWidgetState extends State<GoogleMapWidget> {
           title: 'My Position',
         )),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Column(

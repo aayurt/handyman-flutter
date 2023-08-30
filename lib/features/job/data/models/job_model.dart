@@ -22,6 +22,7 @@ class JobModel with _$JobModel {
     String? thumbnailImage,
     CategoryModel? category,
     User? contractor,
+    double? rating,
     @JsonKey(name: 'postingDate') DateTime? postingDate,
   }) = _JobModel;
 

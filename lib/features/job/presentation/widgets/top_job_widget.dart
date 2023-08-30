@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:handyman/features/job/presentation/bloc/top_job/top_job_bloc.dart';
-import 'package:handyman/theme/colors.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../routes/routes_constant.dart';
@@ -90,36 +89,30 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                                 isThreeLine: true,
                                 leading: ClipRRect(
                                   borderRadius: BorderRadius.circular(25),
-                                  child: Container(
-                                    // color: Theme.of(context)
-                                    //     .colorScheme
-                                    //     .primary
-                                    //     .withOpacity(0.3),
-                                    child: Image.network(jobs[index]
-                                            .thumbnailImage!
-                                            .isNotEmpty
-                                        ? "${AppConstants.fileUrl}${jobs[index].thumbnailImage}"
-                                        : "https://picsum.photos/250?image=9"),
-                                  ),
+                                  child: Image.network(jobs[index]
+                                          .thumbnailImage!
+                                          .isNotEmpty
+                                      ? "${AppConstants.fileUrl}${jobs[index].thumbnailImage}"
+                                      : "https://picsum.photos/250?image=9"),
                                 ),
                                 title: Text(jobs[index].title ?? ""),
                                 subtitle: Text(
                                     "${jobs[index].category!.title}\n${jobs[index].contractor!.name}" ??
                                         ""),
-                                trailing: const Wrap(
+                                trailing: Wrap(
                                   crossAxisAlignment: WrapCrossAlignment.center,
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.star,
                                       color: Colors.yellow,
                                       size: 14,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Text(
-                                      "4.0",
-                                      style: TextStyle(fontSize: 12),
+                                      "${jobs[index].rating ?? ""}",
+                                      style: const TextStyle(fontSize: 12),
                                     ),
                                   ],
                                 )),

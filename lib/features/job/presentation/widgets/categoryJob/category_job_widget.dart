@@ -61,7 +61,7 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
                     children: [
                       SizedBox(
                         width: width - 32,
-                        height: 100,
+                        height: 130,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
@@ -82,8 +82,8 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: Container(
                                   padding: const EdgeInsets.all(10),
-                                  height: 50,
-                                  width: 70,
+                                  height: 100,
+                                  width: 110,
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                         width: 1,
@@ -107,18 +107,19 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
                                                 .colorScheme
                                                 .primary
                                                 .withOpacity(0.3),
-                                            child: Image.network(
-                                                "${AppConstants.fileUrl}${category?.image}")),
+                                            child: SizedBox(
+                                              height: 70,
+                                              child: Image.network(
+                                                  "${AppConstants.fileUrl}${category?.image}"),
+                                            )),
                                       ),
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          category!.title ?? "",
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                      Text(
+                                        category!.title ?? "",
+                                        overflow: TextOverflow.visible,
+                                        textAlign: TextAlign.center,
                                       ),
                                     ],
                                   ),

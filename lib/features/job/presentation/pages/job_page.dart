@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:handyman/core/shared_pref/shared_pref.dart';
 import 'package:handyman/features/job/presentation/widgets/list_all_job.dart';
 import 'package:flutter/material.dart';
 import 'package:handyman/routes/routes_constant.dart';
@@ -11,16 +12,33 @@ class JobListPage extends StatefulWidget {
 }
 
 class _JobListPageState extends State<JobListPage> {
+  String userType = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var usertype = await SharedPrefService.getToken(SharedPrefKey.userType);
+      if (usertype.isNotEmpty) {
+        setState(() {
+          userType = usertype;
+        });
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
     final width = size.width;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {context.go("${RoutesConstant.job}/add")},
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: userType == "Contractor"
+          ? FloatingActionButton(
+              onPressed: () => {context.go("${RoutesConstant.job}/add")},
+              child: const Icon(Icons.add),
+            )
+          : null,
       body: SafeArea(
           child: Column(children: [
         const SizedBox(

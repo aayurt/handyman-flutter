@@ -26,6 +26,7 @@ _$_JobModel _$$_JobModelFromJson(Map<String, dynamic> json) => _$_JobModel(
       contractor: json['contractor'] == null
           ? null
           : User.fromJson(json['contractor'] as Map<String, dynamic>),
+      rating: (json['rating'] as num?)?.toDouble(),
       postingDate: json['postingDate'] == null
           ? null
           : DateTime.parse(json['postingDate'] as String),
@@ -46,6 +47,7 @@ Map<String, dynamic> _$$_JobModelToJson(_$_JobModel instance) =>
       'thumbnailImage': instance.thumbnailImage,
       'category': instance.category,
       'contractor': instance.contractor,
+      'rating': instance.rating,
       'postingDate': instance.postingDate?.toIso8601String(),
     };
 

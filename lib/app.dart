@@ -1,7 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:handyman/routes/routes.dart';
 import 'package:handyman/theme/colors.dart';
-import 'package:handyman/theme/theme_service.dart';
-import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);

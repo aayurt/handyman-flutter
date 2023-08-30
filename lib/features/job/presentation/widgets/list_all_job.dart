@@ -39,10 +39,7 @@ class _ListAllJobState extends State<ListAllJob> {
                 padding: EdgeInsets.only(top: index != 0 ? 12.0 : 0),
                 child: Row(
                   children: <Widget>[
-                    SizedBox(
-                        height: 150,
-                        width: width - 32,
-                        child: SingleJob(job: job))
+                    SizedBox(width: width - 32, child: SingleJob(job: job))
                   ],
                 ),
               );

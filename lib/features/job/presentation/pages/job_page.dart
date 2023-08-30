@@ -17,25 +17,35 @@ class _JobListPageState extends State<JobListPage> {
     final height = size.height;
     final width = size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () => {context.go("${RoutesConstant.job}/add")},
         child: const Icon(Icons.add),
       ),
       body: SafeArea(
           child: Column(children: [
-        const Row(
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
           children: [
-            SizedBox(
-              width: 20,
+            const SizedBox(
+              width: 10,
             ),
-            Expanded(
+            SizedBox(
+                height: 25,
+                width: 25,
+                child: GestureDetector(
+                    onTap: () {
+                      context.go(RoutesConstant.dashboard);
+                    },
+                    child: const Icon(Icons.arrow_back))),
+            const Expanded(
               child: Text(
                 "All Job List",
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 25,
             ),
           ],

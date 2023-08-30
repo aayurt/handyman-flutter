@@ -38,7 +38,7 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
   late LocationData localVal;
   late Completer<GoogleMapController> newController;
   List<Marker> markers = [];
-  double _currentSliderValue = 95000;
+  double _currentSliderValue = 30000;
 
   late LL.LocationData myLocation;
   JobModel? selectedjob;
@@ -250,7 +250,7 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
               Text("Range: $_currentSliderValue"),
               Slider(
                 value: _currentSliderValue,
-                max: 95000,
+                max: 50000,
                 divisions: 1000,
                 label: _currentSliderValue.round().toString(),
                 onChanged: (double value) {

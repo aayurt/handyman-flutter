@@ -156,67 +156,178 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                     : const SizedBox(
                         height: 0,
                       ),
-                Text(widget.job!.title ?? ""),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(10), // Set your desired radius
-                      child: Container(
-                        color: Colors.grey,
-                        width:
-                            160, // Double the radius to maintain the circular shape
-                        height: 160,
-                        child: imageUrl.isEmpty
-                            ? const Icon(Icons.person,
-                                size:
-                                    80) // Placeholder icon when no image is selected
-                            : Image.network("${AppConstants.fileUrl}$imageUrl",
-                                fit: BoxFit.cover),
-                      ),
+                Container(
+                  padding: const EdgeInsets.all(15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
                     ),
-                  ],
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            50), // Set your desired radius
+                        child: Container(
+                          color: Colors.grey,
+                          width:
+                              60, // Double the radius to maintain the circular shape
+                          height: 60,
+                          child: imageUrl.isEmpty
+                              ? const Icon(Icons.person,
+                                  size:
+                                      80) // Placeholder icon when no image is selected
+                              : Image.network(
+                                  "${AppConstants.fileUrl}$imageUrl",
+                                  fit: BoxFit.cover),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.job!.contractor!.name ?? "",
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              widget.job!.title ?? "",
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              widget.job!.category!.title ?? "",
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "£${widget.job!.payRate}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              ),
+                              const Text(
+                                "/hr",
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "Scheduled Date",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Text("Pay Rate ${widget.job!.payRate}"),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Deadline Date"),
-                TableCalendar(
-                  focusedDay: _focusedDay,
-                  firstDay: DateTime(2000),
-                  lastDay: DateTime(2050),
-                  rangeStartDay: _rangeStartDate,
-                  rangeEndDay: _rangeEndDate,
-                  onDaySelected: (selectedDate, focusedDay) {
-                    // Collect all the dates within the range
-                    if (selectedDate.isAfter(_rangeStartDate) &&
-                        selectedDate.isBefore(_rangeEndDate)) {
-                      if (selectedDates.contains(selectedDate)) {
-                        _selectedEvents[selectedDate] = [];
-                        selectedDates.remove(selectedDate);
-                      } else {
-                        selectedDates.add(selectedDate);
-                        for (var date in selectedDates) {
-                          _selectedEvents[date] = [
-                            'Event 1',
-                          ];
+                Container(
+                  decoration: BoxDecoration(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                  child: TableCalendar(
+                    daysOfWeekStyle: const DaysOfWeekStyle(
+                        weekdayStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    )),
+                    calendarStyle: CalendarStyle(
+                        rangeStartDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        rangeEndDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        markerSize: 15,
+                        rangeHighlightColor: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.4),
+                        markerDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.surface)),
+                    headerStyle: HeaderStyle(
+                        formatButtonDecoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.5),
+                            ),
+                            borderRadius: BorderRadius.circular(15)),
+                        formatButtonPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10)),
+                    focusedDay: _focusedDay,
+                    firstDay: DateTime(2000),
+                    lastDay: DateTime(2050),
+                    rangeStartDay: _rangeStartDate,
+                    rangeEndDay: _rangeEndDate,
+                    onDaySelected: (selectedDate, focusedDay) {
+                      // Collect all the dates within the range
+                      if (selectedDate.isAfter(_rangeStartDate) &&
+                          selectedDate.isBefore(_rangeEndDate)) {
+                        if (selectedDates.contains(selectedDate)) {
+                          _selectedEvents[selectedDate] = [];
+                          selectedDates.remove(selectedDate);
+                        } else {
+                          selectedDates.add(selectedDate);
+                          for (var date in selectedDates) {
+                            _selectedEvents[date] = [
+                              'Event 1',
+                            ];
+                          }
                         }
+                        _focusedDay = selectedDate;
+                        setState(() {});
                       }
-                      _focusedDay = selectedDate;
-                      setState(() {});
-                    }
-                  },
-                  eventLoader: (date) => _selectedEvents[date] ?? [],
-                  onPageChanged: (focusedDay) {},
+                    },
+                    eventLoader: (date) => _selectedEvents[date] ?? [],
+                    onPageChanged: (focusedDay) {},
+                  ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 selectedDates.isNotEmpty
-                    ? const Text("Choose available timeslot")
+                    ? const Text(
+                        "Choose available timeslot",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      )
                     : const SizedBox(),
                 const SizedBox(height: 16),
                 TimeSelectionWidget(
@@ -230,56 +341,76 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                 const SizedBox(
                   height: 10,
                 ),
-                Text("Total Price: ${totalVal()}"),
+                Row(
+                  children: [
+                    const Text(
+                      "Total: ",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "£${totalVal()}",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                // Text("Total Price: ${totalVal()}"),
                 Row(
                   children: [
                     Expanded(
                       flex: 6,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                          right: BorderSide(
-                              color: Colors.grey.withOpacity(0.9), width: 1),
-                        )),
-                        child: TextButton(
-                            onPressed: () {
-                              _onCancelButtonPressed(context);
-                            },
-                            child: const Text("Cancel")),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _onCancelButtonPressed(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error),
+                        child: const Text("Cancel"),
                       ),
+                    ),
+                    const SizedBox(
+                      width: 10,
                     ),
                     Expanded(
                       flex: 6,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                          right: BorderSide(
-                              color: Colors.grey.withOpacity(0.9), width: 1),
-                        )),
-                        child: TextButton(
-                            onPressed: () {
-                              onSaveButton(context);
-                            },
-                            child: const Text("Apply")),
-                      ),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary),
+                          onPressed: () {
+                            onSaveButton(context);
+                          },
+                          child: const Text("Apply")),
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 20,
                 )
               ],
             ),
           ),
-          Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                // Add your FAB onPressed logic here
-                onSaveButton(context);
-              },
-              backgroundColor: Colors.blue,
-              child: const Icon(Icons.save_outlined),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 16.0,
+          //   right: 16.0,
+          //   child: FloatingActionButton(
+          //     onPressed: () {
+          //       // Add your FAB onPressed logic here
+          //       onSaveButton(context);
+          //     },
+          //     backgroundColor: Colors.blue,
+          //     child: const Icon(Icons.save_outlined),
+          //   ),
+          // ),
         ],
       ),
     );

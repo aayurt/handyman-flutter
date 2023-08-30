@@ -868,6 +868,7 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                         ? Column(
                             children: [
                               SizedBox(
+                                height: 60,
                                 width: double.infinity,
                                 child: Padding(
                                   padding: const EdgeInsets.only(

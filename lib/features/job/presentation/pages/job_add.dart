@@ -36,7 +36,6 @@ class _JobAddPageState extends State<JobAddPage> {
     final width = size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
           child: Column(children: [
         Row(

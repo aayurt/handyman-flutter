@@ -87,37 +87,42 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                             ),
                             width: double.infinity,
                             child: ListTile(
-                              isThreeLine: true,
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: Container(
-                                  // color: Theme.of(context)
-                                  //     .colorScheme
-                                  //     .primary
-                                  //     .withOpacity(0.3),
-                                  child: Image.network(jobs[index]
-                                          .thumbnailImage!
-                                          .isNotEmpty
-                                      ? "${AppConstants.fileUrl}${jobs[index].thumbnailImage}"
-                                      : "https://picsum.photos/250?image=9"),
-                                ),
-                              ),
-                              title: Text(jobs[index].title ?? ""),
-                              subtitle: Text(
-                                  "${jobs[index].category!.title}\n${jobs[index].contractor!.name}" ??
-                                      ""),
-                              trailing: const Column(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
+                                isThreeLine: true,
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: Container(
+                                    // color: Theme.of(context)
+                                    //     .colorScheme
+                                    //     .primary
+                                    //     .withOpacity(0.3),
+                                    child: Image.network(jobs[index]
+                                            .thumbnailImage!
+                                            .isNotEmpty
+                                        ? "${AppConstants.fileUrl}${jobs[index].thumbnailImage}"
+                                        : "https://picsum.photos/250?image=9"),
                                   ),
-                                  // Text(serviceProvider['rating'].toString()),
-                                  // Text(serviceProvider['distance'] +
-                                  //     " km far away"),
-                                ],
-                              ),
-                            ),
+                                ),
+                                title: Text(jobs[index].title ?? ""),
+                                subtitle: Text(
+                                    "${jobs[index].category!.title}\n${jobs[index].contractor!.name}" ??
+                                        ""),
+                                trailing: const Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow,
+                                      size: 14,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "4.0",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                )),
                           ),
                         );
                       },

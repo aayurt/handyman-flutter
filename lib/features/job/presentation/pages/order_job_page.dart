@@ -35,7 +35,6 @@ class _OrderJobPageState extends State<OrderJobPage> {
     final width = size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
           child: Column(children: [
         Row(
@@ -54,6 +53,7 @@ class _OrderJobPageState extends State<OrderJobPage> {
             const Expanded(
               child: Text(
                 "Add job listing",
+                style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ),

@@ -862,7 +862,26 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                   height: 10,
                 ),
                 widget.application!.paymentStatus == "paid"
-                    ? const Text("Paid.")
+                    ? Center(
+                        child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.check,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Paid.",
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ]),
+                      )
                     : widget.application!.status != "pending" &&
                             widget.application!.status != "cancelled"
                         ? Column(

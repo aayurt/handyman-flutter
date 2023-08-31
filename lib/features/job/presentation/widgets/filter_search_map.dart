@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:handyman/core/widgets/card/custom_card.dart';
 import 'package:handyman/features/job/data/models/job_model.dart';
 import 'package:handyman/features/job/presentation/widgets/single_job.dart';
-import 'package:location/location.dart' as LL;
+import 'package:location/location.dart' as location_package;
 import 'package:location/location.dart';
 
 class FilterSearchMap extends StatefulHookWidget {
@@ -40,7 +40,7 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
   List<Marker> markers = [];
   double _currentSliderValue = 95000;
 
-  late LL.LocationData myLocation;
+  late location_package.LocationData myLocation;
   JobModel? selectedjob;
   Set<Circle> circles = {};
   bool isMarkerInsideCircle(LatLng markerPosition) {
@@ -69,13 +69,13 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
     return radius * c;
   }
 
-  Future<LL.LocationData> getUserCurrentLocation() async {
+  Future<location_package.LocationData> getUserCurrentLocation() async {
     try {
-      LL.Location location = LL.Location();
+      location_package.Location location = location_package.Location();
 
       bool serviceEnabled;
-      LL.PermissionStatus permissionGranted;
-      LL.LocationData locationData;
+      location_package.PermissionStatus permissionGranted;
+      location_package.LocationData locationData;
 
       serviceEnabled = await location.serviceEnabled();
       if (!serviceEnabled) {
@@ -86,9 +86,9 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
       }
 
       permissionGranted = await location.hasPermission();
-      if (permissionGranted == LL.PermissionStatus.denied) {
+      if (permissionGranted == location_package.PermissionStatus.denied) {
         permissionGranted = await location.requestPermission();
-        if (permissionGranted != LL.PermissionStatus.granted) {
+        if (permissionGranted != location_package.PermissionStatus.granted) {
           // return;
         }
       }
@@ -107,7 +107,7 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
         "time": 1679467315000,
         "is_mock": false,
       };
-      return LL.LocationData.fromMap(dataMap);
+      return location_package.LocationData.fromMap(dataMap);
     }
   }
 
@@ -151,8 +151,8 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
         var job = jobs[i];
         markerList.add(Marker(
             markerId: MarkerId(job.id ?? ""),
-            position: LatLng(job.contractor!.location!.coordinates![0] ?? 0,
-                job.contractor!.location!.coordinates![1] ?? 0),
+            position: LatLng(job.contractor!.location!.coordinates![0],
+                job.contractor!.location!.coordinates![1]),
             // infoWindow: const InfoWindow(
             //   title: 'My Current Location',
             // ),

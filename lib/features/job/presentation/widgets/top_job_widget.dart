@@ -111,7 +111,8 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                                       width: 5,
                                     ),
                                     Text(
-                                      "${jobs[index].rating ?? ""}",
+                                      jobs[index].rating!.toStringAsFixed(1) ??
+                                          "",
                                       style: const TextStyle(fontSize: 12),
                                     ),
                                   ],

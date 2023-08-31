@@ -245,32 +245,42 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
                 )),
         Positioned(
           top: 0,
-          child: Row(
-            children: [
-              Text("Range: $_currentSliderValue"),
-              Slider(
-                value: _currentSliderValue,
-                max: 50000,
-                divisions: 1000,
-                label: _currentSliderValue.round().toString(),
-                onChanged: (double value) {
-                  setState(() {
-                    _currentSliderValue = value;
-                    circles = {
-                      Circle(
-                        circleId: const CircleId("MY"),
-                        center: LatLng(
-                            localVal.latitude ?? 0, localVal.longitude ?? 0),
-                        radius: value,
-                        strokeColor: Colors.blue,
-                        strokeWidth: 2,
-                        fillColor: Colors.blue.withOpacity(0.3),
-                      )
-                    };
-                  });
-                },
-              ),
-            ],
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.6)),
+            child: Row(
+              children: [
+                Text(
+                  "Range: $_currentSliderValue",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Slider(
+                  value: _currentSliderValue,
+                  max: 50000,
+                  divisions: 1000,
+                  label: _currentSliderValue.round().toString(),
+                  onChanged: (double value) {
+                    setState(() {
+                      _currentSliderValue = value;
+                      circles = {
+                        Circle(
+                          circleId: const CircleId("MY"),
+                          center: LatLng(
+                              localVal.latitude ?? 0, localVal.longitude ?? 0),
+                          radius: value,
+                          strokeColor: Colors.blue,
+                          strokeWidth: 2,
+                          fillColor: Colors.blue.withOpacity(0.3),
+                        )
+                      };
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
         loading

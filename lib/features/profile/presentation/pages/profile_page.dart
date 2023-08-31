@@ -75,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
         const SizedBox(
-          height: 8,
+          height: 10,
         ),
         BlocConsumer<ProfileBloc, ProfileState>(
           listener: (context, state) {

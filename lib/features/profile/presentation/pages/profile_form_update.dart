@@ -257,6 +257,23 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     ),
                   ],
                 ),
+                TextFormField(
+                    controller: nameController,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.email,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Name",
+                    ),
+                    validator: (text) {
+                      return _validatename(text ?? "");
+                    }),
                 CustomTextfield(
                     controller: nameController,
                     keyboardType: TextInputType.text,

@@ -190,6 +190,14 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
           SingleChildScrollView(
             child: Column(
               children: [
+                const SizedBox(
+                  height: 40,
+                ),
+                const Text(
+                  "Create new\naccount",
+                  maxLines: 2,
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
                 alertMsgStatus.value
                     ? Container(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),

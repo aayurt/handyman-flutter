@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:handyman/core/constants/constants.dart';
+import 'package:handyman/core/network/api_list.dart';
+import 'package:handyman/core/network/api_service.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
 import 'package:handyman/features/chat/data/models/chat_model.dart';
 import 'package:handyman/features/chat/presentation/bloc/chat_bloc.dart';
@@ -64,17 +67,23 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.send),
-                  onPressed: () {
+                  onPressed: () async {
                     // Implement the send message functionality here
-                    final newMessage = ChatModel(
-                      msg: textController.text,
-                      // sender: user1, // Replace with the appropriate user
-                      contractorId: "1",
-                      customerId: "1",
-                    );
-                    // Add the new message to the list of messages
-                    messages.add(newMessage);
-                    textController.clear();
+                    try {
+                      final ApiService request = ApiService();
+                      final response = await request.post(
+                        ApiEndpoint(AppConstants.baseUrl, ApiList.chat, {}),
+                        data: ({
+                          "clientId": widget.id,
+                          "msg": textController.text
+                        }),
+                      );
+                      if (response.data) {
+                        textController.clear();
+                      }
+                    } on Exception {
+                      rethrow;
+                    }
                   },
                 ),
               ],

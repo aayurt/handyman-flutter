@@ -9,6 +9,7 @@ part of 'job_model.dart';
 _$_JobModel _$$_JobModelFromJson(Map<String, dynamic> json) => _$_JobModel(
       id: json['_id'] as String?,
       title: json['title'] as String?,
+      description: json['description'] as String?,
       numApps: json['numApps'] as int?,
       numAccepted: json['numAccepted'] as int?,
       deadlineDate: json['deadlineDate'] == null
@@ -36,6 +37,7 @@ Map<String, dynamic> _$$_JobModelToJson(_$_JobModel instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'title': instance.title,
+      'description': instance.description,
       'numApps': instance.numApps,
       'numAccepted': instance.numAccepted,
       'deadlineDate': instance.deadlineDate?.toIso8601String(),

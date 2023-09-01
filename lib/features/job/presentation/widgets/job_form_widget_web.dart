@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:handyman/core/constants/constants.dart';
@@ -8,7 +9,9 @@ import 'package:handyman/core/ee.dart';
 import 'package:handyman/core/network/api_list.dart';
 import 'package:handyman/core/network/api_service.dart';
 import 'package:handyman/core/widgets/alerts/custom_alert.dart';
+import 'package:handyman/features/job/data/models/category_model.dart';
 import 'package:handyman/features/job/data/models/job_model.dart';
+import 'package:handyman/features/job/presentation/bloc/category_job/category_job_bloc.dart';
 import 'package:handyman/routes/routes_constant.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -27,12 +30,13 @@ class JobFormWidget extends StatefulHookWidget {
 
 class _JobFormWidgetState extends State<JobFormWidget> {
   final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   double payRate = 10.0; // Default pay rate
   final double increment = 1.0;
   final TextEditingController _payRateController = TextEditingController();
   String imageUrl = "";
-
+  List<CategoryModel> categories = [];
   void incrementPayRate() {
     setState(() {
       payRate = payRate + increment;
@@ -67,6 +71,8 @@ class _JobFormWidgetState extends State<JobFormWidget> {
       setState(() {
         payRate = widget.job?.payRate ?? 10;
         _selectedDay = widget.job!.deadlineDate ?? DateTime.now();
+        selectedCategory = widget.job!.category!.id ?? "";
+        descriptionController.text = widget.job!.description ?? "";
       });
       imageUrl = widget.job!.thumbnailImage ?? "";
     } else {
@@ -75,6 +81,10 @@ class _JobFormWidgetState extends State<JobFormWidget> {
       });
     }
     _payRateController.text = payRate.toString();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<CategoryJobBloc>().add(const CategoryJobEvent.get());
+    });
   }
 
   void _pickImage() async {
@@ -107,6 +117,7 @@ class _JobFormWidgetState extends State<JobFormWidget> {
     }
   }
 
+  String? selectedCategory;
   @override
   Widget build(BuildContext context) {
     final alertMsg = useState<String>("");
@@ -127,7 +138,9 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                 "title": titleController.text,
                 "deadlineDate": date.toString(),
                 "payRate": payRate,
-                "thumbnailImage": imageUrl
+                "thumbnailImage": imageUrl,
+                "category": selectedCategory,
+                "description": descriptionController.text
               });
 
           if (response.statusCode == 400) {
@@ -146,7 +159,9 @@ class _JobFormWidgetState extends State<JobFormWidget> {
             "title": titleController.text,
             "deadlineDate": date.toString(),
             "payRate": payRate,
-            "thumbnailImage": imageUrl
+            "thumbnailImage": imageUrl,
+            "category": selectedCategory,
+            "description": descriptionController.text
           });
 
           if (response.statusCode == 400) {
@@ -193,6 +208,13 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                     validator: (text) {
                       return _validateFirsttitle(text ?? "");
                     }),
+                CustomTextfield(
+                  controller: descriptionController,
+                  keyboardType: TextInputType.text,
+                  hintText: 'Enter your description here',
+                  labelText: "Description",
+                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -220,6 +242,35 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                     const Text("per hour"),
                   ],
                 ),
+                BlocListener<CategoryJobBloc, CategoryJobState>(
+                  listener: (context, state) {
+                    if (state is CategoryJobStateLoaded) {
+                      setState(() {
+                        categories = state.categories;
+                      });
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      const Text("Category"),
+                      DropdownButton<String>(
+                        value: selectedCategory,
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedCategory = newValue!;
+                          });
+                        },
+                        items: categories.map((category) {
+                          return DropdownMenuItem<String>(
+                            value: category.id,
+                            child: Text(category.title ?? ""),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+
                 const Text("Deadline Date"),
                 TableCalendar(
                   calendarFormat: _calendarFormat,
@@ -235,6 +286,9 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                   focusedDay: _focusedDay,
                   firstDay: DateTime(2000),
                   lastDay: DateTime(2050),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Stack(
                   alignment: Alignment.center,

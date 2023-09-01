@@ -23,6 +23,7 @@ mixin _$JobModel {
   @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   int? get numApps => throw _privateConstructorUsedError;
   int? get numAccepted => throw _privateConstructorUsedError;
   @JsonKey(name: 'deadlineDate')
@@ -53,6 +54,7 @@ abstract class $JobModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: '_id') String? id,
       String? title,
+      String? description,
       int? numApps,
       int? numAccepted,
       @JsonKey(name: 'deadlineDate') DateTime? deadlineDate,
@@ -86,6 +88,7 @@ class _$JobModelCopyWithImpl<$Res, $Val extends JobModel>
   $Res call({
     Object? id = freezed,
     Object? title = freezed,
+    Object? description = freezed,
     Object? numApps = freezed,
     Object? numAccepted = freezed,
     Object? deadlineDate = freezed,
@@ -108,6 +111,10 @@ class _$JobModelCopyWithImpl<$Res, $Val extends JobModel>
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       numApps: freezed == numApps
           ? _value.numApps
@@ -199,6 +206,7 @@ abstract class _$$_JobModelCopyWith<$Res> implements $JobModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: '_id') String? id,
       String? title,
+      String? description,
       int? numApps,
       int? numAccepted,
       @JsonKey(name: 'deadlineDate') DateTime? deadlineDate,
@@ -232,6 +240,7 @@ class __$$_JobModelCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? title = freezed,
+    Object? description = freezed,
     Object? numApps = freezed,
     Object? numAccepted = freezed,
     Object? deadlineDate = freezed,
@@ -254,6 +263,10 @@ class __$$_JobModelCopyWithImpl<$Res>
       title: freezed == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       numApps: freezed == numApps
           ? _value.numApps
@@ -317,6 +330,7 @@ class _$_JobModel implements _JobModel {
   _$_JobModel(
       {@JsonKey(name: '_id') this.id,
       this.title,
+      this.description,
       this.numApps,
       this.numAccepted,
       @JsonKey(name: 'deadlineDate') this.deadlineDate,
@@ -339,6 +353,8 @@ class _$_JobModel implements _JobModel {
   final String? id;
   @override
   final String? title;
+  @override
+  final String? description;
   @override
   final int? numApps;
   @override
@@ -370,7 +386,7 @@ class _$_JobModel implements _JobModel {
 
   @override
   String toString() {
-    return 'JobModel(id: $id, title: $title, numApps: $numApps, numAccepted: $numAccepted, deadlineDate: $deadlineDate, duration: $duration, payRate: $payRate, numRatings: $numRatings, ratingSum: $ratingSum, deleted: $deleted, thumbnailImage: $thumbnailImage, category: $category, contractor: $contractor, rating: $rating, postingDate: $postingDate)';
+    return 'JobModel(id: $id, title: $title, description: $description, numApps: $numApps, numAccepted: $numAccepted, deadlineDate: $deadlineDate, duration: $duration, payRate: $payRate, numRatings: $numRatings, ratingSum: $ratingSum, deleted: $deleted, thumbnailImage: $thumbnailImage, category: $category, contractor: $contractor, rating: $rating, postingDate: $postingDate)';
   }
 
   @override
@@ -380,6 +396,8 @@ class _$_JobModel implements _JobModel {
             other is _$_JobModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.numApps, numApps) || other.numApps == numApps) &&
             (identical(other.numAccepted, numAccepted) ||
                 other.numAccepted == numAccepted) &&
@@ -410,6 +428,7 @@ class _$_JobModel implements _JobModel {
       runtimeType,
       id,
       title,
+      description,
       numApps,
       numAccepted,
       deadlineDate,
@@ -442,6 +461,7 @@ abstract class _JobModel implements JobModel {
   factory _JobModel(
       {@JsonKey(name: '_id') final String? id,
       final String? title,
+      final String? description,
       final int? numApps,
       final int? numAccepted,
       @JsonKey(name: 'deadlineDate') final DateTime? deadlineDate,
@@ -463,6 +483,8 @@ abstract class _JobModel implements JobModel {
   String? get id;
   @override
   String? get title;
+  @override
+  String? get description;
   @override
   int? get numApps;
   @override

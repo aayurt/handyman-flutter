@@ -11,6 +11,7 @@ class JobModel with _$JobModel {
   factory JobModel({
     @JsonKey(name: '_id') String? id,
     String? title,
+    String? description,
     int? numApps,
     int? numAccepted,
     @JsonKey(name: 'deadlineDate') DateTime? deadlineDate,

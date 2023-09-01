@@ -19,7 +19,7 @@ class JobAddPage extends StatefulWidget {
 class _JobAddPageState extends State<JobAddPage> {
   @override
   void initState() {
-    if (widget.id!.isNotEmpty) {
+    if (widget.id != null && widget.id!.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         context
             .read<SingleJobBloc>()

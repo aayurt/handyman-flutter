@@ -41,6 +41,7 @@ _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       avatar: json['avatar'] as String?,
       address: json['address'] as String?,
       linkedIn: json['linkedIn'] as String?,
+      fcmToken: json['fcmToken'] as String?,
       github: json['github'] as String?,
       website: json['website'] as String?,
       skills:
@@ -69,6 +70,7 @@ Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
       'avatar': instance.avatar,
       'address': instance.address,
       'linkedIn': instance.linkedIn,
+      'fcmToken': instance.fcmToken,
       'github': instance.github,
       'website': instance.website,
       'skills': instance.skills,

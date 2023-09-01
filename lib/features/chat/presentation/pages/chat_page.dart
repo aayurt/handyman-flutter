@@ -54,13 +54,12 @@ class _ChatPageState extends State<ChatPage> {
                   List<ChatModel> chats = state.chats;
                   List<ChatModel> filteredChats = chats.where((chat) {
                     if (userType == "Contractor") {
-                      return chat.customer!.id == widget.id;
-                    } else {
                       return chat.contractor!.id == widget.id;
+                    } else {
+                      return chat.customer!.id == widget.id;
                     }
                   }).toList();
-                  print(chats);
-                  print(filteredChats);
+
                   return Expanded(
                     child: ListView.builder(
                       itemCount: filteredChats.length,

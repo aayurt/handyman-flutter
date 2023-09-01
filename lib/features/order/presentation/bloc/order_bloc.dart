@@ -36,6 +36,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
             final List<ApplicationModel> applications =
                 applicationResponseData.map(
               (e) {
+                print(e);
                 return ApplicationModel.fromJson(e);
               },
             ).toList();

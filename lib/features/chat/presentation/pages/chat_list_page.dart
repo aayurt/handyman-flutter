@@ -47,6 +47,7 @@ class _ChatListPageState extends State<ChatListPage> {
                 return const CircularProgressIndicator();
               } else if (state is ChatStateLoaded) {
                 List<ChatModel> chats = state.chats;
+
                 return Expanded(
                   child: ListView.builder(
                     itemCount: chats.length,

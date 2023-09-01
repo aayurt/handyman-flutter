@@ -29,6 +29,7 @@ abstract class User with _$User {
     @JsonKey(name: 'avatar') String? avatar,
     @JsonKey(name: 'address') String? address,
     @JsonKey(name: 'linkedIn') String? linkedIn,
+    @JsonKey(name: 'fcmToken') String? fcmToken,
     @JsonKey(name: 'github') String? github,
     @JsonKey(name: 'website') String? website,
     @JsonKey(name: 'skills') List<String>? skills,

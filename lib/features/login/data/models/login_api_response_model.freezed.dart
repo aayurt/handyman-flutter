@@ -279,6 +279,8 @@ mixin _$User {
   String? get address => throw _privateConstructorUsedError;
   @JsonKey(name: 'linkedIn')
   String? get linkedIn => throw _privateConstructorUsedError;
+  @JsonKey(name: 'fcmToken')
+  String? get fcmToken => throw _privateConstructorUsedError;
   @JsonKey(name: 'github')
   String? get github => throw _privateConstructorUsedError;
   @JsonKey(name: 'website')
@@ -317,6 +319,7 @@ abstract class $UserCopyWith<$Res> {
       @JsonKey(name: 'avatar') String? avatar,
       @JsonKey(name: 'address') String? address,
       @JsonKey(name: 'linkedIn') String? linkedIn,
+      @JsonKey(name: 'fcmToken') String? fcmToken,
       @JsonKey(name: 'github') String? github,
       @JsonKey(name: 'website') String? website,
       @JsonKey(name: 'skills') List<String>? skills,
@@ -352,6 +355,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? avatar = freezed,
     Object? address = freezed,
     Object? linkedIn = freezed,
+    Object? fcmToken = freezed,
     Object? github = freezed,
     Object? website = freezed,
     Object? skills = freezed,
@@ -401,6 +405,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       linkedIn: freezed == linkedIn
           ? _value.linkedIn
           : linkedIn // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fcmToken: freezed == fcmToken
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
               as String?,
       github: freezed == github
           ? _value.github
@@ -467,6 +475,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       @JsonKey(name: 'avatar') String? avatar,
       @JsonKey(name: 'address') String? address,
       @JsonKey(name: 'linkedIn') String? linkedIn,
+      @JsonKey(name: 'fcmToken') String? fcmToken,
       @JsonKey(name: 'github') String? github,
       @JsonKey(name: 'website') String? website,
       @JsonKey(name: 'skills') List<String>? skills,
@@ -499,6 +508,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? avatar = freezed,
     Object? address = freezed,
     Object? linkedIn = freezed,
+    Object? fcmToken = freezed,
     Object? github = freezed,
     Object? website = freezed,
     Object? skills = freezed,
@@ -548,6 +558,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
       linkedIn: freezed == linkedIn
           ? _value.linkedIn
           : linkedIn // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fcmToken: freezed == fcmToken
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
               as String?,
       github: freezed == github
           ? _value.github
@@ -599,6 +613,7 @@ class _$_User implements _User {
       @JsonKey(name: 'avatar') this.avatar,
       @JsonKey(name: 'address') this.address,
       @JsonKey(name: 'linkedIn') this.linkedIn,
+      @JsonKey(name: 'fcmToken') this.fcmToken,
       @JsonKey(name: 'github') this.github,
       @JsonKey(name: 'website') this.website,
       @JsonKey(name: 'skills') final List<String>? skills,
@@ -644,6 +659,9 @@ class _$_User implements _User {
   @override
   @JsonKey(name: 'linkedIn')
   final String? linkedIn;
+  @override
+  @JsonKey(name: 'fcmToken')
+  final String? fcmToken;
   @override
   @JsonKey(name: 'github')
   final String? github;
@@ -703,7 +721,7 @@ class _$_User implements _User {
 
   @override
   String toString() {
-    return 'User(location: $location, id: $id, name: $name, email: $email, phone: $phone, gender: $gender, bio: $bio, avatar: $avatar, address: $address, linkedIn: $linkedIn, github: $github, website: $website, skills: $skills, interests: $interests, experiences: $experiences, education: $education, numRatings: $numRatings, ratingSum: $ratingSum)';
+    return 'User(location: $location, id: $id, name: $name, email: $email, phone: $phone, gender: $gender, bio: $bio, avatar: $avatar, address: $address, linkedIn: $linkedIn, fcmToken: $fcmToken, github: $github, website: $website, skills: $skills, interests: $interests, experiences: $experiences, education: $education, numRatings: $numRatings, ratingSum: $ratingSum)';
   }
 
   @override
@@ -723,6 +741,8 @@ class _$_User implements _User {
             (identical(other.address, address) || other.address == address) &&
             (identical(other.linkedIn, linkedIn) ||
                 other.linkedIn == linkedIn) &&
+            (identical(other.fcmToken, fcmToken) ||
+                other.fcmToken == fcmToken) &&
             (identical(other.github, github) || other.github == github) &&
             (identical(other.website, website) || other.website == website) &&
             const DeepCollectionEquality().equals(other._skills, _skills) &&
@@ -740,26 +760,28 @@ class _$_User implements _User {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      location,
-      id,
-      name,
-      email,
-      phone,
-      gender,
-      bio,
-      avatar,
-      address,
-      linkedIn,
-      github,
-      website,
-      const DeepCollectionEquality().hash(_skills),
-      const DeepCollectionEquality().hash(_interests),
-      const DeepCollectionEquality().hash(_experiences),
-      const DeepCollectionEquality().hash(_education),
-      numRatings,
-      ratingSum);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        location,
+        id,
+        name,
+        email,
+        phone,
+        gender,
+        bio,
+        avatar,
+        address,
+        linkedIn,
+        fcmToken,
+        github,
+        website,
+        const DeepCollectionEquality().hash(_skills),
+        const DeepCollectionEquality().hash(_interests),
+        const DeepCollectionEquality().hash(_experiences),
+        const DeepCollectionEquality().hash(_education),
+        numRatings,
+        ratingSum
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -787,6 +809,7 @@ abstract class _User implements User {
       @JsonKey(name: 'avatar') final String? avatar,
       @JsonKey(name: 'address') final String? address,
       @JsonKey(name: 'linkedIn') final String? linkedIn,
+      @JsonKey(name: 'fcmToken') final String? fcmToken,
       @JsonKey(name: 'github') final String? github,
       @JsonKey(name: 'website') final String? website,
       @JsonKey(name: 'skills') final List<String>? skills,
@@ -828,6 +851,9 @@ abstract class _User implements User {
   @override
   @JsonKey(name: 'linkedIn')
   String? get linkedIn;
+  @override
+  @JsonKey(name: 'fcmToken')
+  String? get fcmToken;
   @override
   @JsonKey(name: 'github')
   String? get github;

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:handyman/features/login/data/models/login_api_response_model.dart';
 part 'chat_model.freezed.dart';
 part 'chat_model.g.dart';
 
@@ -6,8 +7,8 @@ part 'chat_model.g.dart';
 class ChatModel with _$ChatModel {
   const factory ChatModel({
     @JsonKey(name: '_id') String? id,
-    String? contractorId,
-    String? customerId,
+    User? contractor,
+    User? customer,
     String? msg,
   }) = _ChatModel;
 

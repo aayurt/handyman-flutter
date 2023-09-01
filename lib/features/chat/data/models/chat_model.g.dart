@@ -8,15 +8,19 @@ part of 'chat_model.dart';
 
 _$_ChatModel _$$_ChatModelFromJson(Map<String, dynamic> json) => _$_ChatModel(
       id: json['_id'] as String?,
-      contractorId: json['contractorId'] as String?,
-      customerId: json['customerId'] as String?,
+      contractor: json['contractor'] == null
+          ? null
+          : User.fromJson(json['contractor'] as Map<String, dynamic>),
+      customer: json['customer'] == null
+          ? null
+          : User.fromJson(json['customer'] as Map<String, dynamic>),
       msg: json['msg'] as String?,
     );
 
 Map<String, dynamic> _$$_ChatModelToJson(_$_ChatModel instance) =>
     <String, dynamic>{
       '_id': instance.id,
-      'contractorId': instance.contractorId,
-      'customerId': instance.customerId,
+      'contractor': instance.contractor,
+      'customer': instance.customer,
       'msg': instance.msg,
     };

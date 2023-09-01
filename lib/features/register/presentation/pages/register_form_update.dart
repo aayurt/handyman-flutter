@@ -150,7 +150,7 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
           "address": addressController.text,
           "bio": bioController.text,
           "avatar": imageUrl,
-          "role": accountTypeController.text,
+          "role": accountTypeController.text!.toLowerCase(),
           "location": {
             "type": "Point",
             "coordinates": [currentLocation.latitude, currentLocation.longitude]

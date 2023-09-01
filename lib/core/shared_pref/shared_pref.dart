@@ -31,4 +31,5 @@ class SharedPrefKey {
   static String profileLocation = "profileLocation";
   static String userData = "userData";
   static String allUser = "allUser";
+  static String userId = "userId";
 }

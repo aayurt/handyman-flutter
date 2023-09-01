@@ -96,17 +96,24 @@ class _LoginPageState extends State<LoginPage> {
                       } else if (state is LoginLoadedState) {
                         final token = state.user.accessToken;
                         final userType = state.user.userType;
+                        final userId = state.user.user!.id ?? "";
                         // final location = state.user.location;
 
                         await SharedPrefService.storeToken(
                             SharedPrefKey.token, "");
                         await SharedPrefService.storeToken(
                             SharedPrefKey.userType, "");
+                        await SharedPrefService.storeToken(
+                            SharedPrefKey.userId, "");
                         if (token!.isNotEmpty) {
                           await SharedPrefService.storeToken(
                               SharedPrefKey.userType, userType ?? "");
                           await SharedPrefService.storeToken(
                               SharedPrefKey.profileLocation, userType ?? "");
+
+                          await SharedPrefService.storeToken(
+                              SharedPrefKey.userId, userId);
+
                           await SharedPrefService.storeToken(
                                   SharedPrefKey.token, token)
                               .then((value) {

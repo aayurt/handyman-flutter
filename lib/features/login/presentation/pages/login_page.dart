@@ -1,15 +1,12 @@
-import 'package:handyman/core/shared_pref/shared_pref.dart';
-import 'package:handyman/core/widgets/button_group/custom_button_group.dart';
-import 'package:handyman/core/widgets/card/custom_card.dart';
-import 'package:handyman/core/widgets/textfield/custom_textfield.dart';
-import 'package:handyman/features/login/data/models/login_api_request_model.dart';
-import 'package:handyman/features/login/presentation/bloc/login_bloc.dart';
-import 'package:handyman/routes/routes_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:handyman/core/shared_pref/shared_pref.dart';
+import 'package:handyman/features/login/data/models/login_api_request_model.dart';
+import 'package:handyman/features/login/presentation/bloc/login_bloc.dart';
+import 'package:handyman/firebase_token.dart';
+import 'package:handyman/routes/routes_constant.dart';
 
 import '../../../../core/widgets/alerts/custom_alert.dart';
 import '../bloc/login_event.dart';
@@ -34,14 +31,17 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  onLoginButtonPressed(BuildContext context) {
+  onLoginButtonPressed(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
+      String? token = await getFcmToken();
+      print("token $token");
       context.read<LoginBloc>().add(
             LoginEvent.onLogin(
               param: LoginApiRequestModel(
                   email: userIdController.text,
                   password: passwordController.text,
-                  panel: selectedOption),
+                  panel: selectedOption,
+                  fcmToken: token ?? ""),
             ),
           );
     }
@@ -238,7 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                       Expanded(
                         child: Container(
                           height: 1,
-                          decoration: BoxDecoration(color: Colors.grey),
+                          decoration: const BoxDecoration(color: Colors.grey),
                         ),
                       ),
                       const SizedBox(
@@ -251,7 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                       Expanded(
                         child: Container(
                           height: 1,
-                          decoration: BoxDecoration(color: Colors.grey),
+                          decoration: const BoxDecoration(color: Colors.grey),
                         ),
                       ),
                     ],

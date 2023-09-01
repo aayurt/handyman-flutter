@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
 import 'package:handyman/features/bottomNav/presentation/widgets/bottom_navigation.dart';
 import 'package:handyman/features/cart/presentation/pages/cart_page.dart';
+import 'package:handyman/features/chat/presentation/pages/chat_list_page.dart';
+import 'package:handyman/features/chat/presentation/pages/chat_page.dart';
 import 'package:handyman/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:handyman/features/job/presentation/pages/job_page.dart';
 import 'package:handyman/features/job/presentation/pages/search_page.dart';
@@ -84,12 +86,21 @@ class Routes {
                 builder: (context, state) => const JobListPage(),
               ),
               GoRoute(
+                path: RoutesConstant.chatList,
+                builder: (context, state) => const ChatListPage(),
+              ),
+              GoRoute(
                 path: RoutesConstant.search,
                 builder: (context, state) => const SearchJobPage(
                   search: '',
                 ),
               ),
             ]),
+        GoRoute(
+          path: "${RoutesConstant.chat}/:id",
+          builder: (context, state) =>
+              ChatPage(id: state.pathParameters['id'] ?? ""),
+        ),
         GoRoute(
           path: "${RoutesConstant.jobs}/:search",
           builder: (context, state) =>

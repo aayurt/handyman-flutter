@@ -1,4 +1,5 @@
 import 'package:handyman/app.dart';
+import 'package:handyman/features/chat/presentation/bloc/chat_bloc.dart';
 import 'package:handyman/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:handyman/features/job/presentation/bloc/all_job/all_job_bloc.dart';
 import 'package:handyman/features/job/presentation/bloc/category_job/category_job_bloc.dart';
@@ -48,6 +49,9 @@ class BlocProviderContainer extends StatelessWidget {
       ),
       BlocProvider<FilterJobBloc>(
         create: (BuildContext context) => FilterJobBloc(),
+      ),
+      BlocProvider<ChatBloc>(
+        create: (BuildContext context) => ChatBloc(),
       ),
     ], child: const App());
   }

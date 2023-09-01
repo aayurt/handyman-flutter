@@ -231,6 +231,12 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                                 style:
                                     TextStyle(fontSize: 12, color: Colors.grey),
                               ),
+                              IconButton(
+                                  onPressed: () {
+                                    context.go(
+                                        "${RoutesConstant.chat}/${widget.job!.contractor!.id}");
+                                  },
+                                  icon: const Icon(Icons.chat))
                             ],
                           )
                         ],

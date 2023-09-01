@@ -23,6 +23,7 @@ mixin _$LoginApiRequestModel {
   String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
   String get panel => throw _privateConstructorUsedError;
+  String? get fcmToken => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,7 @@ abstract class $LoginApiRequestModelCopyWith<$Res> {
           $Res Function(LoginApiRequestModel) then) =
       _$LoginApiRequestModelCopyWithImpl<$Res, LoginApiRequestModel>;
   @useResult
-  $Res call({String email, String password, String panel});
+  $Res call({String email, String password, String panel, String? fcmToken});
 }
 
 /// @nodoc
@@ -56,6 +57,7 @@ class _$LoginApiRequestModelCopyWithImpl<$Res,
     Object? email = null,
     Object? password = null,
     Object? panel = null,
+    Object? fcmToken = freezed,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -70,6 +72,10 @@ class _$LoginApiRequestModelCopyWithImpl<$Res,
           ? _value.panel
           : panel // ignore: cast_nullable_to_non_nullable
               as String,
+      fcmToken: freezed == fcmToken
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -82,7 +88,7 @@ abstract class _$$_LoginApiRequestModelCopyWith<$Res>
       __$$_LoginApiRequestModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String password, String panel});
+  $Res call({String email, String password, String panel, String? fcmToken});
 }
 
 /// @nodoc
@@ -99,6 +105,7 @@ class __$$_LoginApiRequestModelCopyWithImpl<$Res>
     Object? email = null,
     Object? password = null,
     Object? panel = null,
+    Object? fcmToken = freezed,
   }) {
     return _then(_$_LoginApiRequestModel(
       email: null == email
@@ -113,6 +120,10 @@ class __$$_LoginApiRequestModelCopyWithImpl<$Res>
           ? _value.panel
           : panel // ignore: cast_nullable_to_non_nullable
               as String,
+      fcmToken: freezed == fcmToken
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -121,7 +132,10 @@ class __$$_LoginApiRequestModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_LoginApiRequestModel implements _LoginApiRequestModel {
   const _$_LoginApiRequestModel(
-      {required this.email, required this.password, required this.panel});
+      {required this.email,
+      required this.password,
+      required this.panel,
+      this.fcmToken});
 
   factory _$_LoginApiRequestModel.fromJson(Map<String, dynamic> json) =>
       _$$_LoginApiRequestModelFromJson(json);
@@ -132,10 +146,12 @@ class _$_LoginApiRequestModel implements _LoginApiRequestModel {
   final String password;
   @override
   final String panel;
+  @override
+  final String? fcmToken;
 
   @override
   String toString() {
-    return 'LoginApiRequestModel(email: $email, password: $password, panel: $panel)';
+    return 'LoginApiRequestModel(email: $email, password: $password, panel: $panel, fcmToken: $fcmToken)';
   }
 
   @override
@@ -146,12 +162,15 @@ class _$_LoginApiRequestModel implements _LoginApiRequestModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.panel, panel) || other.panel == panel));
+            (identical(other.panel, panel) || other.panel == panel) &&
+            (identical(other.fcmToken, fcmToken) ||
+                other.fcmToken == fcmToken));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, password, panel);
+  int get hashCode =>
+      Object.hash(runtimeType, email, password, panel, fcmToken);
 
   @JsonKey(ignore: true)
   @override
@@ -172,7 +191,8 @@ abstract class _LoginApiRequestModel implements LoginApiRequestModel {
   const factory _LoginApiRequestModel(
       {required final String email,
       required final String password,
-      required final String panel}) = _$_LoginApiRequestModel;
+      required final String panel,
+      final String? fcmToken}) = _$_LoginApiRequestModel;
 
   factory _LoginApiRequestModel.fromJson(Map<String, dynamic> json) =
       _$_LoginApiRequestModel.fromJson;
@@ -183,6 +203,8 @@ abstract class _LoginApiRequestModel implements LoginApiRequestModel {
   String get password;
   @override
   String get panel;
+  @override
+  String? get fcmToken;
   @override
   @JsonKey(ignore: true)
   _$$_LoginApiRequestModelCopyWith<_$_LoginApiRequestModel> get copyWith =>

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:handyman/firebase_wrapper.dart';
 import 'package:handyman/routes/routes.dart';
 import 'package:handyman/theme/colors.dart';
 
@@ -10,12 +11,14 @@ class App extends StatelessWidget {
     return MaterialApp(
         title: 'Handyman',
         debugShowCheckedModeBanner: false,
-        home: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData.from(colorScheme: lightThemeColors(context)),
-          darkTheme: ThemeData.from(colorScheme: darkThemeColors(context)),
-          routerConfig: Routes.router,
-          title: "Handyman App",
+        home: FirebaseWrapper(
+          child: MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData.from(colorScheme: lightThemeColors(context)),
+            darkTheme: ThemeData.from(colorScheme: darkThemeColors(context)),
+            routerConfig: Routes.router,
+            title: "Handyman App",
+          ),
         ));
   }
 }

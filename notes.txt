@@ -31,3 +31,24 @@ NSLocationAlwaysUsageDescription
 // uses APIs that access the user’s location information at all times,
 // even if the app isn't running.
 NSLocationAlwaysAndWhenInUseUsageDescription
+
+
+Key=AAAAYr_UMRo:APA91bH-Ot4CgX-dSDdvANAv13e3kKKzRb8CeArmpEd2UCJuosSLu6pdyXNwbVSeapxvEZkfJzZss49QN8NrsMH_a2soKmGsqw1SvrimgFasB_MfhEXu--ICSlf38CzLCrSX1vg7FXX8
+https://fcm.googleapis.com/v1/projects/handyman/messages:send
+
+{
+    "message": {
+        // "topic": "mk_topic",
+        
+        "data": {
+            "body": "Body of Your Notification in data",
+            "title": "Title of Your Notification in data",
+            "key_1": "Value for key_1",
+            "key_2": "Value for key_2"
+        },
+        "notification": {
+            "title": "MK Notification",
+            "body": "MK: I am Delivered!"
+        }
+    }
+}

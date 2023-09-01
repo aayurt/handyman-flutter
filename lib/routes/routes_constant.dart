@@ -20,4 +20,6 @@ class RoutesConstant {
   static String orders = "/orders";
   static String cart = "/cart";
   static String search = "/search";
+  static String chat = "/chat";
+  static String chatList = "/chatList";
 }

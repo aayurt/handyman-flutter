@@ -19,7 +19,8 @@
     <meta charset="UTF-8" />
     <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
     <meta name="description" content="A new Flutter project." />
-
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-messaging.js"></script>
     <!-- iOS meta tags & icons -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -32,7 +33,19 @@
     <title>handyman</title>
     <link rel="manifest" href="manifest.json" />
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvwIEcRlC_KgvbiWh8eZvXlUB0YcP2bVA"></script>
-
+    <script>
+      <!--Update with yours config-->
+      const firebaseConfig = {
+        apiKey: 'AIzaSyDCJYXTg21Uov6q4Se3liJ1RipT4YQaVwA',
+        authDomain: 'handyman-4320f.firebaseapp.com',
+        projectId: 'handyman-4320f',
+        storageBucket: 'handyman-4320f.appspot.com',
+        messagingSenderId: '424125149466',
+        appId: '1:424125149466:web:f57941d4ec139b46e47ca3',
+        measurementId: 'G-Q7MNWPZYSX',
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
     <script>
       // The value below is injected by flutter build, do not touch.
       var serviceWorkerVersion = null;
@@ -44,6 +57,7 @@
     <script>
       window.addEventListener('load', function (ev) {
         // Download main.dart.js
+        navigator.serviceWorker.register('/firebase-messaging-sw.js');
         _flutter.loader.loadEntrypoint({
           serviceWorker: {
             serviceWorkerVersion: serviceWorkerVersion,

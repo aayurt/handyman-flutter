@@ -27,4 +27,5 @@ class ApiList {
   static String bycontractor = "/application/bycontractor";
   static String bylisting = "/application/bylisting";
   static String listingRating = "/rating/listingRating";
+  static String chat = "/chat";
 }

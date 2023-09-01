@@ -95,6 +95,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       //     location: RoutesConstant.cart),
       CustomBottomNavigationBarItem(
           item: const GButton(
+            icon: Icons.chat,
+            text: 'Chat',
+          ),
+          location: RoutesConstant.chatList),
+      CustomBottomNavigationBarItem(
+          item: const GButton(
             icon: Icons.person,
             text: 'Profile',
           ),

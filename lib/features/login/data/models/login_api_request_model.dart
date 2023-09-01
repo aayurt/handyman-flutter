@@ -8,6 +8,7 @@ class LoginApiRequestModel with _$LoginApiRequestModel {
     required String email,
     required String password,
     required String panel,
+    String? fcmToken,
   }) = _LoginApiRequestModel;
 
   factory LoginApiRequestModel.fromJson(Map<String, dynamic> json) =>

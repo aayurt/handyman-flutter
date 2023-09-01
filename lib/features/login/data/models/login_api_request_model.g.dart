@@ -12,6 +12,7 @@ _$_LoginApiRequestModel _$$_LoginApiRequestModelFromJson(
       email: json['email'] as String,
       password: json['password'] as String,
       panel: json['panel'] as String,
+      fcmToken: json['fcmToken'] as String?,
     );
 
 Map<String, dynamic> _$$_LoginApiRequestModelToJson(
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$_LoginApiRequestModelToJson(
       'email': instance.email,
       'password': instance.password,
       'panel': instance.panel,
+      'fcmToken': instance.fcmToken,
     };

@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -25,15 +24,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FlutterError.onError = (errorDetails) {
-    // If you wish to record a "non-fatal" exception, please use `FirebaseCrashlytics.instance.recordFlutterError` instead
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  };
-  PlatformDispatcher.instance.onError = (error, stack) {
-    // If you wish to record a "non-fatal" exception, please remove the "fatal" parameter
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (!kIsWeb) {

@@ -179,6 +179,8 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
           "gender": genderController.text,
           "phone": phoneNoController.text,
           "address": addressController.text,
+          "bio": bioController.text,
+          "role": accountTypeController.text!.toLowerCase(),
           "avatar": imageUrl,
           "location": {
             "type": "Point",
@@ -244,7 +246,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                     : const SizedBox(
                         height: 0,
                       ),
-
                 Center(
                   child: Stack(
                     alignment: Alignment.center,
@@ -301,7 +302,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                 const SizedBox(
                   height: 20,
                 ),
-
                 TextFormField(
                   controller: emailController,
                   style: const TextStyle(fontSize: 14),
@@ -463,14 +463,14 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                   // }),
                   items: const [
                     DropdownMenuItem(
-                      value: "customer",
+                      value: "Customer",
                       child: Text(
                         "Customer",
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
                     DropdownMenuItem(
-                      value: "contractor",
+                      value: "Contractor",
                       child: Text(
                         "Contractor",
                         style: TextStyle(fontSize: 14),
@@ -529,7 +529,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                 const SizedBox(
                   height: 20,
                 ),
-
                 TextFormField(
                     minLines: 3,
                     maxLines: 5,
@@ -550,27 +549,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                     validator: (text) {
                       return _validateAddress(text ?? "");
                     }),
-
-                accountTypeController.text == "Contractor"
-                    ? CustomTextfield(
-                        controller: linkedInController,
-                        keyboardType: TextInputType.text,
-                        hintText: 'Enter LinkedIn here',
-                        labelText: "LinkedIn",
-                        validator: (text) {
-                          return _validateAddress(text ?? "");
-                        })
-                    : const SizedBox(),
-                accountTypeController.text == "Contractor"
-                    ? CustomTextfield(
-                        controller: websiteController,
-                        keyboardType: TextInputType.text,
-                        hintText: 'Enter website here',
-                        labelText: "Website",
-                        validator: (text) {
-                          return _validateAddress(text ?? "");
-                        })
-                    : const SizedBox(),
                 accountTypeController.text == "Contractor"
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -597,50 +575,68 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                           ))
                       : const SizedBox(),
                 ),
-
-                // const Text("Shipping Address"),
-                // CustomTextfield(
-                //     controller: addressController,
-                //     keyboardType: TextInputType.text,
-                //     hintText: 'Enter address here',
-                //     labelText: "Address",
-                //     validator: (text) {
-                //       return _validateAddress(text ?? "");
-                //     }),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               _onCancelButtonPressed(context);
-                //             },
-                //             child: const Text("Cancel")),
-                //       ),
-                //     ),
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               onUpdateButtonPressed(context);
-                //             },
-                //             child: const Text("Update")),
-                //       ),
-                //     ),
-                //   ],
-                // )
+                const SizedBox(
+                  height: 60,
+                ),
+                SizedBox(
+                  height: 50,
+                  width: double.infinity,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: ElevatedButton(
+                        onPressed: () => {onUpdateButtonPressed(context)},
+                        child: const Text(
+                          "Register",
+                          style: TextStyle(fontSize: 18),
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        decoration: const BoxDecoration(color: Colors.grey),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text("Or"),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        decoration: const BoxDecoration(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already have an account?",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          _onCancelButtonPressed(context);
+                        },
+                        child: const Text("Login"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ),
@@ -652,7 +648,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                 // Add your FAB onPressed logic here
                 onUpdateButtonPressed(context);
               },
-              backgroundColor: Colors.blue,
               child: const Icon(Icons.save_outlined),
             ),
           ),
@@ -666,9 +661,14 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
     return Row(
       children: [
         Expanded(
-          child: TextField(
+          child: TextFormField(
             controller: controller,
+            style: const TextStyle(fontSize: 14),
             decoration: InputDecoration(
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               hintText: hintText,
             ),
           ),

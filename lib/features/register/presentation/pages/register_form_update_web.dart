@@ -147,7 +147,7 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
       showAdaptiveDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext caontext) {
+        builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Success'),
             content: const Text('Successfully updated.'),
@@ -156,7 +156,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                 child: const Text('Continue'),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  GoRouter.of(context).go(RoutesConstant.splash);
                 },
               ),
             ],
@@ -479,6 +478,7 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                   ],
                   onChanged: (String? value) {
                     accountTypeController.text = value ?? "";
+                    setState(() {});
                   },
                 ),
                 const SizedBox(
@@ -689,6 +689,9 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
         const SizedBox(height: 16),
         Text(title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const SizedBox(
+          height: 10,
+        ),
         Wrap(
           spacing: 8,
           children: tagList.map((tag) {

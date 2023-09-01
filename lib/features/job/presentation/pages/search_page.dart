@@ -33,8 +33,12 @@ class _SearchJobPageState extends State<SearchJobPage> {
   void applyFilters() {
     setState(() {
       filteredJobs = jobs.where((job) {
-        return (job.title!.contains(searchController.text) ||
-            job.category!.title!.contains(searchController.text));
+        return (job.title!
+                .toLowerCase()
+                .contains(searchController.text.toLowerCase()) ||
+            job.category!.title!
+                .toLowerCase()
+                .contains(searchController.text.toLowerCase()));
       }).toList();
     });
   }

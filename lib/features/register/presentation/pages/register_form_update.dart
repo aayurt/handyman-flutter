@@ -116,7 +116,7 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
       showAdaptiveDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext caontext) {
+        builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Success'),
             content: const Text('Successfully updated.'),
@@ -124,8 +124,7 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
               TextButton(
                 child: const Text('Continue'),
                 onPressed: () {
-                  Navigator.of(caontext).pop();
-                  GoRouter.of(context).go(RoutesConstant.splash);
+                  Navigator.of(context).pop();
                 },
               ),
             ],

@@ -29,6 +29,7 @@ class _ContractOrderJobUpdateFormWidgetState
   final titleController = TextEditingController();
   Map<DateTime, List<String>> selectedTimeSlots = {};
   String statusValue = 'pending'; // Default selected value
+  Color statusColor = Colors.transparent; // Default selected value
   String paymentStatusValue = 'unpaid'; // Default selected value
 
   double payRate = 10.0; // Default pay rate
@@ -175,77 +176,217 @@ class _ContractOrderJobUpdateFormWidgetState
                     : const SizedBox(
                         height: 0,
                       ),
-                Text(widget.application!.listing!.title ?? ""),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(10), // Set your desired radius
-                      child: Container(
-                        color: Colors.grey,
-                        width:
-                            160, // Double the radius to maintain the circular shape
-                        height: 160,
-                        child: imageUrl.isEmpty
-                            ? const Icon(Icons.person,
-                                size:
-                                    80) // Placeholder icon when no image is selected
-                            : Image.network("${AppConstants.fileUrl}$imageUrl",
-                                fit: BoxFit.cover),
-                      ),
+                Container(
+                  padding: const EdgeInsets.all(15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
                     ),
-                  ],
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            50), // Set your desired radius
+                        child: Container(
+                          color: Colors.grey,
+                          width:
+                              60, // Double the radius to maintain the circular shape
+                          height: 60,
+                          child: imageUrl.isEmpty
+                              ? const Icon(Icons.person,
+                                  size:
+                                      60) // Placeholder icon when no image is selected
+                              : Image.network(
+                                  "${AppConstants.fileUrl}$imageUrl",
+                                  fit: BoxFit.cover),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.application!.listing!.contractor!.name ??
+                                  "",
+                              style: const TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              widget.application!.listing!.title ?? "",
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              widget.application!.listing!.category!.title ??
+                                  "",
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color: statusColor,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: DropdownButton<String>(
+                              underline: const SizedBox(),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              value: statusValue,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  statusValue = newValue ?? "";
+                                  statusColor = _getStatusColor(
+                                    newValue!,
+                                  );
+                                });
+                              },
+                              items: <String>[
+                                'pending',
+                                'accepted',
+                                'completed',
+                                'cancelled'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "£${widget.application!.listing!.payRate}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              ),
+                              const Text(
+                                "/hr",
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  "Scheduled Date",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Text("Pay Rate ${widget.application!.listing!.payRate}"),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text("Deadline Date"),
-                TableCalendar(
-                  focusedDay: _focusedDay,
-                  firstDay: DateTime(2000),
-                  lastDay: DateTime(2050),
-                  rangeStartDay: _rangeStartDate,
-                  rangeEndDay: _rangeEndDate,
-                  // onDaySelected: (selectedDate, focusedDay) {
-                  //   if (widget.application!.status == "pending") {
-                  //     setState(() {
-                  //       var test1 = DateTime.parse(selectedDate.toString()).toUtc();
-                  //       var test2 = DateFormat("MM/dd/yyyy").format(test1);
-                  //       var newSelectedDay =
-                  //           DateFormat('MM/dd/yyyy').parse(test2).toLocal();
-                  //       if (newSelectedDay.isAfter(_rangeStartDate) &&
-                  //           newSelectedDay.isBefore(_rangeEndDate)) {
-                  //         if (selectedDates.contains(newSelectedDay)) {
-                  //           _selectedEvents[newSelectedDay] = [];
-                  //           selectedDates.remove(newSelectedDay);
-                  //         } else {
-                  //           selectedDates.add(newSelectedDay);
-                  //           for (var date in selectedDates) {
-                  //             _selectedEvents[date] = [
-                  //               'Event 1',
-                  //             ];
-                  //           }
-                  //         }
-                  //       }
-                  //     });
-                  //   }
-                  // },
-                  eventLoader: (date) {
-                    var test1 = DateTime.parse(date.toString()).toUtc();
-                    var test2 = DateFormat("MM/dd/yyyy").format(test1);
-                    var newSelectedDay =
-                        DateFormat('MM/dd/yyyy').parse(test2).toLocal();
-                    return _selectedEvents[newSelectedDay] ?? [];
-                  },
-                  onPageChanged: (focusedDay) {},
+                Container(
+                  decoration: BoxDecoration(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                  child: TableCalendar(
+                    daysOfWeekStyle: const DaysOfWeekStyle(
+                        weekdayStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    )),
+                    calendarStyle: CalendarStyle(
+                        rangeStartDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        rangeEndDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        markerSize: 15,
+                        rangeHighlightColor: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.4),
+                        markerDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.surface)),
+                    headerStyle: HeaderStyle(
+                        formatButtonDecoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.5),
+                            ),
+                            borderRadius: BorderRadius.circular(15)),
+                        formatButtonPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10)),
+
+                    focusedDay: _focusedDay,
+                    firstDay: DateTime(2000),
+                    lastDay: DateTime(2050),
+                    rangeStartDay: _rangeStartDate,
+                    rangeEndDay: _rangeEndDate,
+                    // onDaySelected: (selectedDate, focusedDay) {
+                    //   if (widget.application!.status == "pending") {
+                    //     setState(() {
+                    //       var test1 = DateTime.parse(selectedDate.toString()).toUtc();
+                    //       var test2 = DateFormat("MM/dd/yyyy").format(test1);
+                    //       var newSelectedDay =
+                    //           DateFormat('MM/dd/yyyy').parse(test2).toLocal();
+                    //       if (newSelectedDay.isAfter(_rangeStartDate) &&
+                    //           newSelectedDay.isBefore(_rangeEndDate)) {
+                    //         if (selectedDates.contains(newSelectedDay)) {
+                    //           _selectedEvents[newSelectedDay] = [];
+                    //           selectedDates.remove(newSelectedDay);
+                    //         } else {
+                    //           selectedDates.add(newSelectedDay);
+                    //           for (var date in selectedDates) {
+                    //             _selectedEvents[date] = [
+                    //               'Event 1',
+                    //             ];
+                    //           }
+                    //         }
+                    //       }
+                    //     });
+                    //   }
+                    // },
+                    eventLoader: (date) {
+                      var test1 = DateTime.parse(date.toString()).toUtc();
+                      var test2 = DateFormat("MM/dd/yyyy").format(test1);
+                      var newSelectedDay =
+                          DateFormat('MM/dd/yyyy').parse(test2).toLocal();
+                      return _selectedEvents[newSelectedDay] ?? [];
+                    },
+                    onPageChanged: (focusedDay) {},
+                  ),
                 ),
                 const SizedBox(height: 16),
                 selectedDates.isNotEmpty
@@ -261,43 +402,33 @@ class _ContractOrderJobUpdateFormWidgetState
                       });
                     },
                     editable: widget.application!.status == "pending"),
-                const Text('Select an option:'),
-                const SizedBox(height: 20),
-                DropdownButton<String>(
-                  value: statusValue,
-                  onChanged: (newValue) {
-                    setState(() {
-                      statusValue = newValue ?? "";
-                    });
-                  },
-                  items: <String>[
-                    'pending',
-                    'accepted',
-                    'completed',
-                    'cancelled'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                const SizedBox(
+                  height: 15,
                 ),
-                DropdownButton<String>(
-                  value: paymentStatusValue,
-                  onChanged: (newValue) {
-                    setState(() {
-                      paymentStatusValue = newValue ?? "";
-                    });
-                  },
-                  items: <String>[
-                    'unpaid',
-                    'paid',
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                Row(
+                  children: [
+                    const Text('Select payment status:'),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    DropdownButton<String>(
+                      value: paymentStatusValue,
+                      onChanged: (newValue) {
+                        setState(() {
+                          paymentStatusValue = newValue ?? "";
+                        });
+                      },
+                      items: <String>[
+                        'unpaid',
+                        'paid',
+                      ].map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -310,7 +441,6 @@ class _ContractOrderJobUpdateFormWidgetState
                 // Add your FAB onPressed logic here
                 onSaveButton(context);
               },
-              backgroundColor: Colors.blue,
               child: const Icon(Icons.save_outlined),
             ),
           ),
@@ -351,4 +481,20 @@ showSuccess(context) {
       );
     },
   );
+}
+
+Color _getStatusColor(String status) {
+  switch (status) {
+    case "pending":
+      return Colors.yellow;
+    case "accepted":
+      return const Color(0xFFEF8D32);
+    case "completed":
+      return const Color(0xFF0F9686);
+    case "cancelled":
+      return const Color(0xFFEB3F3F);
+    default:
+      return Colors
+          .grey; // Default color if status doesn't match any of the above
+  }
 }

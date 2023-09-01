@@ -911,35 +911,33 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                         children: [
                           Expanded(
                             flex: 6,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                right: BorderSide(
-                                    color: Colors.grey.withOpacity(0.9),
-                                    width: 1),
-                              )),
-                              child: TextButton(
-                                  onPressed: () {
-                                    _onCancelButtonPressed(context);
-                                  },
-                                  child: const Text("Cancel")),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _onCancelButtonPressed(context);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.error),
+                              child: const Text("Cancel"),
                             ),
+                          ),
+                          const SizedBox(
+                            width: 10,
                           ),
                           Expanded(
                             flex: 6,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                right: BorderSide(
-                                    color: Colors.grey.withOpacity(0.9),
-                                    width: 1),
-                              )),
-                              child: TextButton(
-                                  onPressed: () {
-                                    onSaveButton(context);
-                                  },
-                                  child: const Text("Apply")),
-                            ),
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary),
+                                onPressed: () {
+                                  onSaveButton(context);
+                                },
+                                child: const Text("Apply")),
                           ),
                         ],
                       )

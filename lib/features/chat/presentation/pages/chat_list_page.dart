@@ -40,9 +40,9 @@ class _ChatListPageState extends State<ChatListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chats'),
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Chats'),
+      // ),
       body: Column(
         children: [
           BlocBuilder<ChatBloc, ChatState>(
@@ -109,25 +109,53 @@ class _ChatListPageState extends State<ChatListPage> {
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: CustomCardWidget(
-                              children: Row(
-                            children: [
-                              SizedBox(
-                                height: 80,
-                                width: 80,
-                                child: ClipRRect(
+                          child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 15),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                      "${AppConstants.fileUrl}$avatar",
-                                      fit: BoxFit.cover),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text("$username: ${chat.msg},"),
-                            ],
-                          )),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.3)),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Image.network(
+                                          "${AppConstants.fileUrl}$avatar",
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        username,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                      const SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        chat.msg!,
+                                        style: const TextStyle(
+                                            fontSize: 14, color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )),
                         ),
                       );
                     },

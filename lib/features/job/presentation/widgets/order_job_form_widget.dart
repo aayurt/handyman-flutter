@@ -155,93 +155,157 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                     : const SizedBox(
                         height: 0,
                       ),
-                Container(
-                  padding: const EdgeInsets.all(15),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      width: 1,
+                InkWell(
+                  onTap: (() {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: ((context) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        50), // Set your desired radius
+                                    child: Container(
+                                      color: Colors.grey,
+                                      width:
+                                          80, // Double the radius to maintain the circular shape
+                                      height: 80,
+                                      child: imageUrl.isEmpty
+                                          ? const Icon(Icons.person,
+                                              size:
+                                                  80) // Placeholder icon when no image is selected
+                                          : Image.network(
+                                              "${AppConstants.fileUrl}$imageUrl",
+                                              fit: BoxFit.cover),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                widget.job!.contractor!.name ?? "",
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                widget.job!.contractor!.address ?? "",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                widget.job!.contractor!.bio ?? "",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                widget.job!.contractor!.phone ?? "",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          );
+                        }));
+                  }),
+                  child: Container(
+                    padding: const EdgeInsets.all(15),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
                       color: Theme.of(context)
                           .colorScheme
-                          .onSurface
-                          .withOpacity(0.5),
+                          .primary
+                          .withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        width: 1,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.5),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            50), // Set your desired radius
-                        child: Container(
-                          color: Colors.grey,
-                          width:
-                              60, // Double the radius to maintain the circular shape
-                          height: 60,
-                          child: imageUrl.isEmpty
-                              ? const Icon(Icons.person,
-                                  size:
-                                      80) // Placeholder icon when no image is selected
-                              : Image.network(
-                                  "${AppConstants.fileUrl}$imageUrl",
-                                  fit: BoxFit.cover),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              50), // Set your desired radius
+                          child: Container(
+                            color: Colors.grey,
+                            width:
+                                60, // Double the radius to maintain the circular shape
+                            height: 60,
+                            child: imageUrl.isEmpty
+                                ? const Icon(Icons.person,
+                                    size:
+                                        80) // Placeholder icon when no image is selected
+                                : Image.network(
+                                    "${AppConstants.fileUrl}$imageUrl",
+                                    fit: BoxFit.cover),
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.job!.contractor!.name ?? "",
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              widget.job!.title ?? "",
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              widget.job!.category!.title ?? "",
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                          ],
+                        const SizedBox(
+                          width: 10,
                         ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "£${widget.job!.payRate}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                                widget.job!.contractor!.name ?? "",
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              const Text(
-                                "/hr",
-                                style:
-                                    TextStyle(fontSize: 12, color: Colors.grey),
+                              Text(
+                                widget.job!.title ?? "",
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
                               ),
-                              IconButton(
-                                  onPressed: () {
-                                    context.go(
-                                        "${RoutesConstant.chat}/${widget.job!.contractor!.id}");
-                                  },
-                                  icon: const Icon(Icons.chat))
+                              Text(
+                                widget.job!.category!.title ?? "",
+                                style: const TextStyle(fontSize: 12),
+                              ),
                             ],
-                          )
-                        ],
-                      )
-                    ],
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "£${widget.job!.payRate}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                                ),
+                                const Text(
+                                  "/hr",
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      context.go(
+                                          "${RoutesConstant.chat}/${widget.job!.contractor!.id}");
+                                    },
+                                    icon: const Icon(Icons.chat))
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(

@@ -438,19 +438,26 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                 ),
                 const SizedBox(
                   height: 30,
-                )
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary),
+                          onPressed: () {
+                            onSaveButton(context);
+                          },
+                          child: const Text("List")),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                // Add your FAB onPressed logic here
-                onSaveButton(context);
-              },
-              child: const Icon(Icons.save_outlined),
             ),
           ),
         ],

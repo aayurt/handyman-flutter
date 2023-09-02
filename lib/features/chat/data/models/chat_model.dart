@@ -10,6 +10,7 @@ class ChatModel with _$ChatModel {
     User? contractor,
     User? customer,
     String? msg,
+    String? senderId,
   }) = _ChatModel;
 
   factory ChatModel.fromJson(Map<String, dynamic> json) =>

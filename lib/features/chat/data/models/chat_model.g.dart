@@ -15,6 +15,7 @@ _$_ChatModel _$$_ChatModelFromJson(Map<String, dynamic> json) => _$_ChatModel(
           ? null
           : User.fromJson(json['customer'] as Map<String, dynamic>),
       msg: json['msg'] as String?,
+      senderId: json['senderId'] as String?,
     );
 
 Map<String, dynamic> _$$_ChatModelToJson(_$_ChatModel instance) =>
@@ -23,4 +24,5 @@ Map<String, dynamic> _$$_ChatModelToJson(_$_ChatModel instance) =>
       'contractor': instance.contractor,
       'customer': instance.customer,
       'msg': instance.msg,
+      'senderId': instance.senderId,
     };

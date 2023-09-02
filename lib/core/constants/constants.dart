@@ -5,5 +5,5 @@ class AppConstants {
   static String fileUrl = "${dotenv.get('BASE_URL')}/api";
   static String googleMapApiKey = dotenv.get('BASE_URL');
   static String title = "Handyman";
-  static String sortNumber = "074 984";
+  static String fsmWeb = dotenv.get('fsm_web');
 }

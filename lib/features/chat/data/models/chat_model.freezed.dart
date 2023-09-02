@@ -25,6 +25,7 @@ mixin _$ChatModel {
   User? get contractor => throw _privateConstructorUsedError;
   User? get customer => throw _privateConstructorUsedError;
   String? get msg => throw _privateConstructorUsedError;
+  String? get senderId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +42,8 @@ abstract class $ChatModelCopyWith<$Res> {
       {@JsonKey(name: '_id') String? id,
       User? contractor,
       User? customer,
-      String? msg});
+      String? msg,
+      String? senderId});
 
   $UserCopyWith<$Res>? get contractor;
   $UserCopyWith<$Res>? get customer;
@@ -64,6 +66,7 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
     Object? contractor = freezed,
     Object? customer = freezed,
     Object? msg = freezed,
+    Object? senderId = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -81,6 +84,10 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
       msg: freezed == msg
           ? _value.msg
           : msg // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderId: freezed == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -121,7 +128,8 @@ abstract class _$$_ChatModelCopyWith<$Res> implements $ChatModelCopyWith<$Res> {
       {@JsonKey(name: '_id') String? id,
       User? contractor,
       User? customer,
-      String? msg});
+      String? msg,
+      String? senderId});
 
   @override
   $UserCopyWith<$Res>? get contractor;
@@ -144,6 +152,7 @@ class __$$_ChatModelCopyWithImpl<$Res>
     Object? contractor = freezed,
     Object? customer = freezed,
     Object? msg = freezed,
+    Object? senderId = freezed,
   }) {
     return _then(_$_ChatModel(
       id: freezed == id
@@ -162,6 +171,10 @@ class __$$_ChatModelCopyWithImpl<$Res>
           ? _value.msg
           : msg // ignore: cast_nullable_to_non_nullable
               as String?,
+      senderId: freezed == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -173,7 +186,8 @@ class _$_ChatModel implements _ChatModel {
       {@JsonKey(name: '_id') this.id,
       this.contractor,
       this.customer,
-      this.msg});
+      this.msg,
+      this.senderId});
 
   factory _$_ChatModel.fromJson(Map<String, dynamic> json) =>
       _$$_ChatModelFromJson(json);
@@ -187,10 +201,12 @@ class _$_ChatModel implements _ChatModel {
   final User? customer;
   @override
   final String? msg;
+  @override
+  final String? senderId;
 
   @override
   String toString() {
-    return 'ChatModel(id: $id, contractor: $contractor, customer: $customer, msg: $msg)';
+    return 'ChatModel(id: $id, contractor: $contractor, customer: $customer, msg: $msg, senderId: $senderId)';
   }
 
   @override
@@ -203,12 +219,15 @@ class _$_ChatModel implements _ChatModel {
                 other.contractor == contractor) &&
             (identical(other.customer, customer) ||
                 other.customer == customer) &&
-            (identical(other.msg, msg) || other.msg == msg));
+            (identical(other.msg, msg) || other.msg == msg) &&
+            (identical(other.senderId, senderId) ||
+                other.senderId == senderId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, contractor, customer, msg);
+  int get hashCode =>
+      Object.hash(runtimeType, id, contractor, customer, msg, senderId);
 
   @JsonKey(ignore: true)
   @override
@@ -229,7 +248,8 @@ abstract class _ChatModel implements ChatModel {
       {@JsonKey(name: '_id') final String? id,
       final User? contractor,
       final User? customer,
-      final String? msg}) = _$_ChatModel;
+      final String? msg,
+      final String? senderId}) = _$_ChatModel;
 
   factory _ChatModel.fromJson(Map<String, dynamic> json) =
       _$_ChatModel.fromJson;
@@ -243,6 +263,8 @@ abstract class _ChatModel implements ChatModel {
   User? get customer;
   @override
   String? get msg;
+  @override
+  String? get senderId;
   @override
   @JsonKey(ignore: true)
   _$$_ChatModelCopyWith<_$_ChatModel> get copyWith =>

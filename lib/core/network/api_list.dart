@@ -28,4 +28,6 @@ class ApiList {
   static String bylisting = "/application/bylisting";
   static String listingRating = "/rating/listingRating";
   static String chat = "/chat";
+
+  static String fcmToken = "/auth/fcm_token";
 }

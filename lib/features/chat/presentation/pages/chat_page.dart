@@ -60,30 +60,51 @@ class _ChatPageState extends State<ChatPage> {
                   return const CircularProgressIndicator();
                 } else if (state is ChatStateLoaded) {
                   List<ChatModel> chats = state.chats;
-                  String id = "";
-                  String username = "";
-                  String avatar = "";
+
                   List<ChatModel> filteredChats = chats.where((chat) {
                     if (userType != "Contractor") {
-                      username = chat.contractor!.name ?? "";
-                      avatar = chat.contractor!.avatar ?? "";
-                      id = chat.contractor!.id ?? "";
                       return chat.contractor!.id == widget.id;
                     } else {
-                      username = chat.customer!.name ?? "";
-                      id = chat.customer!.id ?? "";
-                      avatar = chat.customer!.avatar ?? "";
                       return chat.customer!.id == widget.id;
                     }
                   }).toList();
-
                   return Expanded(
                     child: ListView.builder(
                       itemCount: filteredChats.length,
                       itemBuilder: (context, index) {
+                        String id = "";
+                        String username = "";
+                        String avatar = "";
+
                         final chat = filteredChats[index];
+                        var custId = chat.customer!.id;
+                        var contrId = chat.contractor!.id;
+                        var senderId = chat.senderId;
+
+                        if (userType == "Contractor" && contrId == senderId) {
+                          username = chat.contractor!.name ?? "";
+                          avatar = chat.contractor!.avatar ?? "";
+                          id = chat.contractor!.id ?? "";
+                        } else if (userType == "Customer" &&
+                            custId == senderId) {
+                          username = chat.customer!.name ?? "";
+                          id = chat.customer!.id ?? "";
+                          avatar = chat.customer!.avatar ?? "";
+                        } else if (userType == "Customer" &&
+                            custId != senderId) {
+                          username = chat.contractor!.name ?? "";
+                          id = chat.contractor!.id ?? "";
+                          avatar = chat.contractor!.avatar ?? "";
+                        } else {
+                          username = chat.customer!.name ?? "";
+                          id = chat.customer!.id ?? "";
+                          avatar = chat.customer!.avatar ?? "";
+                        }
+
                         return Row(
-                          mainAxisAlignment: widget.id != id
+                          mainAxisAlignment: (userType == "Contractor" &&
+                                      contrId == senderId) ||
+                                  (userType == "Customer" && custId == senderId)
                               ? MainAxisAlignment.end
                               : MainAxisAlignment.start,
                           children: [

@@ -27,7 +27,7 @@ void main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (!kIsWeb) {
-    FirebaseMessaging.instance.subscribeToTopic("handyman-chat");
+    // FirebaseMessaging.instance.subscribeToTopic("handyman-chat");
 
     await setupFlutterNotifications();
   }

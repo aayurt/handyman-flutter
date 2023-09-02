@@ -186,6 +186,7 @@ class _JobFormWidgetState extends State<JobFormWidget> {
         children: [
           SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 alertMsgStatus.value
                     ? Container(
@@ -200,47 +201,51 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                     : const SizedBox(
                         height: 0,
                       ),
-                CustomTextfield(
+                const Text("Job Details"),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
                     controller: titleController,
                     keyboardType: TextInputType.text,
-                    hintText: 'Enter your job title here',
-                    labelText: "Title",
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.work,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Enter Job Title",
+                    ),
                     validator: (text) {
                       return _validateFirsttitle(text ?? "");
                     }),
-                CustomTextfield(
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  minLines: 3,
+                  maxLines: 5,
                   controller: descriptionController,
                   keyboardType: TextInputType.text,
-                  hintText: 'Enter your description here',
-                  labelText: "Description",
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    filled: true,
+                    prefixIcon: const Icon(
+                      Icons.article,
+                      size: 16,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: "Job Description",
+                  ),
                 ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Pay Rate"),
-                    IconButton(
-                      icon: const Icon(Icons.remove),
-                      onPressed: decrementPayRate,
-                    ),
-                    SizedBox(
-                      width: 100,
-                      child: TextFormField(
-                        controller: _payRateController,
-                        keyboardType: TextInputType.number,
-                        onChanged: updatePayRate,
-                        decoration: const InputDecoration(
-                          labelText: '£',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: incrementPayRate,
-                    ),
-                    const Text("per hour"),
-                  ],
+                const SizedBox(
+                  height: 15,
                 ),
                 BlocListener<CategoryJobBloc, CategoryJobState>(
                   listener: (context, state) {
@@ -251,26 +256,89 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                     }
                   },
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text("Category"),
-                      DropdownButton<String>(
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(0),
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            //<-- SEE HERE
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            //<-- SEE HERE
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1),
+                          ),
+                        ),
                         value: selectedCategory,
-                        onChanged: (newValue) {
-                          setState(() {
-                            selectedCategory = newValue!;
-                          });
-                        },
                         items: categories.map((category) {
                           return DropdownMenuItem<String>(
                             value: category.id,
                             child: Text(category.title ?? ""),
                           );
                         }).toList(),
-                      ),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedCategory = newValue!;
+                          });
+                        },
+                      )
                     ],
                   ),
                 ),
 
+                const SizedBox(
+                  height: 15,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Pay Rate"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          color: Theme.of(context).colorScheme.primary,
+                          icon: const Icon(Icons.remove),
+                          onPressed: decrementPayRate,
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: TextFormField(
+                            controller: _payRateController,
+                            keyboardType: TextInputType.number,
+                            style: const TextStyle(fontSize: 14),
+                            onChanged: updatePayRate,
+                            decoration: const InputDecoration(
+                              suffixText: "/hr",
+                              filled: true,
+                              labelText: '£',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          color: Theme.of(context).colorScheme.primary,
+                          icon: const Icon(Icons.add),
+                          onPressed: incrementPayRate,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
                 const Text("Deadline Date"),
                 TableCalendar(
                   calendarFormat: _calendarFormat,

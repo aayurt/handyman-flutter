@@ -58,7 +58,11 @@ class _ChatPageState extends State<ChatPage> {
             child: BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {
                 if (state is ChatStateLoading) {
-                  return const CircularProgressIndicator();
+                  return const Center(
+                      child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator()));
                 } else if (state is ChatStateLoaded) {
                   List<ChatModel> chats = state.chats;
                   String id = "";

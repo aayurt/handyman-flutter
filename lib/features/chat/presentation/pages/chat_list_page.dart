@@ -48,7 +48,7 @@ class _ChatListPageState extends State<ChatListPage> {
           BlocBuilder<ChatBloc, ChatState>(
             builder: (context, state) {
               if (state is ChatStateLoading) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else if (state is ChatStateLoaded) {
                 List<ChatModel> chats = state.chats;
                 List<ChatModel> filteredChats = chats.reversed.where((chat) {

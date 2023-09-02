@@ -107,7 +107,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ProfileFormUpdate(userModelData: userModelData),
                           );
                         } else if (state is ProfileStateLoading) {
-                          return const CircularProgressIndicator();
+                          return const Center(
+                              child: SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: CircularProgressIndicator()));
                         } else {
                           return const Text("Error");
                         }

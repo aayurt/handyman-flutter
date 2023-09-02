@@ -186,6 +186,7 @@ class _JobFormWidgetState extends State<JobFormWidget> {
         children: [
           SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 alertMsgStatus.value
                     ? Container(
@@ -200,47 +201,86 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                     : const SizedBox(
                         height: 0,
                       ),
-                CustomTextfield(
+                const Text("Job Details"),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            10), // Set your desired radius
+                        child: Container(
+                          color: Colors.grey,
+                          width:
+                              160, // Double the radius to maintain the circular shape
+                          height: 160,
+                          child: imageUrl.isEmpty
+                              ? const Icon(Icons.person,
+                                  size:
+                                      80) // Placeholder icon when no image is selected
+                              : Image.network(
+                                  "${AppConstants.fileUrl}$imageUrl",
+                                  fit: BoxFit.cover),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 10,
+                        right: 10,
+                        child: FloatingActionButton(
+                          onPressed: () => _pickImage(),
+                          child: const Icon(Icons.camera_alt),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
                     controller: titleController,
                     keyboardType: TextInputType.text,
-                    hintText: 'Enter your job title here',
-                    labelText: "Title",
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.work,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Enter Job Title",
+                    ),
                     validator: (text) {
                       return _validateFirsttitle(text ?? "");
                     }),
-                CustomTextfield(
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  minLines: 3,
+                  maxLines: 5,
                   controller: descriptionController,
                   keyboardType: TextInputType.text,
-                  hintText: 'Enter your description here',
-                  labelText: "Description",
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    filled: true,
+                    prefixIcon: const Icon(
+                      Icons.article,
+                      size: 16,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: "Job Description",
+                  ),
                 ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Pay Rate"),
-                    IconButton(
-                      icon: const Icon(Icons.remove),
-                      onPressed: decrementPayRate,
-                    ),
-                    SizedBox(
-                      width: 100,
-                      child: TextFormField(
-                        controller: _payRateController,
-                        keyboardType: TextInputType.number,
-                        onChanged: updatePayRate,
-                        decoration: const InputDecoration(
-                          labelText: '£',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: incrementPayRate,
-                    ),
-                    const Text("per hour"),
-                  ],
+                const SizedBox(
+                  height: 20,
                 ),
                 BlocListener<CategoryJobBloc, CategoryJobState>(
                   listener: (context, state) {
@@ -251,121 +291,173 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                     }
                   },
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text("Category"),
-                      DropdownButton<String>(
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 10),
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            //<-- SEE HERE
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            //<-- SEE HERE
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 1),
+                          ),
+                        ),
                         value: selectedCategory,
-                        onChanged: (newValue) {
-                          setState(() {
-                            selectedCategory = newValue!;
-                          });
-                        },
                         items: categories.map((category) {
                           return DropdownMenuItem<String>(
                             value: category.id,
                             child: Text(category.title ?? ""),
                           );
                         }).toList(),
-                      ),
+                        onChanged: (newValue) {
+                          setState(() {
+                            selectedCategory = newValue!;
+                          });
+                        },
+                      )
                     ],
                   ),
                 ),
-
-                const Text("Deadline Date"),
-                TableCalendar(
-                  calendarFormat: _calendarFormat,
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                    });
-                  },
-                  focusedDay: _focusedDay,
-                  firstDay: DateTime(2000),
-                  lastDay: DateTime(2050),
-                ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
-                Stack(
-                  alignment: Alignment.center,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(10), // Set your desired radius
-                      child: Container(
-                        color: Colors.grey,
-                        width:
-                            160, // Double the radius to maintain the circular shape
-                        height: 160,
-                        child: imageUrl.isEmpty
-                            ? const Icon(Icons.person,
-                                size:
-                                    80) // Placeholder icon when no image is selected
-                            : Image.network("${AppConstants.fileUrl}$imageUrl",
-                                fit: BoxFit.cover),
-                      ),
+                    const Text("Pay Rate"),
+                    const SizedBox(
+                      height: 10,
                     ),
-                    Positioned(
-                      bottom: 10,
-                      right: 10,
-                      child: FloatingActionButton(
-                        onPressed: () => _pickImage(),
-                        child: const Icon(Icons.camera_alt),
-                      ),
+                    Row(
+                      children: [
+                        IconButton(
+                          color: Theme.of(context).colorScheme.primary,
+                          icon: const Icon(Icons.remove),
+                          onPressed: decrementPayRate,
+                        ),
+                        SizedBox(
+                          width: 100,
+                          child: TextFormField(
+                            controller: _payRateController,
+                            keyboardType: TextInputType.number,
+                            style: const TextStyle(fontSize: 14),
+                            onChanged: updatePayRate,
+                            decoration: const InputDecoration(
+                              suffixText: "/hr",
+                              filled: true,
+                              labelText: '£',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          color: Theme.of(context).colorScheme.primary,
+                          icon: const Icon(Icons.add),
+                          onPressed: incrementPayRate,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               _onCancelButtonPressed(context);
-                //             },
-                //             child: const Text("Cancel")),
-                //       ),
-                //     ),
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               onSaveButton(context);
-                //             },
-                //             child: const Text("Save")),
-                //       ),
-                //     ),
-                //   ],
-                // )
+                const SizedBox(height: 20),
+                const Text("Deadline Date"),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                  child: TableCalendar(
+                    daysOfWeekStyle: const DaysOfWeekStyle(
+                        weekdayStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    )),
+                    calendarStyle: CalendarStyle(
+                        todayDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        selectedDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        markerSize: 15,
+                        rangeHighlightColor: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.4),
+                        markerDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.surface)),
+                    headerStyle: HeaderStyle(
+                        formatButtonDecoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.5),
+                            ),
+                            borderRadius: BorderRadius.circular(15)),
+                        formatButtonPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10)),
+                    calendarFormat: _calendarFormat,
+                    selectedDayPredicate: (day) {
+                      return isSameDay(_selectedDay, day);
+                    },
+                    onDaySelected: (selectedDay, focusedDay) {
+                      setState(() {
+                        _selectedDay = selectedDay;
+                        _focusedDay = focusedDay;
+                      });
+                    },
+                    focusedDay: _focusedDay,
+                    firstDay: DateTime(2000),
+                    lastDay: DateTime(2050),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary),
+                          onPressed: () {
+                            onSaveButton(context);
+                          },
+                          child: const Text("List")),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: FloatingActionButton(
-              onPressed: () {
-                // Add your FAB onPressed logic here
-                onSaveButton(context);
-              },
-              backgroundColor: Colors.blue,
-              child: const Icon(Icons.save_outlined),
             ),
           ),
         ],

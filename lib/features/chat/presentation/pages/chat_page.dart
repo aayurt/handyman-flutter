@@ -43,6 +43,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: (() {
@@ -57,7 +58,11 @@ class _ChatPageState extends State<ChatPage> {
             child: BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {
                 if (state is ChatStateLoading) {
-                  return const CircularProgressIndicator();
+                  return const Center(
+                      child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator()));
                 } else if (state is ChatStateLoaded) {
                   List<ChatModel> chats = state.chats;
 
@@ -110,14 +115,23 @@ class _ChatPageState extends State<ChatPage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: CustomCardWidget(
-                                children: Row(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 15),
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withOpacity(0.3)),
+                                child: Row(
                                   children: [
                                     SizedBox(
-                                      height: 80,
-                                      width: 80,
+                                      height: 40,
+                                      width: 40,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(50),
                                         child: Image.network(
                                             "${AppConstants.fileUrl}$avatar",
                                             fit: BoxFit.cover),
@@ -157,7 +171,10 @@ class _ChatPageState extends State<ChatPage> {
                 Expanded(
                   child: TextField(
                     controller: textController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      filled: true,
                       hintText: 'Type your message...',
                     ),
                   ),

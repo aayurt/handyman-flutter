@@ -205,6 +205,41 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                 const SizedBox(
                   height: 10,
                 ),
+                Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            10), // Set your desired radius
+                        child: Container(
+                          color: Colors.grey,
+                          width:
+                              160, // Double the radius to maintain the circular shape
+                          height: 160,
+                          child: imageUrl.isEmpty
+                              ? const Icon(Icons.person,
+                                  size:
+                                      80) // Placeholder icon when no image is selected
+                              : Image.network(
+                                  "${AppConstants.fileUrl}$imageUrl",
+                                  fit: BoxFit.cover),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 10,
+                        right: 10,
+                        child: FloatingActionButton(
+                          onPressed: () => _pickImage(),
+                          child: const Icon(Icons.camera_alt),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                     controller: titleController,
                     keyboardType: TextInputType.text,
@@ -245,7 +280,7 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 BlocListener<CategoryJobBloc, CategoryJobState>(
                   listener: (context, state) {
@@ -264,7 +299,8 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                       ),
                       DropdownButtonFormField(
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(0),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 10),
                           filled: true,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -275,8 +311,9 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                             //<-- SEE HERE
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 1),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                                width: 1),
                           ),
                         ),
                         value: selectedCategory,
@@ -295,9 +332,8 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                     ],
                   ),
                 ),
-
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -338,89 +374,71 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 20),
                 const Text("Deadline Date"),
-                TableCalendar(
-                  calendarFormat: _calendarFormat,
-                  selectedDayPredicate: (day) {
-                    return isSameDay(_selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      _selectedDay = selectedDay;
-                      _focusedDay = focusedDay;
-                    });
-                  },
-                  focusedDay: _focusedDay,
-                  firstDay: DateTime(2000),
-                  lastDay: DateTime(2050),
+                const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 1,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.5),
+                    ),
+                  ),
+                  child: TableCalendar(
+                    daysOfWeekStyle: const DaysOfWeekStyle(
+                        weekdayStyle: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    )),
+                    calendarStyle: CalendarStyle(
+                        todayDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        selectedDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary),
+                        markerSize: 15,
+                        rangeHighlightColor: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.4),
+                        markerDecoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.surface)),
+                    headerStyle: HeaderStyle(
+                        formatButtonDecoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.5),
+                            ),
+                            borderRadius: BorderRadius.circular(15)),
+                        formatButtonPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10)),
+                    calendarFormat: _calendarFormat,
+                    selectedDayPredicate: (day) {
+                      return isSameDay(_selectedDay, day);
+                    },
+                    onDaySelected: (selectedDay, focusedDay) {
+                      setState(() {
+                        _selectedDay = selectedDay;
+                        _focusedDay = focusedDay;
+                      });
+                    },
+                    focusedDay: _focusedDay,
+                    firstDay: DateTime(2000),
+                    lastDay: DateTime(2050),
+                  ),
                 ),
                 const SizedBox(
-                  height: 10,
-                ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(10), // Set your desired radius
-                      child: Container(
-                        color: Colors.grey,
-                        width:
-                            160, // Double the radius to maintain the circular shape
-                        height: 160,
-                        child: imageUrl.isEmpty
-                            ? const Icon(Icons.person,
-                                size:
-                                    80) // Placeholder icon when no image is selected
-                            : Image.network("${AppConstants.fileUrl}$imageUrl",
-                                fit: BoxFit.cover),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 10,
-                      right: 10,
-                      child: FloatingActionButton(
-                        onPressed: () => _pickImage(),
-                        child: const Icon(Icons.camera_alt),
-                      ),
-                    ),
-                  ],
-                ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               _onCancelButtonPressed(context);
-                //             },
-                //             child: const Text("Cancel")),
-                //       ),
-                //     ),
-                //     Expanded(
-                //       flex: 6,
-                //       child: Container(
-                //         decoration: BoxDecoration(
-                //             border: Border(
-                //           right: BorderSide(
-                //               color: Colors.grey.withOpacity(0.9), width: 1),
-                //         )),
-                //         child: TextButton(
-                //             onPressed: () {
-                //               onSaveButton(context);
-                //             },
-                //             child: const Text("Save")),
-                //       ),
-                //     ),
-                //   ],
-                // )
+                  height: 30,
+                )
               ],
             ),
           ),
@@ -432,7 +450,6 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                 // Add your FAB onPressed logic here
                 onSaveButton(context);
               },
-              backgroundColor: Colors.blue,
               child: const Icon(Icons.save_outlined),
             ),
           ),

@@ -444,26 +444,6 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     }),
 
                 userType == "Contractor"
-                    ? CustomTextfield(
-                        controller: linkedInController,
-                        keyboardType: TextInputType.text,
-                        hintText: 'Enter LinkedIn here',
-                        labelText: "LinkedIn",
-                        validator: (text) {
-                          return _validateAddress(text ?? "");
-                        })
-                    : const SizedBox(),
-                userType == "Contractor"
-                    ? CustomTextfield(
-                        controller: websiteController,
-                        keyboardType: TextInputType.text,
-                        hintText: 'Enter website here',
-                        labelText: "Website",
-                        validator: (text) {
-                          return _validateAddress(text ?? "");
-                        })
-                    : const SizedBox(),
-                userType == "Contractor"
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [

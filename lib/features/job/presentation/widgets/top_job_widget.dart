@@ -84,11 +84,7 @@ class _TopJobWidgetState extends State<TopJobWidget> {
                                   margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        width: 1,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface
-                                            .withOpacity(0.5)),
+                                        width: 1, color: Colors.grey),
                                     color: Theme.of(context)
                                         .colorScheme
                                         .primary

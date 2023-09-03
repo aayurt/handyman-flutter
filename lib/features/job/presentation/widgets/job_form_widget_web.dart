@@ -186,7 +186,7 @@ class _JobFormWidgetState extends State<JobFormWidget> {
         children: [
           SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 alertMsgStatus.value
                     ? Container(

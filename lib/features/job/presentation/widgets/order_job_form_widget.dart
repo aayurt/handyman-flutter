@@ -160,58 +160,81 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                     showModalBottomSheet(
                         context: context,
                         builder: ((context) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                        50), // Set your desired radius
-                                    child: Container(
-                                      color: Colors.grey,
-                                      width:
-                                          80, // Double the radius to maintain the circular shape
-                                      height: 80,
-                                      child: imageUrl.isEmpty
-                                          ? const Icon(Icons.person,
-                                              size:
-                                                  80) // Placeholder icon when no image is selected
-                                          : Image.network(
-                                              "${AppConstants.fileUrl}$imageUrl",
-                                              fit: BoxFit.cover),
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          50), // Set your desired radius
+                                      child: Container(
+                                        color: Colors.grey,
+                                        width:
+                                            80, // Double the radius to maintain the circular shape
+                                        height: 80,
+                                        child: imageUrl.isEmpty
+                                            ? const Icon(Icons.person,
+                                                size:
+                                                    80) // Placeholder icon when no image is selected
+                                            : Image.network(
+                                                "${AppConstants.fileUrl}$imageUrl",
+                                                fit: BoxFit.cover),
+                                      ),
                                     ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  widget.job!.contractor!.name ?? "",
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  widget.job!.contractor!.bio ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 12,
                                   ),
-                                ],
-                              ),
-                              Text(
-                                widget.job!.contractor!.name ?? "",
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                widget.job!.contractor!.address ?? "",
-                                style: const TextStyle(
-                                  fontSize: 12,
                                 ),
-                              ),
-                              Text(
-                                widget.job!.contractor!.bio ?? "",
-                                style: const TextStyle(
-                                  fontSize: 12,
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                              Text(
-                                widget.job!.contractor!.phone ?? "",
-                                style: const TextStyle(
-                                  fontSize: 12,
+                                Text(
+                                  widget.job!.contractor!.address ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  widget.job!.contractor!.phone ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  widget.job!.contractor!.phone ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
                           );
                         }));
                   }),

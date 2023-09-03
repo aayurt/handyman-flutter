@@ -956,7 +956,6 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                 // Add your FAB onPressed logic here
                 onSaveButton(context);
               },
-              backgroundColor: Colors.blue,
               child: const Icon(Icons.save_outlined),
             ),
           ),

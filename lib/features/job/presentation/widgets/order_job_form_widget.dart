@@ -7,6 +7,7 @@ import 'package:handyman/core/network/api_list.dart';
 import 'package:handyman/core/network/api_service.dart';
 import 'package:handyman/core/widgets/alerts/custom_alert.dart';
 import 'package:handyman/features/job/data/models/job_model.dart';
+import 'package:handyman/features/job/data/models/job_rating_model.dart';
 import 'package:handyman/features/job/presentation/widgets/time_selection_widget.dart';
 import 'package:handyman/routes/routes_constant.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -159,81 +160,90 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                   onTap: (() {
                     showModalBottomSheet(
                         context: context,
-                        builder: ((context) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                        builder: ((builderContext) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.8,
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          50), // Set your desired radius
-                                      child: Container(
-                                        color: Colors.grey,
-                                        width:
-                                            80, // Double the radius to maintain the circular shape
-                                        height: 80,
-                                        child: imageUrl.isEmpty
-                                            ? const Icon(Icons.person,
-                                                size:
-                                                    80) // Placeholder icon when no image is selected
-                                            : Image.network(
-                                                "${AppConstants.fileUrl}$imageUrl",
-                                                fit: BoxFit.cover),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                              50), // Set your desired radius
+                                          child: Container(
+                                            color: Colors.grey,
+                                            width:
+                                                80, // Double the radius to maintain the circular shape
+                                            height: 80,
+                                            child: imageUrl.isEmpty
+                                                ? const Icon(Icons.person,
+                                                    size:
+                                                        80) // Placeholder icon when no image is selected
+                                                : Image.network(
+                                                    "${AppConstants.fileUrl}$imageUrl",
+                                                    fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      widget.job!.contractor!.name ?? "",
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      widget.job!.contractor!.bio ?? "",
+                                      style: const TextStyle(
+                                        fontSize: 12,
                                       ),
                                     ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      widget.job!.contractor!.address ?? "",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      widget.job!.contractor!.phone ?? "",
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    // Text(
+                                    //   "${widget.job!.rating ?? "Not yet rated."}",
+                                    //   style: const TextStyle(
+                                    //     fontSize: 12,
+                                    //   ),
+                                    // ),
+                                    RatingContractorWidget(
+                                        applicationId: widget.job!.id ?? "")
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  widget.job!.contractor!.name ?? "",
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  widget.job!.contractor!.bio ?? "",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  widget.job!.contractor!.address ?? "",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  widget.job!.contractor!.phone ?? "",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Text(
-                                  widget.job!.contractor!.phone ?? "",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           );
                         }));
@@ -540,4 +550,94 @@ showSuccess(context) {
       );
     },
   );
+}
+
+class RatingContractorWidget extends StatefulWidget {
+  final String applicationId;
+  const RatingContractorWidget({Key? key, required this.applicationId})
+      : super(key: key);
+
+  @override
+  _RatingContractorWidgetState createState() => _RatingContractorWidgetState();
+}
+
+class _RatingContractorWidgetState extends State<RatingContractorWidget> {
+  List<JobRatingModel> myRatings = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Future.delayed(const Duration(milliseconds: 0), () async {
+      try {
+        final ApiService request = ApiService();
+        final response = await request.get(
+          ApiEndpoint(AppConstants.baseUrl,
+              "${ApiList.ratingApplications}/${widget.applicationId}", {}),
+        );
+        if (response.data != null && response.data["ratings"] != null) {
+          if (mounted) {
+            final List jobRatings = response.data["ratings"];
+            if (jobRatings.isNotEmpty) {
+              final List<JobRatingModel> jobRatingmodel = jobRatings.map(
+                (e) {
+                  return JobRatingModel.fromJson(e);
+                },
+              ).toList();
+              setState(() {
+                myRatings = jobRatingmodel;
+              });
+            }
+          }
+        }
+      } on Exception {
+        print("here is error");
+        // rethrow;
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: myRatings.length,
+        shrinkWrap: true,
+        itemBuilder: ((context, index) {
+          JobRatingModel myRating = myRatings[index];
+          return Container(
+              color: Colors.yellow,
+              child: Column(
+                children: [
+                  Text(myRating.customerId!.name ?? ""),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(5, (index) {
+                      if (index < myRating.value!.round()) {
+                        return InkWell(
+                          onTap: (() {
+                            // setRating(index + 1);
+                          }),
+                          child: const Icon(
+                            Icons.star,
+                            size: 24,
+                            color: Colors.amber,
+                          ),
+                        );
+                      } else {
+                        return InkWell(
+                          onTap: (() {}),
+                          child: const Icon(
+                            Icons.star_border,
+                            size: 24,
+                            color: Colors.amber,
+                          ),
+                        );
+                      }
+                    }),
+                  ),
+                  Text(myRating.note ?? ""),
+                ],
+              ));
+        }));
+  }
 }

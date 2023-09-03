@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:handyman/core/constants/constants.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
-import 'package:handyman/core/widgets/card/custom_card.dart';
 import 'package:handyman/features/chat/data/models/chat_model.dart';
 import 'package:handyman/features/chat/presentation/bloc/chat_bloc.dart';
-import 'package:handyman/features/job/presentation/bloc/all_job/all_job_bloc.dart';
 import 'package:handyman/routes/routes_constant.dart';
 
 class ChatListPage extends StatefulWidget {
@@ -24,8 +22,8 @@ class _ChatListPageState extends State<ChatListPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       context.read<ChatBloc>().add(const ChatEvent.get());
-
-      var usertype = await SharedPrefService.getToken(SharedPrefKey.userType);
+      String usertype =
+          await SharedPrefService.getToken(SharedPrefKey.userType);
       var userid = await SharedPrefService.getToken(SharedPrefKey.userId);
       if (usertype.isNotEmpty) {
         setState(() {
@@ -59,7 +57,6 @@ class _ChatListPageState extends State<ChatListPage> {
                   }
                 }).toList();
 
-// Create a Set to store unique ChatModel objects
                 Set<String> uniqueIds = <String>{};
 
                 List<ChatModel> uniqueChats = [];
@@ -78,12 +75,13 @@ class _ChatListPageState extends State<ChatListPage> {
                     uniqueChats.add(chat);
                   }
                 }
-
+                if (uniqueChats.isEmpty) {
+                  return const Text("No chats.");
+                }
                 return Expanded(
                   child: ListView.builder(
                     itemCount: uniqueChats.length,
                     itemBuilder: (context, index) {
-                      String id = "";
                       String username = "";
                       String avatar = "";
                       final chat = uniqueChats[index];
@@ -91,12 +89,10 @@ class _ChatListPageState extends State<ChatListPage> {
                       if (userType != "Contractor") {
                         username = chat.contractor!.name ?? "";
                         avatar = chat.contractor!.avatar ?? "";
-                        id = chat.contractor!.id ?? "";
-                      } else {
+                      } else if (userType != "Customer") {
                         username = chat.customer!.name ?? "";
-                        id = chat.customer!.id ?? "";
                         avatar = chat.customer!.avatar ?? "";
-                      }
+                      } else {}
                       return InkWell(
                         onTap: () {
                           if (userType == "Contractor") {

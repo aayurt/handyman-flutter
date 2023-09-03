@@ -38,12 +38,18 @@ class Routes {
           : RoutesConstant.splash,
       redirect: (BuildContext context, GoRouterState state) async {
         final getToken = await SharedPrefService.getToken(SharedPrefKey.token);
+        final userType =
+            await SharedPrefService.getToken(SharedPrefKey.userType);
+
         if (((state.fullPath == RoutesConstant.login) ||
             (state.fullPath == RoutesConstant.register))) {
           if (getToken.isNotEmpty) {
             return RoutesConstant.dashboard;
           }
           return null;
+        } else if (userType == "Contractor" &&
+            state.fullPath == RoutesConstant.dashboard) {
+          return RoutesConstant.orders;
         } else if (getToken.isEmpty) {
           return RoutesConstant.login;
         } else {

@@ -30,4 +30,5 @@ class ApiList {
   static String chat = "/chat";
 
   static String fcmToken = "/auth/fcm_token";
+  static String ratingApplications = "/rating/customer/bycontractor";
 }

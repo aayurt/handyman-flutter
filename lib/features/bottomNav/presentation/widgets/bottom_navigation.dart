@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:handyman/core/constants/constants.dart';
+import 'package:handyman/core/network/api_list.dart';
+import 'package:handyman/core/network/api_service.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
 import 'package:handyman/routes/routes_constant.dart';
 import 'package:handyman/theme/colors.dart';
@@ -53,7 +56,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     var currentRoute = GoRouterState.of(context).matchedLocation;
 
-    final destinationList = [
+    var destinationList = [
       CustomBottomNavigationBarItem(
           item: const GButton(
             icon: Icons.home,
@@ -106,19 +109,17 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           ),
           location: RoutesConstant.profile)
     ];
+
+    if (userType == "Contractor") {
+      destinationList.removeWhere(
+          (element) => element.location == RoutesConstant.dashboard);
+    }
     var currentIndex = destinationList
         .indexWhere((element) => element.location == currentRoute);
+
     final destList = destinationList.map((e) => e.item).toList();
     return Scaffold(
       body: widget.child,
-      // bottomNavigationBar: BottomNavigationBar(
-      //   items: destList,
-      //   type: BottomNavigationBarType.fixed,
-      //   currentIndex: currentIndex,
-      //   onTap: (index) {
-      //     context.go(destinationList[index].location);
-      //   },
-      // ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: GNav(

@@ -206,32 +206,77 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     ),
+                                    // const SizedBox(
+                                    //   height: 20,
+                                    // ),
+                                    // Text(
+                                    //   widget.job!.contractor!.bio ?? "",
+                                    //   style: const TextStyle(
+                                    //     fontSize: 12,
+                                    //   ),
+                                    // ),
                                     const SizedBox(
-                                      height: 20,
+                                      height: 10,
                                     ),
-                                    Text(
-                                      widget.job!.contractor!.bio ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.location_on,
+                                          size: 14,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          widget.job!.contractor!.address ?? "",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      widget.job!.contractor!.address ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.local_phone,
+                                          size: 14,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          widget.job!.contractor!.phone ?? "",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    Text(
-                                      widget.job!.contractor!.phone ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                      ),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 1,
+                                      color: Colors.grey,
+                                    ),
+
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Text(
+                                      "Ratings & Feedback",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
                                     ),
                                     // Text(
                                     //   "${widget.job!.rating ?? "Not yet rated."}",
@@ -385,6 +430,7 @@ class _OrderJobFormWidgetState extends State<OrderJobFormWidget> {
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.surface)),
                     headerStyle: HeaderStyle(
+                        formatButtonVisible: false,
                         formatButtonDecoration: BoxDecoration(
                             border: Border.all(
                               color: Theme.of(context)
@@ -605,37 +651,58 @@ class _RatingContractorWidgetState extends State<RatingContractorWidget> {
         itemBuilder: ((context, index) {
           JobRatingModel myRating = myRatings[index];
           return Container(
-              color: Colors.yellow,
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+                borderRadius: BorderRadius.circular(15),
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+              ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(myRating.customerId!.name ?? ""),
                   Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(5, (index) {
-                      if (index < myRating.value!.round()) {
-                        return InkWell(
-                          onTap: (() {
-                            // setRating(index + 1);
-                          }),
-                          child: const Icon(
-                            Icons.star,
-                            size: 24,
-                            color: Colors.amber,
-                          ),
-                        );
-                      } else {
-                        return InkWell(
-                          onTap: (() {}),
-                          child: const Icon(
-                            Icons.star_border,
-                            size: 24,
-                            color: Colors.amber,
-                          ),
-                        );
-                      }
-                    }),
+                    children: [
+                      Text(myRating.customerId!.name ?? ""),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: List.generate(5, (index) {
+                          if (index < myRating.value!.round()) {
+                            return InkWell(
+                              onTap: (() {
+                                // setRating(index + 1);
+                              }),
+                              child: const Icon(
+                                Icons.star,
+                                size: 14,
+                                color: Colors.amber,
+                              ),
+                            );
+                          } else {
+                            return InkWell(
+                              onTap: (() {}),
+                              child: const Icon(
+                                Icons.star_border,
+                                size: 14,
+                                color: Colors.amber,
+                              ),
+                            );
+                          }
+                        }),
+                      ),
+                    ],
                   ),
-                  Text(myRating.note ?? ""),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    myRating.note ?? "",
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
                 ],
               ));
         }));

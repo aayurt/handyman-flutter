@@ -661,6 +661,7 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.surface)),
                     headerStyle: HeaderStyle(
+                        formatButtonVisible: false,
                         formatButtonDecoration: BoxDecoration(
                             border: Border.all(
                               color: Theme.of(context)

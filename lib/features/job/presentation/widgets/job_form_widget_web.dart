@@ -411,6 +411,7 @@ class _JobFormWidgetState extends State<JobFormWidget> {
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.surface)),
                     headerStyle: HeaderStyle(
+                        formatButtonVisible: false,
                         formatButtonDecoration: BoxDecoration(
                             border: Border.all(
                               color: Theme.of(context)

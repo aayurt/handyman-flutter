@@ -40,7 +40,9 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go(RoutesConstant.categories);
+                  },
                   child: const Text(
                     "See All",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -75,8 +77,8 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
 
                             return GestureDetector(
                               onTap: () {
-                                GoRouter.of(context).go(RoutesConstant.transfer,
-                                    extra: category);
+                                context.go(
+                                    "${RoutesConstant.categories}/${category.id}");
                               },
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 8.0),

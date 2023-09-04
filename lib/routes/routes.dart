@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
 import 'package:handyman/features/bottomNav/presentation/widgets/bottom_navigation.dart';
 import 'package:handyman/features/cart/presentation/pages/cart_page.dart';
+import 'package:handyman/features/category/presentation/pages/cat_job_page.dart';
+import 'package:handyman/features/category/presentation/pages/category_page.dart';
 import 'package:handyman/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:handyman/features/chat/presentation/pages/chat_page.dart';
 import 'package:handyman/features/dashboard/presentation/pages/dashboard_page.dart';
@@ -134,6 +136,14 @@ class Routes {
           path: "${RoutesConstant.orders}/:id",
           builder: (context, state) =>
               OrderJobPage(id: state.pathParameters['id'] ?? ""),
+        ),
+        GoRoute(
+            path: RoutesConstant.categories,
+            builder: (context, state) => const CategoryPage()),
+        GoRoute(
+          path: "${RoutesConstant.categories}/:id",
+          builder: (context, state) =>
+              CategoryJobPage(id: state.pathParameters['id'] ?? ""),
         ),
       ]);
 }

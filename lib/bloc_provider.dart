@@ -4,6 +4,7 @@ import 'package:handyman/features/dashboard/presentation/bloc/dashboard_bloc.dar
 import 'package:handyman/features/job/presentation/bloc/all_job/all_job_bloc.dart';
 import 'package:handyman/features/job/presentation/bloc/category_job/category_job_bloc.dart';
 import 'package:handyman/features/job/presentation/bloc/filter_job/filter_job_bloc.dart';
+import 'package:handyman/features/job/presentation/bloc/single_category/single_category_bloc.dart';
 import 'package:handyman/features/job/presentation/bloc/single_job/single_job_bloc.dart';
 import 'package:handyman/features/login/presentation/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,9 @@ class BlocProviderContainer extends StatelessWidget {
       ),
       BlocProvider<ChatBloc>(
         create: (BuildContext context) => ChatBloc(),
+      ),
+      BlocProvider<SingleCategoryBloc>(
+        create: (BuildContext context) => SingleCategoryBloc(),
       ),
     ], child: const App());
   }

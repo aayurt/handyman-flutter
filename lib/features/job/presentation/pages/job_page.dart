@@ -40,42 +40,44 @@ class _JobListPageState extends State<JobListPage> {
             )
           : null,
       body: SafeArea(
-          child: Column(children: [
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            const SizedBox(
-              width: 10,
-            ),
-            SizedBox(
-                height: 25,
-                width: 25,
-                child: GestureDetector(
-                    onTap: () {
-                      context.go(RoutesConstant.dashboard);
-                    },
-                    child: const Icon(Icons.arrow_back))),
-            const Expanded(
-              child: Text(
-                "Your Services",
-                textAlign: TextAlign.center,
+          child: SingleChildScrollView(
+        child: Column(children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 10,
               ),
-            ),
-            const SizedBox(
-              width: 25,
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
-          child: ConstrainedBox(
-              constraints:
-                  BoxConstraints(maxHeight: height - 140, maxWidth: width - 32),
-              child: const Expanded(child: ListAllJob())),
-        ),
-      ])),
+              SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: GestureDetector(
+                      onTap: () {
+                        context.go(RoutesConstant.dashboard);
+                      },
+                      child: const Icon(Icons.arrow_back))),
+              const Expanded(
+                child: Text(
+                  "Your Services",
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(
+                width: 25,
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
+            child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxHeight: height - 140, maxWidth: width - 32),
+                child: const Expanded(child: ListAllJob())),
+          ),
+        ]),
+      )),
     );
   }
 }

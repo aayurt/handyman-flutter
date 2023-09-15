@@ -73,7 +73,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               location: RoutesConstant.search)
           : CustomBottomNavigationBarItem(
               item: const GButton(
-                icon: Icons.list_alt,
+                icon: Icons.analytics_outlined,
                 text: 'Listings',
               ),
               location: RoutesConstant.jobs),

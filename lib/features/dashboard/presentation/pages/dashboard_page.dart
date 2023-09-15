@@ -78,13 +78,10 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 const GalleryWidget(),
-                const SizedBox(
-                  height: 20,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -123,8 +120,9 @@ class _GalleryWidgetState extends State<GalleryWidget> {
   @override
   Widget build(BuildContext context) {
     List<String> gallery = [
-      "1.png",
-      "2.png",
+      "electric_banner.jpg",
+      "home_repair_banner.jpg",
+      "plumbing_banner.jpg",
     ].reversed.toList();
     void startTimer() {
       var itemsLength = gallery.length;
@@ -159,47 +157,58 @@ class _GalleryWidgetState extends State<GalleryWidget> {
       children: [
         SizedBox(
           width: kWidth(context),
-          height: 200,
-          child: Row(
+          height: 150,
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  if (_currentPage == 0) {
-                    _currentPage = gallery.length - 1;
-                  } else {
-                    _currentPage = _currentPage - 1;
+              PageView.builder(
+                itemCount: gallery.length,
+                controller: pageController,
+                itemBuilder: (context, pageIndex) {
+                  String mediaPath = "assets/gallery/${gallery[pageIndex]}";
+                  if (mediaPath.endsWith('.jpg') ||
+                      mediaPath.endsWith('.png')) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                          15), // Adjust the radius as needed
+                      child: Image.asset(
+                        mediaPath,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  } else if (mediaPath.endsWith('.mp4')) {
+                    return VideoPlayerWidget(videoPath: mediaPath);
                   }
-                  setState(() {});
+                  return Container();
                 },
               ),
-              Expanded(
-                child: PageView.builder(
-                    itemCount: gallery.length, // Calculate the number of pages
-                    controller: pageController,
-                    itemBuilder: (context, pageIndex) {
-                      String mediaPath = "assets/gallery/${gallery[pageIndex]}";
-                      if (mediaPath.endsWith('.png')) {
-                        return Image.asset(
-                          mediaPath,
-                          fit: BoxFit.contain,
-                        );
-                      } else if (mediaPath.endsWith('.mp4')) {
-                        return VideoPlayerWidget(videoPath: mediaPath);
-                      }
-                      return Container();
-                    }),
+              Positioned(
+                left: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    if (_currentPage == 0) {
+                      _currentPage = gallery.length - 1;
+                    } else {
+                      _currentPage = _currentPage - 1;
+                    }
+                    setState(() {});
+                  },
+                ),
               ),
-              IconButton(
-                icon: const Icon(Icons.arrow_forward),
-                onPressed: () {
-                  if (_currentPage == gallery.length - 1) {
-                    _currentPage = 0;
-                  } else {
-                    _currentPage = _currentPage + 1;
-                  }
-                  setState(() {});
-                },
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    if (_currentPage == gallery.length - 1) {
+                      _currentPage = 0;
+                    } else {
+                      _currentPage = _currentPage + 1;
+                    }
+                    setState(() {});
+                  },
+                ),
               ),
             ],
           ),

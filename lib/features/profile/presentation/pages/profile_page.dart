@@ -94,6 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         context.go(RoutesConstant.faq);
                       },
                       child: PopupMenuButton<String>(
+                        color: Theme.of(context).colorScheme.primary,
                         itemBuilder: (BuildContext popUpcontext) =>
                             <PopupMenuEntry<String>>[
                           PopupMenuItem<String>(

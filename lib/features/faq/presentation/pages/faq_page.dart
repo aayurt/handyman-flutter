@@ -53,7 +53,8 @@ class _FaqPageState extends State<FaqPage> {
                   );
                 },
                 body: ListTile(
-                    tileColor: Theme.of(context).colorScheme.primary,
+                    tileColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.1),
                     title: Text(item.answer),
                     onTap: () {
                       // setState(() {
@@ -62,7 +63,8 @@ class _FaqPageState extends State<FaqPage> {
                       // });
                     }),
                 isExpanded: item.isExpanded,
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor:
+                    Theme.of(context).colorScheme.primary.withOpacity(0.5),
               );
             }).toList(),
             expansionCallback: (int index, bool isExpanded) {

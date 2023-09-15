@@ -65,8 +65,10 @@ class _JobAddPageState extends State<JobAddPage> {
         Padding(
           padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
           child: ConstrainedBox(
-              constraints:
-                  BoxConstraints(maxHeight: height - 140, maxWidth: width - 32),
+              constraints: BoxConstraints(
+                  maxHeight:
+                      height - MediaQuery.of(context).viewInsets.bottom - 100,
+                  maxWidth: width - 32),
               child: Expanded(child: BlocBuilder<SingleJobBloc, SingleJobState>(
                 builder: (context, state) {
                   if (state is SingleJobStateInitial) {

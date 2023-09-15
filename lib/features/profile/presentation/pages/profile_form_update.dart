@@ -3,21 +3,20 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:handyman/features/profile/presentation/widgets/google_map_widget.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:handyman/core/constants/constants.dart';
 import 'package:handyman/core/network/api_list.dart';
 import 'package:handyman/core/network/api_service.dart';
 import 'package:handyman/core/widgets/alerts/custom_alert.dart';
 import 'package:handyman/features/login/data/models/login_api_response_model.dart';
+import 'package:handyman/features/profile/presentation/widgets/google_map_widget.dart';
 import 'package:handyman/routes/routes_constant.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/shared_pref/shared_pref.dart';
-import '../../../../core/widgets/textfield/custom_textfield.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -39,12 +38,11 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
   final bioController = TextEditingController();
   final linkedInController = TextEditingController();
   final websiteController = TextEditingController();
+  LatLng currentLocation = const LatLng(51.50, 0.127);
 
   List<String> skills = [];
   List<String> interests = [];
   String userType = "";
-  LatLng currentLocation = const LatLng(51.50, 0.127);
-
   // final passwordController = TextEditingController();
   // final cpasswordController = TextEditingController();
   // File? imageFile;
@@ -156,8 +154,9 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
               TextButton(
                 child: const Text('Continue'),
                 onPressed: () {
-                  Navigator.of(caontext).pop();
-                  GoRouter.of(context).go(RoutesConstant.splash);
+                  Navigator.of(context).pop();
+
+                  GoRouter.of(caontext).go(RoutesConstant.splash);
                 },
               ),
             ],
@@ -182,6 +181,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
           "phone": phoneNoController.text,
           "address": addressController.text,
           "avatar": imageUrl,
+          "bio": bioController.text,
           "location": {
             "type": "Point",
             "coordinates": [currentLocation.latitude, currentLocation.longitude]
@@ -228,6 +228,7 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     : const SizedBox(
                         height: 0,
                       ),
+
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -257,13 +258,16 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 TextFormField(
                     controller: nameController,
                     style: const TextStyle(fontSize: 14),
                     decoration: InputDecoration(
                       filled: true,
                       prefixIcon: const Icon(
-                        Icons.email,
+                        Icons.person,
                         size: 16,
                       ),
                       border: OutlineInputBorder(
@@ -274,104 +278,141 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                     validator: (text) {
                       return _validatename(text ?? "");
                     }),
-                CustomTextfield(
-                    controller: nameController,
-                    keyboardType: TextInputType.text,
-                    hintText: 'Enter name here',
-                    labelText: "Name",
-                    validator: (text) {
-                      return _validatename(text ?? "");
-                    }),
-                CustomTextfield(
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    hintText: 'Enter email here',
-                    enabled: false,
-                    labelText: "Email",
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.email,
+                        size: 16,
+                      ),
+                      enabled: false,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Email",
+                    ),
                     validator: (text) {
                       return _validateEmail(text ?? "");
                     }),
-                Column(
-                  children: [
-                    const Row(
-                      children: [
-                        Text("Gender"),
-                      ],
-                    ),
-                    genderController.text.isNotEmpty
-                        ? DropdownButtonFormField(
-                            value: genderController.text,
-                            validator: ((value) {
-                              return _validateGender(value ?? "");
-                            }),
-                            items: const [
-                              DropdownMenuItem(
-                                value: "male",
-                                child: Text("Male"),
-                              ),
-                              DropdownMenuItem(
-                                value: "female",
-                                child: Text("Female"),
-                              ),
-                              DropdownMenuItem(
-                                value: "others",
-                                child: Text("Others"),
-                              )
-                            ],
-                            onChanged: (String? value) {
-                              genderController.text = value ?? "";
-                            },
-                          )
-                        : const SizedBox(),
-                    const SizedBox(
-                      height: 10,
-                    )
-                  ],
+                const SizedBox(
+                  height: 10,
                 ),
-                CustomTextfield(
+                genderController.text.isNotEmpty
+                    ? DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          contentPadding: EdgeInsets.all(0),
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            //<-- SEE HERE
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            //<-- SEE HERE
+                            borderSide:
+                                BorderSide(color: Colors.grey, width: 1),
+                          ),
+                        ),
+                        value: genderController.text,
+                        validator: ((value) {
+                          return _validateGender(value ?? "");
+                        }),
+                        items: const [
+                          DropdownMenuItem(
+                            value: "male",
+                            child: Text("Male"),
+                          ),
+                          DropdownMenuItem(
+                            value: "female",
+                            child: Text("Female"),
+                          ),
+                          DropdownMenuItem(
+                            value: "others",
+                            child: Text("Others"),
+                          )
+                        ],
+                        onChanged: (String? value) {
+                          genderController.text = value ?? "";
+                        },
+                      )
+                    : const SizedBox(),
+                const SizedBox(
+                  height: 10,
+                ),
+
+                TextFormField(
                     controller: phoneNoController,
-                    keyboardType: TextInputType.text,
-                    hintText: 'Enter phone no. here',
-                    labelText: "Phone",
+                    keyboardType: TextInputType.number,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.call,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Contact",
+                    ),
                     validator: (text) {
                       return _validatePhone(text ?? "");
                     }),
-                CustomTextfield(
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
                     controller: addressController,
                     keyboardType: TextInputType.text,
-                    hintText: 'Enter address here',
-                    labelText: "Address",
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.location_city,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Address",
+                    ),
                     validator: (text) {
                       return _validateAddress(text ?? "");
                     }),
-                CustomTextfield(
+
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                    minLines: 3,
+                    maxLines: 5,
                     controller: bioController,
                     keyboardType: TextInputType.text,
-                    hintText: 'Enter bio here',
-                    labelText: "Bio",
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.article,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Bio",
+                    ),
                     validator: (text) {
                       return _validateAddress(text ?? "");
                     }),
-                userType == "Contractor"
-                    ? CustomTextfield(
-                        controller: linkedInController,
-                        keyboardType: TextInputType.text,
-                        hintText: 'Enter LinkedIn here',
-                        labelText: "LinkedIn",
-                        validator: (text) {
-                          return _validateAddress(text ?? "");
-                        })
-                    : const SizedBox(),
-                userType == "Contractor"
-                    ? CustomTextfield(
-                        controller: websiteController,
-                        keyboardType: TextInputType.text,
-                        hintText: 'Enter website here',
-                        labelText: "Website",
-                        validator: (text) {
-                          return _validateAddress(text ?? "");
-                        })
-                    : const SizedBox(),
+
                 userType == "Contractor"
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -391,8 +432,53 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                 SizedBox(
                     height: 400,
                     child: GoogleMapWidget(
-                        addressController: addressController,
-                        currentLocation: currentLocation)),
+                      addressController: addressController,
+                      currentLocation: currentLocation,
+                    )),
+
+                // const Text("Shipping Address"),
+                // CustomTextfield(
+                //     controller: addressController,
+                //     keyboardType: TextInputType.text,
+                //     hintText: 'Enter address here',
+                //     labelText: "Address",
+                //     validator: (text) {
+                //       return _validateAddress(text ?? "");
+                //     }),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       flex: 6,
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //             border: Border(
+                //           right: BorderSide(
+                //               color: Colors.grey.withOpacity(0.9), width: 1),
+                //         )),
+                //         child: TextButton(
+                //             onPressed: () {
+                //               _onCancelButtonPressed(context);
+                //             },
+                //             child: const Text("Cancel")),
+                //       ),
+                //     ),
+                //     Expanded(
+                //       flex: 6,
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //             border: Border(
+                //           right: BorderSide(
+                //               color: Colors.grey.withOpacity(0.9), width: 1),
+                //         )),
+                //         child: TextButton(
+                //             onPressed: () {
+                //               onUpdateButtonPressed(context);
+                //             },
+                //             child: const Text("Update")),
+                //       ),
+                //     ),
+                //   ],
+                // )
               ],
             ),
           ),
@@ -404,7 +490,6 @@ class _ProfileFormUpdateState extends State<ProfileFormUpdate> {
                 // Add your FAB onPressed logic here
                 onUpdateButtonPressed(context);
               },
-              backgroundColor: Colors.blue,
               child: const Icon(Icons.save_outlined),
             ),
           ),

@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -13,8 +15,6 @@ import 'package:handyman/core/widgets/alerts/custom_alert.dart';
 import 'package:handyman/features/profile/presentation/widgets/google_map_widget.dart';
 import 'package:handyman/routes/routes_constant.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../../core/widgets/textfield/custom_textfield.dart';
 
 final _formKey = GlobalKey<FormState>();
 
@@ -29,6 +29,7 @@ class RegisterFormUpdate extends StatefulHookWidget {
 
 class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
   final nameController = TextEditingController();
+  // final passwordController = TextEditingController();
   final addressController = TextEditingController();
   final countryController = TextEditingController();
   final emailController = TextEditingController();
@@ -37,14 +38,14 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
   final bioController = TextEditingController();
   final linkedInController = TextEditingController();
   final websiteController = TextEditingController();
+  LatLng currentLocation = const LatLng(51.50, 0.127);
   final accountTypeController = TextEditingController();
 
   List<String> skills = [];
   List<String> interests = [];
-  LatLng currentLocation = const LatLng(51.50, 0.127);
-
   final passwordController = TextEditingController();
   final cpasswordController = TextEditingController();
+  bool disableMap = false;
   // File? imageFile;
   String imageUrl = "";
 
@@ -64,7 +65,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       genderController.text = "male";
     });
-
     super.initState();
   }
 
@@ -148,8 +148,8 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
           "phone": phoneNoController.text,
           "address": addressController.text,
           "bio": bioController.text,
-          "avatar": imageUrl,
           "role": accountTypeController.text!.toLowerCase(),
+          "avatar": imageUrl,
           "location": {
             "type": "Point",
             "coordinates": [currentLocation.latitude, currentLocation.longitude]
@@ -175,6 +175,9 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
           alertType.value = AlertType.danger;
           alertMsgStatus.value = true;
         } else {
+          setState(() {
+            disableMap = true;
+          });
           showSuccess();
         }
 
@@ -188,6 +191,7 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
         children: [
           SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
                   height: 40,
@@ -210,52 +214,83 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                     : const SizedBox(
                         height: 0,
                       ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(80), // Set your desired radius
-                      child: Container(
-                        color: Colors.grey,
-                        width:
-                            160, // Double the radius to maintain the circular shape
-                        height: 160,
-                        child: imageUrl.isEmpty
-                            ? const Icon(Icons.person,
-                                size:
-                                    80) // Placeholder icon when no image is selected
-                            : Image.network("${AppConstants.fileUrl}$imageUrl",
-                                fit: BoxFit.cover),
+                Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                            80), // Set your desired radius
+                        child: Container(
+                          color: Colors.grey,
+                          width:
+                              160, // Double the radius to maintain the circular shape
+                          height: 160,
+                          child: imageUrl.isEmpty
+                              ? const Icon(Icons.person,
+                                  size:
+                                      80) // Placeholder icon when no image is selected
+                              : Image.network(
+                                  "${AppConstants.fileUrl}$imageUrl",
+                                  fit: BoxFit.cover),
+                        ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: 10,
-                      right: 10,
-                      child: FloatingActionButton(
-                        onPressed: () => _pickImage(),
-                        child: const Icon(Icons.camera_alt),
+                      Positioned(
+                        bottom: 10,
+                        right: 10,
+                        child: FloatingActionButton(
+                          onPressed: () => _pickImage(),
+                          child: const Icon(Icons.camera_alt),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                CustomTextfield(
-                    controller: nameController,
-                    keyboardType: TextInputType.text,
-                    hintText: 'Enter name here',
-                    labelText: "Name",
-                    validator: (text) {
-                      return _validatename(text ?? "");
-                    }),
-                CustomTextfield(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    hintText: 'Enter email here',
-                    enabled: true,
-                    labelText: "Email",
-                    validator: (text) {
-                      return _validateEmail(text ?? "");
-                    }),
+                const SizedBox(
+                  height: 40,
+                ),
+                TextFormField(
+                  controller: nameController,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    filled: true,
+                    prefixIcon: const Icon(
+                      Icons.account_circle,
+                      size: 16,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: "Full Name",
+                  ),
+                  validator: (text) {
+                    return _validatename(text ?? "");
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: emailController,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    filled: true,
+                    prefixIcon: const Icon(
+                      Icons.email,
+                      size: 16,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: "Email",
+                  ),
+                  validator: (text) {
+                    return _validateEmail(text ?? "");
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   obscureText: true,
                   controller: passwordController,
@@ -300,87 +335,189 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                 const SizedBox(
                   height: 20,
                 ),
-                Column(
-                  children: [
-                    const Row(
-                      children: [
-                        Text("Gender"),
-                      ],
+                DropdownButtonFormField(
+                  hint: const Text(
+                    "Gender",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(0),
+                    prefixIcon: const Icon(
+                      Icons.person,
+                      size: 16,
                     ),
-                    genderController.text.isNotEmpty
-                        ? DropdownButtonFormField(
-                            value: genderController.text,
-                            validator: ((value) {
-                              return _validateGender(value ?? "");
-                            }),
-                            items: const [
-                              DropdownMenuItem(
-                                value: "male",
-                                child: Text("Male"),
-                              ),
-                              DropdownMenuItem(
-                                value: "female",
-                                child: Text("Female"),
-                              ),
-                              DropdownMenuItem(
-                                value: "others",
-                                child: Text("Others"),
-                              )
-                            ],
-                            onChanged: (String? value) {
-                              genderController.text = value ?? "";
-                            },
-                          )
-                        : const SizedBox(),
-                    const SizedBox(
-                      height: 10,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1),
+                    ),
+                  ),
+                  validator: ((value) {
+                    return _validateGender(value ?? "");
+                  }),
+                  items: const [
+                    DropdownMenuItem(
+                      value: "male",
+                      child: Text(
+                        "Male",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "female",
+                      child: Text(
+                        "Female",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "other",
+                      child: Text(
+                        "Other",
+                        style: TextStyle(fontSize: 14),
+                      ),
                     )
                   ],
+                  onChanged: (String? value) {
+                    genderController.text = value ?? "";
+                  },
                 ),
-                CustomTextfield(
-                    controller: phoneNoController,
-                    keyboardType: TextInputType.text,
-                    hintText: 'Enter phone no. here',
-                    labelText: "Phone",
-                    validator: (text) {
-                      return _validatePhone(text ?? "");
-                    }),
-                CustomTextfield(
+                const SizedBox(
+                  height: 20,
+                ),
+                DropdownButtonFormField(
+                  hint: const Text(
+                    "Account Type",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(0),
+                    prefixIcon: const Icon(
+                      Icons.person,
+                      size: 16,
+                    ),
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10.0),
+                      ),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1),
+                    ),
+                  ),
+                  // validator: ((value) {
+                  //   return _validateAccountType(value ?? "");
+                  // }),
+                  items: const [
+                    DropdownMenuItem(
+                      value: "Customer",
+                      child: Text(
+                        "Customer",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: "Contractor",
+                      child: Text(
+                        "Contractor",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ],
+                  onChanged: (String? value) {
+                    accountTypeController.text = value ?? "";
+                    setState(() {});
+                  },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: phoneNoController,
+                  style: const TextStyle(fontSize: 14),
+                  decoration: InputDecoration(
+                    filled: true,
+                    prefixIcon: const Icon(
+                      Icons.call,
+                      size: 16,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: "Phone Number",
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  validator: (text) {
+                    return _validatePhone(text ?? "");
+                  },
+                  keyboardType: TextInputType.phone,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
                     controller: addressController,
-                    keyboardType: TextInputType.text,
-                    hintText: 'Enter address here',
-                    labelText: "Address",
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.location_on,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Address",
+                    ),
                     validator: (text) {
                       return _validateAddress(text ?? "");
                     }),
-                CustomTextfield(
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                    minLines: 3,
+                    maxLines: 5,
                     controller: bioController,
                     keyboardType: TextInputType.text,
-                    hintText: 'Enter bio here',
-                    labelText: "Bio",
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.article,
+                        size: 16,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: "Bio",
+                    ),
                     validator: (text) {
                       return _validateAddress(text ?? "");
                     }),
-                accountTypeController.text == "Contractor"
-                    ? CustomTextfield(
-                        controller: linkedInController,
-                        keyboardType: TextInputType.text,
-                        hintText: 'Enter LinkedIn here',
-                        labelText: "LinkedIn",
-                        validator: (text) {
-                          return _validateAddress(text ?? "");
-                        })
-                    : const SizedBox(),
-                accountTypeController.text == "Contractor"
-                    ? CustomTextfield(
-                        controller: websiteController,
-                        keyboardType: TextInputType.text,
-                        hintText: 'Enter website here',
-                        labelText: "Website",
-                        validator: (text) {
-                          return _validateAddress(text ?? "");
-                        })
-                    : const SizedBox(),
                 accountTypeController.text == "Contractor"
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -397,12 +534,78 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                         ],
                       )
                     : const SizedBox(),
+                Center(
+                  child: !disableMap
+                      ? SizedBox(
+                          height: 400,
+                          child: GoogleMapWidget(
+                            addressController: addressController,
+                            currentLocation: currentLocation,
+                          ))
+                      : const SizedBox(),
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
                 SizedBox(
-                    height: 400,
-                    child: GoogleMapWidget(
-                      addressController: addressController,
-                      currentLocation: currentLocation,
-                    )),
+                  height: 50,
+                  width: double.infinity,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: ElevatedButton(
+                        onPressed: () => {onUpdateButtonPressed(context)},
+                        child: const Text(
+                          "Register",
+                          style: TextStyle(fontSize: 18),
+                        )),
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        decoration: const BoxDecoration(color: Colors.grey),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Text("Or"),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        decoration: const BoxDecoration(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already have an account?",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          _onCancelButtonPressed(context);
+                        },
+                        child: const Text("Login"))
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ),
@@ -414,7 +617,6 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
                 // Add your FAB onPressed logic here
                 onUpdateButtonPressed(context);
               },
-              backgroundColor: Colors.blue,
               child: const Icon(Icons.save_outlined),
             ),
           ),
@@ -428,9 +630,14 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
     return Row(
       children: [
         Expanded(
-          child: TextField(
+          child: TextFormField(
             controller: controller,
+            style: const TextStyle(fontSize: 14),
             decoration: InputDecoration(
+              filled: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
               hintText: hintText,
             ),
           ),
@@ -451,6 +658,9 @@ class _RegisterFormUpdateState extends State<RegisterFormUpdate> {
         const SizedBox(height: 16),
         Text(title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const SizedBox(
+          height: 10,
+        ),
         Wrap(
           spacing: 8,
           children: tagList.map((tag) {

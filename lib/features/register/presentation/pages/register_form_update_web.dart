@@ -17,8 +17,6 @@ import 'package:handyman/routes/routes_constant.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 
-import '../../../../core/widgets/textfield/custom_textfield.dart';
-
 final _formKey = GlobalKey<FormState>();
 
 class RegisterFormUpdate extends StatefulHookWidget {

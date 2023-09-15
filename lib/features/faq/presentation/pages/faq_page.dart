@@ -11,15 +11,21 @@ class FaqPage extends StatefulWidget {
 
 class _FaqPageState extends State<FaqPage> {
   List<Item> items = [
-    Item("question 1", "answer 1"),
-    Item("question 2", "answer 2"),
-    Item("question 3", "answer 3")
+    Item("Can we change the booking dates ?",
+        "The booking dates cannot be changed."),
+    Item("Can we change the timeslot for bookings ?",
+        "The timeslots can be changed, however it can be done only before the cotractor accepts the job. Once the status is accepted, the time cannot be changed"),
+    Item("Can I chat to the contractor ?",
+        "Yes, customers can contact contractors. Only then a contractor can reply."),
+    Item("How do I use the map search",
+        "The map search can be viewed by switiching between list search and map search. The markers will be shown according to the searched text."),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('FAQ Page'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -37,8 +43,9 @@ class _FaqPageState extends State<FaqPage> {
               return ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
+                    tileColor: Theme.of(context).colorScheme.primary,
                     title: Text(
-                      item.question + item.isExpanded.toString(),
+                      item.question,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -46,6 +53,7 @@ class _FaqPageState extends State<FaqPage> {
                   );
                 },
                 body: ListTile(
+                    tileColor: Theme.of(context).colorScheme.primary,
                     title: Text(item.answer),
                     onTap: () {
                       // setState(() {
@@ -54,6 +62,7 @@ class _FaqPageState extends State<FaqPage> {
                       // });
                     }),
                 isExpanded: item.isExpanded,
+                backgroundColor: Theme.of(context).colorScheme.primary,
               );
             }).toList(),
             expansionCallback: (int index, bool isExpanded) {

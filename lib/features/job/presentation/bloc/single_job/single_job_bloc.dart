@@ -30,5 +30,8 @@ class SingleJobBloc extends Bloc<SingleJobEvent, SingleJobState> {
         }
       }
     });
+    on<_SingleJobEventGetNew>((event, emit) async {
+      emit(SingleJobState.loaded(job: JobModel()));
+    });
   }
 }

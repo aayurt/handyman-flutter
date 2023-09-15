@@ -76,7 +76,7 @@ class _ChatListPageState extends State<ChatListPage> {
                   }
                 }
                 if (uniqueChats.isEmpty) {
-                  return const Text("No chats.");
+                  return const Center(child: Text("No chats."));
                 }
                 return Expanded(
                   child: ListView.builder(

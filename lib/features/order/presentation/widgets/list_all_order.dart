@@ -31,7 +31,8 @@ class _ListAllOrderState extends State<ListAllOrder> {
           );
         } else if (state is OrderStateLoaded) {
           final List<ApplicationModel> dataList = state.applications;
-          if (dataList.isEmpty) return const Text("No data found.");
+          if (dataList.isEmpty)
+            return const Center(child: Text("No orders to show yet....."));
           return ListView.builder(
             physics: const ClampingScrollPhysics(),
             itemCount: dataList.length,

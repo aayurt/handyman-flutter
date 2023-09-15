@@ -16,42 +16,43 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SingleJobEvent {
-  String get id => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) get,
+    required TResult Function() getEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String id)? get,
+    TResult? Function()? getEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? get,
+    TResult Function()? getEmpty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SingleJobEventGet value) get,
+    required TResult Function(_SingleJobEventGetNew value) getEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_SingleJobEventGet value)? get,
+    TResult? Function(_SingleJobEventGetNew value)? getEmpty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SingleJobEventGet value)? get,
+    TResult Function(_SingleJobEventGetNew value)? getEmpty,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $SingleJobEventCopyWith<SingleJobEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -60,8 +61,6 @@ abstract class $SingleJobEventCopyWith<$Res> {
   factory $SingleJobEventCopyWith(
           SingleJobEvent value, $Res Function(SingleJobEvent) then) =
       _$SingleJobEventCopyWithImpl<$Res, SingleJobEvent>;
-  @useResult
-  $Res call({String id});
 }
 
 /// @nodoc
@@ -73,28 +72,13 @@ class _$SingleJobEventCopyWithImpl<$Res, $Val extends SingleJobEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$_SingleJobEventGetCopyWith<$Res>
-    implements $SingleJobEventCopyWith<$Res> {
+abstract class _$$_SingleJobEventGetCopyWith<$Res> {
   factory _$$_SingleJobEventGetCopyWith(_$_SingleJobEventGet value,
           $Res Function(_$_SingleJobEventGet) then) =
       __$$_SingleJobEventGetCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String id});
 }
@@ -156,6 +140,7 @@ class _$_SingleJobEventGet implements _SingleJobEventGet {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) get,
+    required TResult Function() getEmpty,
   }) {
     return get(id);
   }
@@ -164,6 +149,7 @@ class _$_SingleJobEventGet implements _SingleJobEventGet {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String id)? get,
+    TResult? Function()? getEmpty,
   }) {
     return get?.call(id);
   }
@@ -172,6 +158,7 @@ class _$_SingleJobEventGet implements _SingleJobEventGet {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? get,
+    TResult Function()? getEmpty,
     required TResult orElse(),
   }) {
     if (get != null) {
@@ -184,6 +171,7 @@ class _$_SingleJobEventGet implements _SingleJobEventGet {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SingleJobEventGet value) get,
+    required TResult Function(_SingleJobEventGetNew value) getEmpty,
   }) {
     return get(this);
   }
@@ -192,6 +180,7 @@ class _$_SingleJobEventGet implements _SingleJobEventGet {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_SingleJobEventGet value)? get,
+    TResult? Function(_SingleJobEventGetNew value)? getEmpty,
   }) {
     return get?.call(this);
   }
@@ -200,6 +189,7 @@ class _$_SingleJobEventGet implements _SingleJobEventGet {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_SingleJobEventGet value)? get,
+    TResult Function(_SingleJobEventGetNew value)? getEmpty,
     required TResult orElse(),
   }) {
     if (get != null) {
@@ -213,12 +203,112 @@ abstract class _SingleJobEventGet implements SingleJobEvent {
   const factory _SingleJobEventGet({required final String id}) =
       _$_SingleJobEventGet;
 
-  @override
   String get id;
-  @override
   @JsonKey(ignore: true)
   _$$_SingleJobEventGetCopyWith<_$_SingleJobEventGet> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_SingleJobEventGetNewCopyWith<$Res> {
+  factory _$$_SingleJobEventGetNewCopyWith(_$_SingleJobEventGetNew value,
+          $Res Function(_$_SingleJobEventGetNew) then) =
+      __$$_SingleJobEventGetNewCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_SingleJobEventGetNewCopyWithImpl<$Res>
+    extends _$SingleJobEventCopyWithImpl<$Res, _$_SingleJobEventGetNew>
+    implements _$$_SingleJobEventGetNewCopyWith<$Res> {
+  __$$_SingleJobEventGetNewCopyWithImpl(_$_SingleJobEventGetNew _value,
+      $Res Function(_$_SingleJobEventGetNew) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_SingleJobEventGetNew implements _SingleJobEventGetNew {
+  const _$_SingleJobEventGetNew();
+
+  @override
+  String toString() {
+    return 'SingleJobEvent.getEmpty()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_SingleJobEventGetNew);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) get,
+    required TResult Function() getEmpty,
+  }) {
+    return getEmpty();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? get,
+    TResult? Function()? getEmpty,
+  }) {
+    return getEmpty?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? get,
+    TResult Function()? getEmpty,
+    required TResult orElse(),
+  }) {
+    if (getEmpty != null) {
+      return getEmpty();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SingleJobEventGet value) get,
+    required TResult Function(_SingleJobEventGetNew value) getEmpty,
+  }) {
+    return getEmpty(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_SingleJobEventGet value)? get,
+    TResult? Function(_SingleJobEventGetNew value)? getEmpty,
+  }) {
+    return getEmpty?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SingleJobEventGet value)? get,
+    TResult Function(_SingleJobEventGetNew value)? getEmpty,
+    required TResult orElse(),
+  }) {
+    if (getEmpty != null) {
+      return getEmpty(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SingleJobEventGetNew implements SingleJobEvent {
+  const factory _SingleJobEventGetNew() = _$_SingleJobEventGetNew;
 }
 
 /// @nodoc

@@ -25,7 +25,10 @@ class _JobAddPageState extends State<JobAddPage> {
             .read<SingleJobBloc>()
             .add(SingleJobEvent.get(id: widget.id ?? ""));
       });
+    } else {
+      context.read<SingleJobBloc>().add(SingleJobEvent.getEmpty());
     }
+
     super.initState();
   }
 
@@ -48,12 +51,12 @@ class _JobAddPageState extends State<JobAddPage> {
                 width: 25,
                 child: GestureDetector(
                     onTap: () {
-                      context.go(RoutesConstant.dashboard);
+                      context.go(RoutesConstant.jobs);
                     },
                     child: const Icon(Icons.arrow_back))),
             const Expanded(
               child: Text(
-                "Add job listing",
+                "Your Job",
                 textAlign: TextAlign.center,
               ),
             ),

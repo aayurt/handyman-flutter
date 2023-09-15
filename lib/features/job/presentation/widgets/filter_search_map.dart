@@ -27,13 +27,6 @@ class _FilterSearchMapState extends State<FilterSearchMap> {
   Map<String, dynamic> dataMap = {
     "latitude": 37.7749,
     "longitude": -122.4194,
-    "accuracy": 16.0,
-    "altitude": 0.0,
-    "speed": 0.0,
-    "speed_accuracy": 0.0,
-    "heading": 0.0,
-    "time": 1679467315000,
-    "is_mock": false,
   };
   late LocationData localVal;
   late Completer<GoogleMapController> newController;

@@ -27,6 +27,7 @@ class AllJobBloc extends Bloc<AllJobEvent, AllJobState> {
           if (jobResponseData.isNotEmpty) {
             final List<JobModel> jobs = jobResponseData.map(
               (e) {
+                print(e);
                 return JobModel.fromJson(e);
               },
             ).toList();

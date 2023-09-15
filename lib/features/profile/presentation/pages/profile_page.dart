@@ -52,9 +52,9 @@ class _ProfilePageState extends State<ProfilePage> {
       length: 2, // Number of tabs
       child: Scaffold(
         body: SafeArea(
-          child: Column(
+          child: Stack(
             children: [
-              Stack(
+              Column(
                 children: [
                   Row(
                     children: [
@@ -73,95 +73,95 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   ),
-                  Positioned(
-                    top: 2,
-                    left: 10,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await SharedPrefService.storeToken(
-                            SharedPrefKey.token, "");
-                        await SharedPrefService.storeToken(
-                            SharedPrefKey.userType, "");
-                        context.go(RoutesConstant.login);
-                      },
-                      child: const Text("Logout"),
-                    ),
+
+                  const SizedBox(
+                    height: 10,
                   ),
-                  Positioned(
-                    right: 10,
-                    child: TextButton(
-                      onPressed: () async {
-                        context.go(RoutesConstant.faq);
-                      },
-                      child: PopupMenuButton<String>(
-                        color: Theme.of(context).colorScheme.primary,
-                        itemBuilder: (BuildContext popUpcontext) =>
-                            <PopupMenuEntry<String>>[
-                          PopupMenuItem<String>(
-                            value: 'FAQ',
-                            child: const Text('FAQ'),
-                            onTap: () {
-                              popUpcontext.go(RoutesConstant.faq);
-                            },
-                          ),
-                          PopupMenuItem<String>(
-                            onTap: (() {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const GalleryWidget();
-                                },
+                  // const TabBar(
+                  //   tabs: [
+                  //     Tab(text: 'Profile'),
+                  //     Tab(text: 'Graphs'),
+                  //   ],
+                  // ),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        BlocConsumer<ProfileBloc, ProfileState>(
+                          listener: (context, state) {
+                            if (state is ProfileStateError) {
+                              context.go(RoutesConstant.login);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is ProfileStateLoaded) {
+                              var userModelData = state.user;
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 16.0, left: 16, right: 16),
+                                child: ProfileFormUpdate(
+                                    userModelData: userModelData),
                               );
-                            }),
-                            value: 'Video Tutorial',
-                            child: const Text('Video Tutorial'),
-                          ),
-                        ],
-                      ),
+                            } else if (state is ProfileStateLoading) {
+                              return const Center(
+                                  child: SizedBox(
+                                      height: 50,
+                                      width: 50,
+                                      child: CircularProgressIndicator()));
+                            } else {
+                              return const Text("Error");
+                            }
+                          },
+                        ),
+                        // GraphContent()
+                      ],
                     ),
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
+              Positioned(
+                top: 2,
+                left: 10,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await SharedPrefService.storeToken(SharedPrefKey.token, "");
+                    await SharedPrefService.storeToken(
+                        SharedPrefKey.userType, "");
+                    context.go(RoutesConstant.login);
+                  },
+                  child: const Text("Logout"),
+                ),
               ),
-              // const TabBar(
-              //   tabs: [
-              //     Tab(text: 'Profile'),
-              //     Tab(text: 'Graphs'),
-              //   ],
-              // ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    BlocConsumer<ProfileBloc, ProfileState>(
-                      listener: (context, state) {
-                        if (state is ProfileStateError) {
-                          context.go(RoutesConstant.login);
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is ProfileStateLoaded) {
-                          var userModelData = state.user;
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                top: 16.0, left: 16, right: 16),
-                            child:
-                                ProfileFormUpdate(userModelData: userModelData),
+              Positioned(
+                right: 10,
+                child: TextButton(
+                  onPressed: () async {
+                    context.go(RoutesConstant.faq);
+                  },
+                  child: PopupMenuButton<String>(
+                    color: Theme.of(context).colorScheme.primary,
+                    itemBuilder: (BuildContext popUpcontext) =>
+                        <PopupMenuEntry<String>>[
+                      PopupMenuItem<String>(
+                        value: 'FAQ',
+                        child: const Text('FAQ'),
+                        onTap: () {
+                          popUpcontext.go(RoutesConstant.faq);
+                        },
+                      ),
+                      PopupMenuItem<String>(
+                        onTap: (() {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const GalleryWidget();
+                            },
                           );
-                        } else if (state is ProfileStateLoading) {
-                          return const Center(
-                              child: SizedBox(
-                                  height: 50,
-                                  width: 50,
-                                  child: CircularProgressIndicator()));
-                        } else {
-                          return const Text("Error");
-                        }
-                      },
-                    ),
-                    // GraphContent()
-                  ],
+                        }),
+                        value: 'Video Tutorial',
+                        child: const Text('Video Tutorial'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

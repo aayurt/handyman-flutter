@@ -1,13 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
+import 'package:handyman/features/faq/presentation/widgets/videoModalCarouselWidget.dart';
 import 'package:handyman/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:handyman/features/profile/presentation/pages/profile_form_update.dart'
     if (dart.library.js) 'package:handyman/features/profile/presentation/pages/profile_form_update_web.dart';
 import 'package:handyman/routes/routes_constant.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:video_player/video_player.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -20,6 +25,10 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String userType = "";
+  List<String> gallery = [
+    "1.jpg",
+    "2.jpg",
+  ].reversed.toList();
 
   @override
   void initState() {
@@ -65,8 +74,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                   Positioned(
-                    left: 20,
-                    child: TextButton(
+                    top: 2,
+                    left: 10,
+                    child: ElevatedButton(
                       onPressed: () async {
                         await SharedPrefService.storeToken(
                             SharedPrefKey.token, "");
@@ -75,6 +85,38 @@ class _ProfilePageState extends State<ProfilePage> {
                         context.go(RoutesConstant.login);
                       },
                       child: const Text("Logout"),
+                    ),
+                  ),
+                  Positioned(
+                    right: 10,
+                    child: TextButton(
+                      onPressed: () async {
+                        context.go(RoutesConstant.faq);
+                      },
+                      child: PopupMenuButton<String>(
+                        itemBuilder: (BuildContext popUpcontext) =>
+                            <PopupMenuEntry<String>>[
+                          PopupMenuItem<String>(
+                            value: 'FAQ',
+                            child: const Text('FAQ'),
+                            onTap: () {
+                              popUpcontext.go(RoutesConstant.faq);
+                            },
+                          ),
+                          PopupMenuItem<String>(
+                            onTap: (() {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const GalleryWidget();
+                                },
+                              );
+                            }),
+                            value: 'Video Tutorial',
+                            child: const Text('Video Tutorial'),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -189,3 +231,186 @@ class _SalesData {
 //     ]);
 //   }
 // }
+class GalleryWidget extends StatefulHookWidget {
+  const GalleryWidget({Key? key}) : super(key: key);
+
+  @override
+  _GalleryWidgetState createState() => _GalleryWidgetState();
+}
+
+class _GalleryWidgetState extends State<GalleryWidget> {
+  late PageController pageController = PageController();
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    pageController = PageController(initialPage: _currentPage);
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> gallery = [
+      "1.png",
+      "2.png",
+      "3.mp4",
+    ].reversed.toList();
+    void startTimer() {
+      var itemsLength = gallery.length;
+      Timer.periodic(const Duration(seconds: 8), (Timer timer) {
+        if (_currentPage < itemsLength - 1) {
+          _currentPage++;
+        } else {
+          _currentPage = 0;
+        }
+
+        setState(() {});
+      });
+    }
+
+    useEffect(() {
+      if (mounted && pageController.hasClients) {
+        pageController.animateToPage(
+          _currentPage,
+          duration: const Duration(milliseconds: 1000),
+          curve: Curves.easeInOut,
+        );
+      }
+      return null;
+    }, [_currentPage]);
+    // useEffect(() {
+    //   startTimer();
+    //   return null;
+    // }, []);
+
+    return Dialog(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: kWidth(context),
+            height: MediaQuery.of(context).size.height - 188,
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    if (_currentPage == 0) {
+                      _currentPage = gallery.length - 1;
+                    } else {
+                      _currentPage = _currentPage - 1;
+                    }
+                    setState(() {});
+                  },
+                ),
+                Expanded(
+                  child: PageView.builder(
+                      itemCount:
+                          gallery.length, // Calculate the number of pages
+                      controller: pageController,
+                      itemBuilder: (context, pageIndex) {
+                        String mediaPath =
+                            "assets/gallery/${gallery[pageIndex]}";
+                        if (mediaPath.endsWith('.png')) {
+                          return Image.asset(
+                            mediaPath,
+                            fit: BoxFit.contain,
+                          );
+                        } else if (mediaPath.endsWith('.mp4')) {
+                          return VideoPlayerWidget(videoPath: mediaPath);
+                        }
+                        return Container();
+                      }),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    if (_currentPage == gallery.length - 1) {
+                      _currentPage = 0;
+                    } else {
+                      _currentPage = _currentPage + 1;
+                    }
+                    setState(() {});
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+double kHeight(context) {
+  return MediaQuery.of(context).size.height;
+}
+
+double kWidth(context) {
+  return MediaQuery.of(context).size.width;
+}
+
+class VideoPlayerWidget extends StatefulWidget {
+  final String videoPath;
+
+  const VideoPlayerWidget({super.key, required this.videoPath});
+
+  @override
+  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+}
+
+class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+  late VideoPlayerController _videoController;
+
+  @override
+  void initState() {
+    super.initState();
+    _videoController = VideoPlayerController.asset(widget.videoPath)
+      ..initialize().then((_) {
+        // Ensure the first frame is shown and play the video
+        setState(() {});
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Center(
+          child: AspectRatio(
+            aspectRatio: _videoController.value.aspectRatio,
+            child: VideoPlayer(_videoController),
+          ),
+        ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: FloatingActionButton(
+              backgroundColor: Colors.white.withOpacity(0.1),
+              onPressed: () {
+                setState(() {
+                  _videoController.value.isPlaying
+                      ? _videoController.pause()
+                      : _videoController.play();
+                });
+              },
+              child: Icon(
+                _videoController.value.isPlaying
+                    ? Icons.pause
+                    : Icons.play_arrow,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _videoController.dispose();
+    super.dispose();
+  }
+}

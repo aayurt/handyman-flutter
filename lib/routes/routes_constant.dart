@@ -23,4 +23,5 @@ class RoutesConstant {
   static String chat = "/chat";
   static String chatList = "/chatList";
   static String categories = "/categories";
+  static String faq = "/faq";
 }

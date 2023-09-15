@@ -7,6 +7,7 @@ import 'package:handyman/features/category/presentation/pages/category_page.dart
 import 'package:handyman/features/chat/presentation/pages/chat_list_page.dart';
 import 'package:handyman/features/chat/presentation/pages/chat_page.dart';
 import 'package:handyman/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:handyman/features/faq/presentation/pages/faq_page.dart';
 import 'package:handyman/features/job/presentation/pages/job_page.dart';
 import 'package:handyman/features/job/presentation/pages/search_page.dart';
 import 'package:handyman/features/login/presentation/pages/login_page.dart';
@@ -145,6 +146,9 @@ class Routes {
           builder: (context, state) =>
               CategoryJobPage(id: state.pathParameters['id'] ?? ""),
         ),
+        GoRoute(
+            path: RoutesConstant.faq,
+            builder: (context, state) => const FaqPage()),
       ]);
 }
 

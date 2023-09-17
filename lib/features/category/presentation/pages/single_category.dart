@@ -41,52 +41,39 @@ class _SingleCategoryState extends State<SingleCategory> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.category.title ?? "",
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "£${widget.category.title}",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary),
-                      ),
-                      const Text(
-                        "/hr",
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
               Row(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Container(
-                      height: 80,
-                      width: 80,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.3),
-                      child: Image.network(
-                          "${AppConstants.fileUrl}${widget.category.image}",
-                          fit: BoxFit.cover),
+                        height: 80,
+                        width: 80,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.3),
+                        child: SizedBox(
+                          height: 60,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Image.network(
+                                "${AppConstants.fileUrl}${widget.category.image}"),
+                          ),
+                        )),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Text(
+                      widget.category.title ?? "",
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(
@@ -116,17 +103,11 @@ class _SingleCategoryState extends State<SingleCategory> {
 
 Color _getStatusColor(String status) {
   switch (status) {
-    case "pending":
-      return Colors.yellow;
-    case "accepted":
-      return const Color(0xFFEF8D32);
-    case "completed":
+    case "active":
       return const Color(0xFF0F9686);
-    case "cancelled":
-      return const Color(0xFFEB3F3F);
     default:
-      return Colors
-          .grey; // Default color if status doesn't match any of the above
+      return const Color(0xFFEB3F3F);
+    // Default color if status doesn't match any of the above
   }
 }
 

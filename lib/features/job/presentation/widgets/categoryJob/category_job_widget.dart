@@ -110,9 +110,13 @@ class _CategoryJobWidgetState extends State<CategoryJobWidget> {
                                                 .primary
                                                 .withOpacity(0.3),
                                             child: SizedBox(
-                                              height: 70,
-                                              child: Image.network(
-                                                  "${AppConstants.fileUrl}${category?.image}"),
+                                              height: 60,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(15),
+                                                child: Image.network(
+                                                    "${AppConstants.fileUrl}${category?.image}"),
+                                              ),
                                             )),
                                       ),
                                       const SizedBox(

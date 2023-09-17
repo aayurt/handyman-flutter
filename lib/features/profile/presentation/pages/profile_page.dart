@@ -5,13 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:handyman/core/shared_pref/shared_pref.dart';
-import 'package:handyman/features/faq/presentation/widgets/videoModalCarouselWidget.dart';
 import 'package:handyman/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:handyman/features/profile/presentation/pages/profile_form_update.dart'
     if (dart.library.js) 'package:handyman/features/profile/presentation/pages/profile_form_update_web.dart';
 import 'package:handyman/routes/routes_constant.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:video_player/video_player.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -25,10 +22,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String userType = "";
-  List<String> gallery = [
-    "1.jpg",
-    "2.jpg",
-  ].reversed.toList();
+  List<String> gallery =
+      ["fix_leak.mp4", "frayed_wire_fix.mp4", "mold_fix.mp4"].reversed.toList();
 
   @override
   void initState() {
@@ -253,9 +248,9 @@ class _GalleryWidgetState extends State<GalleryWidget> {
   @override
   Widget build(BuildContext context) {
     List<String> gallery = [
-      "1.png",
-      "2.png",
-      "3.mp4",
+      "fix_leak.mp4",
+      "frayed_wire_fix.mp4",
+      "mold_fix.mp4"
     ].reversed.toList();
     void startTimer() {
       var itemsLength = gallery.length;

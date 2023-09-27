@@ -44,61 +44,64 @@ class _OrderJobUpdatePageState extends State<OrderJobUpdatePage> {
     final width = size.width;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-          child: Column(children: [
-        const SizedBox(
-          height: 10,
-        ),
-        Row(
-          children: [
-            const SizedBox(
-              width: 20,
-            ),
-            SizedBox(
-                height: 25,
-                width: 25,
-                child: GestureDetector(
-                    onTap: () {
-                      context.go(RoutesConstant.orders);
-                    },
-                    child: const Icon(Icons.arrow_back))),
-            const Expanded(
-              child: Text(
-                "My Orders",
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.center,
+          child: SingleChildScrollView(
+        child: Column(children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 20,
               ),
-            ),
-            const SizedBox(
-              width: 25,
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
-          child: ConstrainedBox(
-              constraints:
-                  BoxConstraints(maxHeight: height - 140, maxWidth: width - 32),
-              child: Expanded(child:
-                  BlocBuilder<SingleApplicationBloc, SingleApplicationState>(
-                builder: (context, state) {
-                  if (state is SingleApplicationStateInitial) {
-                    return const SizedBox();
-                  } else if (state is SingleApplicationStateLoaded) {
-                    ApplicationModel application = state.application;
-                    return userType == "Contractor"
-                        ? ContractOrderJobUpdateFormWidget(
-                            application: application)
-                        : OrderJobUpdateFormWidget(application: application);
-                  } else if (state is SingleApplicationStateLoading) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    return const Text("Error");
-                  }
-                },
-              ))),
-        ),
-      ])),
+              SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: GestureDetector(
+                      onTap: () {
+                        context.go(RoutesConstant.orders);
+                      },
+                      child: const Icon(Icons.arrow_back))),
+              const Expanded(
+                child: Text(
+                  "My Orders",
+                  style: TextStyle(fontSize: 16),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(
+                width: 25,
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
+            child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxHeight: height - 140, maxWidth: width - 32),
+                child: Expanded(child:
+                    BlocBuilder<SingleApplicationBloc, SingleApplicationState>(
+                  builder: (context, state) {
+                    if (state is SingleApplicationStateInitial) {
+                      return const SizedBox();
+                    } else if (state is SingleApplicationStateLoaded) {
+                      ApplicationModel application = state.application;
+                      return userType == "Contractor"
+                          ? ContractOrderJobUpdateFormWidget(
+                              application: application)
+                          : OrderJobUpdateFormWidget(application: application);
+                    } else if (state is SingleApplicationStateLoading) {
+                      return const CircularProgressIndicator();
+                    } else {
+                      return const Text("Error");
+                    }
+                  },
+                ))),
+          ),
+        ]),
+      )),
     );
   }
 }

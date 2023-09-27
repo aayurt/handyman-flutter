@@ -755,9 +755,10 @@ class _OrderJobUpdateFormWidgetState extends State<OrderJobUpdateFormWidget> {
                           ),
                           RatingWidget(
                               rating: listingRating,
-                              setRating: (double val) {
+                              setRating: (int val) {
+                                print(val);
                                 setState(() {
-                                  listingRating = val;
+                                  listingRating = val.toDouble();
                                 });
                               }),
                           const SizedBox(
